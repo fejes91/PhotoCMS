@@ -1,0 +1,1 @@
+<?echo "Egy aprócska kalapocska, benne csacska macska mocska"; ?>
