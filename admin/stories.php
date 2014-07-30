@@ -5,14 +5,21 @@
 </form>
 
 <?
-if (isset($_POST['story_title'])) {
-    $success = DbManager::Instance()->insertStory($_POST['story_title']);
-    if ($success) {
-        echo "Story created!";
+if ($_POST) {
+    if (isset($_POST['story_title'])) {
+        $success = DbManager::Instance()->insertStory($_POST['story_title']);
+        if ($success) {
+            echo "Story created!";
+        }
+    } else {
+        echo 'Add title for the story!';
     }
-} else {
-    echo 'Add title for the story!';
+    
+    // Redirect to this page.
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
 }
+
 
 
 $stories = DbManager::Instance()->getStories();

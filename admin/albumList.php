@@ -8,12 +8,19 @@
 <div id="album-list">
     <ul>
         <?
-        if (isset($_POST['album_name'])) {
-            $success = DbManager::Instance()->insertAlbum($_POST['album_name']);
-            if ($success) {
-                echo "Album created!";
+        if ($_POST) {
+            if (isset($_POST['album_name'])) {
+                $success = DbManager::Instance()->insertAlbum($_POST['album_name']);
+                if ($success) {
+                    echo "Album created!";
+                }
             }
+
+            // Redirect to this page.
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
         }
+
 
         $albums = DbManager::Instance()->getAlbums();
         foreach ($albums as $album) {

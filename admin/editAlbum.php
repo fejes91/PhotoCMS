@@ -3,8 +3,8 @@
     <label for="file">Feltöltendő fotó:</label>
     <input type="file" name="file" id="file">
     <?
-    $albums = DbManager::Instance()->getAlbums();
     if (!isset($_GET['album'])) {
+        $albums = DbManager::Instance()->getAlbums();
         echo '<select name="album">';
         echo '<option value="-1">Válassz albumot!</option>';
         foreach ($albums as $album) {
@@ -20,11 +20,36 @@
     <input type="submit" name="submit" value="Submit">
 </form>
 
-
+<? if (isset($_GET['album'])) { ?>
+    <hr>
+    <form method="post"
+          enctype="multipart/form-data">
+        <label for="name">Album név:</label>
+        <input type="text" name="name" id="name">
+        <label for="caption">Leírás:</label>
+        <textarea name="caption"></textarea>
+        <br>
+        <input type="submit" name="submit" value="Save">
+        <input type="submit" name="delete" class="confirm" confirmText="Biztos törlöd ezt az albumot?" value="Delete">
+    </form>
+<? } ?>
 
 <div id="upload-result">
     <?
     echo handleUploadedFile() . "<br>";
+
+    if ($_POST) {
+        if (isset($_POST['delete'])) {
+            $success = DbManager::Instance()->deleteAlbum($_GET['album']);
+            if ($success) {
+                echo "Album deleted!";
+                header("Location: ?page=albumList");
+                exit();
+            }
+        }
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
+    }
     ?>
 </div>
 <hr>

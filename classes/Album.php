@@ -23,11 +23,14 @@ class Album {
     }
 
     public function showPictures() {
-        $str = "<h2>" . $this->name . " képei:</h2>";
+        $str = '<div class="album">';
+        $str .= "<h2>" . $this->show() . " képei:</h2>";
+        
         $photos = $this->getPhotos();
         foreach ($photos as $photo) {
             $str = $str . $photo->showEditor();
         }
+        $str .= '</div>';
         return $str;
     }
 

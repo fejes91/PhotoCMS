@@ -11,7 +11,7 @@
                 <h1> CMS ADMIN </h1>
                 <ul>
                     <li><a href="?page=albumList">Albums</a></li>
-                    <li><a href="?page=manageAlbum">Upload</a></li>
+                    <li><a href="?page=editAlbum">Upload</a></li>
                     <li><a href="?page=stories">Stories</a></li>
                 </ul>
             </div>
@@ -25,7 +25,7 @@
                 if (isset($_GET['page'])) {
                     include $_GET['page'] . ".php";
                 } else if (isset($_GET['album'])) {
-                    include "manageAlbum.php";
+                    include "editAlbum.php";
                 } else if (isset($_GET['story'])) {
                     include "editStory.php";
                 } else if (isset($_GET['photo'])) {

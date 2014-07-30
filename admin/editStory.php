@@ -1,19 +1,27 @@
 <?
-if (isset($_POST['save'])) {
-    $success = DbManager::Instance()->updateStory($_GET['story'], $_POST['story_title'], $_POST['story_text']);
-    if ($success) {
-        echo "Story updated!";
-    } else {
-        echo $success;
+if ($_POST) {
+    if (isset($_POST['save'])) {
+        $success = DbManager::Instance()->updateStory($_GET['story'], $_POST['story_title'], $_POST['story_text']);
+        if ($success) {
+            echo "Story updated!";
+        } else {
+            echo $success;
+        }
+    } else if (isset($_POST['delete'])) {
+        $success = DbManager::Instance()->deleteStory($_GET['story']);
+        if ($success) {
+            echo "Story deleted!";
+        } else {
+            echo $success;
+        }
     }
-} else if (isset($_POST['delete'])) {
-    $success = DbManager::Instance()->deleteStory($_GET['story']);
-    if ($success) {
-        echo "Story deleted!";
-    } else {
-        echo $success;
-    }
+
+    // Redirect to this page.
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
 }
+
+
 
 $story = DbManager::Instance()->getStory($_GET['story']);
 if ($story->id == null || !isset($story->id)) {

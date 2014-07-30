@@ -1,21 +1,30 @@
 <div id="edit-photo">
     <?
-    if (isset($_POST['save'])) {
-        handleUpdateFile(DbManager::Instance()->getPhoto($_GET['photo'])->url);
-        $photo = new Photo(array(
-            "id" => $_GET['photo'],
-            "caption" => $_POST['caption'],
-            "album_id" => $_POST['album']));
-        $success = DbManager::Instance()->updatePhoto($photo);
-        if ($success) {
-            echo "Photo updated!";
+    if ($_POST) {
+        if (isset($_POST['save'])) {
+            handleUpdateFile(DbManager::Instance()->getPhoto($_GET['photo'])->url);
+            $photo = new Photo(array(
+                "id" => $_GET['photo'],
+                "caption" => $_POST['caption'],
+                "album_id" => $_POST['album']));
+            $success = DbManager::Instance()->updatePhoto($photo);
+            if ($success) {
+                echo "Photo updated!";
+            }
+        } else if (isset($_POST['delete'])) {
+            $success = DbManager::Instance()->deletePhoto($_GET['photo']);
+            if ($success) {
+                echo "Photo deleted!";
+                header("Location: ?album=" . $_POST['album']);
+                exit();
+            }
         }
-    } else if (isset($_POST['delete'])) {
-        $success = DbManager::Instance()->deletePhoto($_GET['photo']);
-        if ($success) {
-            echo "Photo deleted!";
-        }
+
+        // Redirect to this page.
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
     }
+
     $photo = DbManager::Instance()->getPhoto($_GET['photo']);
 
     echo '<a href="?album=' . $photo->album . '">Vissza az albumba</a>';
@@ -43,17 +52,17 @@
         ?>
         <br>
         <input type="submit" name="save" value="Save">
-        <input type="submit" name="delete" value="Delete">
+        <input type="submit" name="delete" class="confirm" confirmText="Biztos törlöd ezt a fotót?" value="Delete">
     </form>
 
 
-<?
-if ($photo->id == null || !isset($photo->id)) {
-    header("Location: ?album=" . $_POST['album']);
-} else {
-    echo $photo->show() . "<br>";
-}
-?>
+    <?
+    if ($photo->id == null || !isset($photo->id)) {
+        header("Location: ?album=" . $_POST['album']);
+    } else {
+        echo $photo->show() . "<br>";
+    }
+    ?>
 
 </div>
 

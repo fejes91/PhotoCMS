@@ -86,7 +86,19 @@ class DbManager {
     }
 
     public function deleteAlbum($id) {
-        //TODO
+        $photos = $this->getPhotosOfAlbum($id);
+        foreach ($photos as $photo) {
+            $this->deletePhoto($photo->id);
+        }
+        
+        $sql = "DELETE FROM albums WHERE id = :id";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "id" => $id)
+        );
+
+        return $stmt->rowCount();
     }
 
     public function deletePhoto($id) {
