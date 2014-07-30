@@ -2,9 +2,21 @@ body{
 	margin: 0px;
 }
 
-img{
+textarea{
+	width: 300px;
+	height: 100px;
+}
+
+#photo-container img{
 	max-width: 300px;
 	max-height: 200px;
+	float: left;
+}
+
+#edit-photo img{
+	max-width: 600px;
+	max-height: 400px;
+	border: 1px solid black;
 	float: left;
 }
 
@@ -33,6 +45,14 @@ ul{
 	margin: 10px 0px;
 	padding: 20px;
 	
+}
+
+li.story{
+	list-style-type: none;
+	width: 90%;
+	border: 2px solid black;
+	margin: 10px 0px;
+	padding: 20px;
 }
 
 #photo-container .photo{
