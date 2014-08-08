@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Fejes Ádám fotó CMS</title>
+        <title>Fejes Ádám fotó</title>
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="jquery-2.1.1.min.js"></script>
         <script src="script.js"></script>
