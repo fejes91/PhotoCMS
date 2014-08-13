@@ -10,6 +10,34 @@ body{
     color: red;
 }
 
+
+form{
+    width: 800px;
+    border: 1px solid grey;
+    margin: 0px auto;
+    padding: 10px;
+}
+
+form input, form textarea{
+    width: 100%;
+    margin: 5px auto;
+}
+form label{
+    float: left;
+}
+
+form input[type="submit"]{
+    width: 30%;
+    height: 30px;
+    margin: 5px 0px;
+}
+
+form input[type="checkbox"]{
+    width: auto;
+    margin: 0px 5px;
+    
+}
+
 .status{
     border-bottom: 3px solid red;
     font-weight: bold;
@@ -55,10 +83,12 @@ textarea{
 
 ul{
     list-style-type: none;
+    width: 800px;
+    margin: 0px auto;
+    padding: 0px;
 }
 
 #album-list li{
-    width: 90%;
     border: 2px solid black;
     margin: 10px 0px;
     padding: 20px;
@@ -67,11 +97,11 @@ ul{
 
 li.story{
     list-style-type: none;
-    width: 90%;
+    width: 800px;
     max-height: 300px;
     overflow: hidden;
     border: 2px solid black;
-    margin: 10px 0px;
+    margin: 10px auto;
     padding: 20px;
 }
 

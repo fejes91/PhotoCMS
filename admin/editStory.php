@@ -38,9 +38,9 @@ if ($story->id == null || !isset($story->id)) {
 
 <form method="post"
       enctype="multipart/form-data">
-    <label for="story_title">Cím:</label>
+    <label for="story_title">Title:</label>
     <input type="text" name="story_title" value="<? echo $story->getTitle(); ?>"><br>
-    <label for="story_text">Szöveg:</label>
+    <label for="story_text">Text:</label>
     <textarea name="story_text"><? echo $story->getText(); ?></textarea><br>
     <input type="submit" name="save" value="Save">
     <input type="submit" name="delete" class="confirm" confirmText="Biztos törlöd ezt a bejegyzést?" value="Delete">

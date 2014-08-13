@@ -1,6 +1,6 @@
 <form method="post"
       enctype="multipart/form-data">
-    Cím: <input type="text" name="story_title"><br>
+    Title: <input type="text" name="story_title"><br>
     <input type="submit" name="submit" value="Add new story">
 </form>
 

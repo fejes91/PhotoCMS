@@ -1,11 +1,11 @@
 <form method="post"
       enctype="multipart/form-data">
-    <label for="album_name">Album neve:</label>
+    <label for="album_name">Album name:</label>
     <input type="text" name="album_name">
-    <label for="caption">Leírás:</label>
+    <label for="caption">Caption:</label>
     <textarea name="caption"></textarea>
     <br>
-    <label for="public">Publikus:</label>
+    <label for="public">Public:</label>
     <input type="checkbox" name="public" checked>
     <br>
     <input type="submit" name="submit" value="Add new album">
@@ -30,7 +30,7 @@
 
         $albums = DbManager::Instance()->getAlbums();
         foreach ($albums as $album) {
-            echo '<li>';
+            echo '<li class="album">';
             echo $album->show();
             echo '</li>';
         }

@@ -18,7 +18,7 @@ class Album {
     public function show() {
         $str = '<a href="?album=' . $this->id . '">' . $this->name . '</a>';
         if(!$this->isPublic){
-            $str = $str . '<div class="right error"> (Privát)</div>';
+            $str = $str . '<div class="right error"> (Private)</div>';
         }
         return $str;
     }
@@ -39,7 +39,7 @@ class Album {
 
     public function showPicturesEditor() {
         $str = '<div class="album">';
-        $str .= "<h2>" . $this->show() . " képei:</h2>";
+        $str .= "<h2>Photos of " . $this->show() . "</h2>";
         
         $photos = $this->getPhotos();
         foreach ($photos as $photo) {

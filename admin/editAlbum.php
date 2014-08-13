@@ -9,13 +9,12 @@ if (isset($_SESSION["rowCount"])) {
 
 <form method="post"
       enctype="multipart/form-data">
-    <label for="file">Feltöltendő fotó:</label>
     <input type="file" name="file" id="file">
     <?
     if (!isset($_GET['album'])) {
         $albums = DbManager::Instance()->getAlbums();
         echo '<select name="album">';
-        echo '<option value="-1">Válassz albumot!</option>';
+        echo '<option value="-1">Choose album!</option>';
         foreach ($albums as $album) {
             echo '<option value="' . $album->id . '">' . $album->name . '</option>';
         }
@@ -23,10 +22,10 @@ if (isset($_SESSION["rowCount"])) {
     }
     ?>
 
-    <label for="caption">Leírás:</label>
+    <label for="caption">Caption:</label>
     <textarea name="caption"></textarea>
     <br>
-    <input type="submit" name="submit" value="Submit">
+    <input type="submit" name="submit" value="Upload">
 </form>
 
 <? if (isset($_GET['album'])) { 
@@ -35,12 +34,12 @@ if (isset($_SESSION["rowCount"])) {
     <hr>
     <form method="post"
           enctype="multipart/form-data">
-        <label for="name">Album név:</label>
+        <label for="name">Album name:</label>
         <input type="text" name="name" id="name" value="<?echo $album->name?>">
-        <label for="caption">Leírás:</label>
+        <label for="caption">Caption:</label>
         <textarea name="caption"><?echo $album->caption?></textarea>
         <br>
-        <label for="public">Publikus:</label>
+        <label for="public">Public:</label>
         <input type="checkbox" name="public" <? if($album->isPublic){echo "checked";} ?>>
         <br>
         <input type="submit" name="save" value="Save">

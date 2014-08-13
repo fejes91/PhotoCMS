@@ -31,9 +31,9 @@ class Photo {
         }
         $str .= $this->id . " - " . $caption;
 
-        $str .= '<br><a href="?photo=' . $this->id . '">Szerk</a>';
+        $str .= '<br><a href="?photo=' . $this->id . '">Edit</a>';
         if(!$this->isPublic){
-            $str .= '<div class="right error"> (Privát)</div>';
+            $str .= '<div class="right error"> (Private)</div>';
         }
         $str .= '</div>';
         $str .= '</div>';
