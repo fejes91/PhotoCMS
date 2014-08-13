@@ -11,29 +11,36 @@ if (isset($_GET['type']) && !empty($_GET['type'])) {
     switch($type){
         case "album" : echo getAlbum($_GET['id']);
     }
-    
-    
 }
-
 
 function getAlbum($id){
     $albums = array();
     if(!empty($id)){
         $a = DbManager::Instance()->getAlbum($id);
-        array_push($albums, $a);
+        if($a->isPublic){
+            array_push($albums, $a);
+        }
     }
     else{
-        $albums = DbManager::Instance()->getAlbums();
+        $albums = DbManager::Instance()->getPublicAlbums();
     }
     
     $responseArray = array();
-    foreach ($albums as $album) {
+    if(!empty($albums)){
+        foreach ($albums as $album) {
+            $obj = array(
+                "albumId" => $album->id,
+                "albumName" => $album->name,
+                "photos" => $album->getPublicPhotos()
+            );
+            array_push($responseArray, $obj);
+        }
+    }
+    else{
         $obj = array(
-            "albumId" => $album->id,
-            "albumName" => $album->name,
-            "photos" => $album->getPhotos()
+            "error" => "Private album"
         );
-        array_push($responseArray, $obj);
+        return json_encode($obj);
     }
     return json_encode($responseArray);
 }

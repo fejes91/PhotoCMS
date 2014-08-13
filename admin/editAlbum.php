@@ -1,3 +1,12 @@
+<?
+if (isset($_SESSION["rowCount"])) {
+    echo '<div class="status">';
+    echo "Mentett módosítások: " . $_SESSION['rowCount'];
+    unset($_SESSION["rowCount"]);
+    echo "</div>";
+}
+?>
+
 <form method="post"
       enctype="multipart/form-data">
     <label for="file">Feltöltendő fotó:</label>
@@ -20,16 +29,21 @@
     <input type="submit" name="submit" value="Submit">
 </form>
 
-<? if (isset($_GET['album'])) { ?>
+<? if (isset($_GET['album'])) { 
+    $album = DbManager::Instance()->getAlbum($_GET['album']);
+    ?>
     <hr>
     <form method="post"
           enctype="multipart/form-data">
         <label for="name">Album név:</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" value="<?echo $album->name?>">
         <label for="caption">Leírás:</label>
-        <textarea name="caption"></textarea>
+        <textarea name="caption"><?echo $album->caption?></textarea>
         <br>
-        <input type="submit" name="submit" value="Save">
+        <label for="public">Publikus:</label>
+        <input type="checkbox" name="public" <? if($album->isPublic){echo "checked";} ?>>
+        <br>
+        <input type="submit" name="save" value="Save">
         <input type="submit" name="delete" class="confirm" confirmText="Biztos törlöd ezt az albumot?" value="Delete">
     </form>
 <? } ?>
@@ -37,16 +51,26 @@
 <div id="upload-result">
     <?
     echo handleUploadedFile() . "<br>";
-
+    
     if ($_POST) {
+        $rowCount;
         if (isset($_POST['delete'])) {
-            $success = DbManager::Instance()->deleteAlbum($_GET['album']);
-            if ($success) {
-                echo "Album deleted!";
+            $rowCount = DbManager::Instance()->deleteAlbum($_GET['album']);
+            if ($rowCount) {
+                $_SESSION["rowCount"] = $rowCount;
                 header("Location: ?page=albumList");
                 exit();
             }
         }
+        else if (isset($_POST['save'])) {
+            $album = new Album(array(
+                "id" => $_GET['album'],
+                "name" => $_POST['name'],
+                "caption" => $_POST['caption'],
+                "public" => !empty($_POST['public']) ? 1 : 0));
+            $rowCount = DbManager::Instance()->updateAlbum($album);
+        }
+        $_SESSION["rowCount"] = $rowCount;
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
@@ -56,12 +80,12 @@
 <div id="photo-container">
     <?
     if (isset($_GET['album'])) {
-        $album = DbManager::Instance()->getAlbum($_GET['album']);
-        echo $album->showPictures();
+        
+        echo $album->showPicturesEditor();
     } else {
         $albums = DbManager::Instance()->getAlbums();
         foreach ($albums as $album) {
-            echo $album->showPictures() . "<br>";
+            echo $album->showPicturesEditor() . "<br>";
         }
     }
     ?>
@@ -88,8 +112,8 @@ function handleUploadedFile() {
                     } else if (isset($_POST['album'])) {
                         $album = $_POST['album'];
                     }
-                    $success = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption']);
-                    if ($success) {
+                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption']);
+                    if ($rowCount) {
                         return "Kép feltöltve";
                     } else {
                         unlink("../img/" . $hashed_file_name);

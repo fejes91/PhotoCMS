@@ -6,12 +6,14 @@ class Photo {
     public $url;
     public $album;
     public $caption;
+    public $isPublic;
 
     public function __construct($row) {
         $this->id = $row['id'];
         $this->url = $row['photo_url'];
         $this->album = $row['album_id'];
         $this->caption = $row['caption'];
+        $this->isPublic = $row['public'];
     }
 
     public function show() {
@@ -30,6 +32,9 @@ class Photo {
         $str .= $this->id . " - " . $caption;
 
         $str .= '<br><a href="?photo=' . $this->id . '">Szerk</a>';
+        if(!$this->isPublic){
+            $str .= '<div class="right error"> (Privát)</div>';
+        }
         $str .= '</div>';
         $str .= '</div>';
 

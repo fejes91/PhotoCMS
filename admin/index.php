@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
     <head>
         <title>Fejes Ádám fotó</title>
@@ -21,6 +22,18 @@
                 include "../classes/Album.php";
                 include "../classes/Photo.php";
                 include "../classes/Story.php";
+
+                function parseRequestHeaders() {
+                    $headers = array();
+                    foreach ($_SERVER as $key => $value) {
+                        if (substr($key, 0, 5) <> 'HTTP_') {
+                            continue;
+                        }
+                        $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+                        $headers[$header] = $value;
+                    }
+                    return $headers;
+                }
 
                 if (isset($_GET['page'])) {
                     include $_GET['page'] . ".php";

@@ -2,6 +2,12 @@
       enctype="multipart/form-data">
     <label for="album_name">Album neve:</label>
     <input type="text" name="album_name">
+    <label for="caption">Leírás:</label>
+    <textarea name="caption"></textarea>
+    <br>
+    <label for="public">Publikus:</label>
+    <input type="checkbox" name="public" checked>
+    <br>
     <input type="submit" name="submit" value="Add new album">
 </form>
 
@@ -10,7 +16,7 @@
         <?
         if ($_POST) {
             if (isset($_POST['album_name'])) {
-                $success = DbManager::Instance()->insertAlbum($_POST['album_name']);
+                $success = DbManager::Instance()->insertAlbum($_POST['album_name'], $_POST["caption"], $_POST["public"]);
                 if ($success) {
                     echo "Album created!";
                 }

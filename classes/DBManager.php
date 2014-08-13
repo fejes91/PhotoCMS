@@ -43,9 +43,38 @@ class DbManager {
 
         return $array;
     }
+    
+    public function getPublicPhotosOfAlbum($id) {
+        $sql = "SELECT * FROM photos WHERE album_id = :id AND public = 1";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "id" => $id)
+        );
+
+        $array = array();
+        while (($row = $stmt->fetch())) {
+            $photo = new Photo($row);
+            array_push($array, $photo);
+        }
+
+        return $array;
+    }
 
     public function getAlbums() {
         $sql = "SELECT * FROM albums";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $array = array();
+        while (($row = $stmt->fetch())) {
+            $album = new Album($row);
+            array_push($array, $album);
+        }
+        return $array;
+    }
+    
+    public function getPublicAlbums() {
+        $sql = "SELECT * FROM albums WHERE public = 1";
         $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
@@ -74,12 +103,14 @@ class DbManager {
         return $stmt->rowCount();
     }
 
-    public function insertAlbum($name) {
-        $sql = "INSERT INTO albums (name) VALUES (:album_name)";
+    public function insertAlbum($name, $caption, $public) {
+        $sql = "INSERT INTO albums (name, caption, public) VALUES (:album_name, :caption, :public)";
 
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
-            "album_name" => $name)
+            "album_name" => $name,
+            "caption" => $caption,
+            "public" => !empty($public) ? 1 : 0)
         );
 
         return $stmt->rowCount();
@@ -90,7 +121,7 @@ class DbManager {
         foreach ($photos as $photo) {
             $this->deletePhoto($photo->id);
         }
-        
+
         $sql = "DELETE FROM albums WHERE id = :id";
 
         $stmt = $this->con->prepare($sql);
@@ -98,6 +129,20 @@ class DbManager {
             "id" => $id)
         );
 
+        return $stmt->rowCount();
+    }
+
+    public function updateAlbum($album) {
+        error_log("DB Manager saves album...");
+        $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "name" => $album->name,
+            "public" => $album->isPublic,
+            "caption" => $album->caption,
+            "id" => $album->id)
+        );
+        error_log("DB Manager updated " . $stmt->rowCount() . " rows");
         return $stmt->rowCount();
     }
 
@@ -135,12 +180,13 @@ class DbManager {
     }
 
     public function updatePhoto($photo) {
-        $sql = "UPDATE photos SET caption = :caption, album_id = :album WHERE id = :id";
+        $sql = "UPDATE photos SET caption = :caption, album_id = :album, public = :public WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "caption" => $photo->caption,
             "album" => $photo->album,
-            "id" => $photo->id)
+            "id" => $photo->id,
+            "public" => $photo->isPublic)
         );
         return $stmt->rowCount();
     }

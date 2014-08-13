@@ -1,26 +1,35 @@
+<?
+if (isset($_SESSION["rowCount"])) {
+    echo '<div class="status">';
+    echo "Mentett módosítások: " . $_SESSION['rowCount'];
+    unset($_SESSION["rowCount"]);
+    echo "</div>";
+}
+?>    
+
+
 <div id="edit-photo">
     <?
     if ($_POST) {
+        $rowCount;
         if (isset($_POST['save'])) {
             handleUpdateFile(DbManager::Instance()->getPhoto($_GET['photo'])->url);
             $photo = new Photo(array(
                 "id" => $_GET['photo'],
                 "caption" => $_POST['caption'],
-                "album_id" => $_POST['album']));
-            $success = DbManager::Instance()->updatePhoto($photo);
-            if ($success) {
-                echo "Photo updated!";
-            }
+                "album_id" => $_POST['album'],
+                "public" => !empty($_POST['public']) ? 1 : 0));
+            $rowCount = DbManager::Instance()->updatePhoto($photo);
         } else if (isset($_POST['delete'])) {
-            $success = DbManager::Instance()->deletePhoto($_GET['photo']);
-            if ($success) {
-                echo "Photo deleted!";
+            $rowCount = DbManager::Instance()->deletePhoto($_GET['photo']);
+            if ($rowCount) {
+                $_SESSION["rowCount"] = $rowCount;
                 header("Location: ?album=" . $_POST['album']);
                 exit();
             }
         }
 
-        // Redirect to this page.
+        $_SESSION["rowCount"] = $rowCount;
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
@@ -36,6 +45,14 @@
         <textarea name="caption" ><? echo $photo->getCaption(); ?></textarea><br>
         <label for="story_text">Szöveg:</label>
         <input type="file" name="file" id="file">
+        <br>
+        <label for="public">Publikus:</label>
+        <input type="checkbox" name="public" <?
+        if ($photo->isPublic) {
+            echo "checked";
+        }
+        ?>>
+
         <?
         $albums = DbManager::Instance()->getAlbums();
         echo '<select name="album">';

@@ -14,12 +14,20 @@ and open the template in the editor.
             $(document).ready(function() {
                 $.ajax({url: 'frontEndService.php',
                     data: {type: 'album'},
+                    //data: {type: 'album', id: '3'},
                     type: 'GET',
                     dataType: 'json',
                     success: function(albums) {
-                        for(var albumKey in albums){
+                        if(albums["error"]){
+                            alert(albums["error"]);
+                        }
+                        
+                        for(var albumKey in albums){  
                             var album = albums[albumKey];
-                            for(photoKey in album.photos){
+                            if(album.photos.length === 0){
+                                $("div").append("Nincsenek publikus képek az albumban: " + album.albumName + "<br>");
+                            }
+                            for(var photoKey in album.photos){
                                 var photo = album.photos[photoKey];
                                 console.log(JSON.stringify(photo));
                                 $("div").append('<img src="../img/' + photo.url + '" width="200"/>');

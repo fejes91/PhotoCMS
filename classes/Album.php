@@ -4,15 +4,23 @@ class Album {
 
     public $id;
     public $name;
+    public $caption;
+    public $isPublic;
     private $photos = array();
 
     public function __construct($row) {
         $this->id = $row['id'];
         $this->name = $row['name'];
+        $this->caption = $row['caption'];
+        $this->isPublic = $row['public'];
     }
 
     public function show() {
-        return '<a href="?album=' . $this->id . '">' . $this->name . '</a>';
+        $str = '<a href="?album=' . $this->id . '">' . $this->name . '</a>';
+        if(!$this->isPublic){
+            $str = $str . '<div class="right error"> (Privát)</div>';
+        }
+        return $str;
     }
 
     public function getPhotos() {
@@ -21,8 +29,15 @@ class Album {
         }
         return $this->photos;
     }
+    
+    public function getPublicPhotos(){
+        if (count($this->photos) == 0) {
+            $this->photos = DbManager::Instance()->getPublicPhotosOfAlbum($this->id);
+        }
+        return $this->photos;
+    }
 
-    public function showPictures() {
+    public function showPicturesEditor() {
         $str = '<div class="album">';
         $str .= "<h2>" . $this->show() . " képei:</h2>";
         
@@ -33,6 +48,7 @@ class Album {
         $str .= '</div>';
         return $str;
     }
+
 
 }
 
