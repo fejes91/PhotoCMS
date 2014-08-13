@@ -1,5 +1,7 @@
 <?php
 
+
+
 include "../classes/DBManager.php";
 include "../classes/Album.php";
 include "../classes/Photo.php";
@@ -7,26 +9,25 @@ include "../classes/Story.php";
 
 if (isset($_GET['type']) && !empty($_GET['type'])) {
     $type = $_GET['type'];
-    
-    switch($type){
+
+    switch ($type) {
         case "album" : echo getAlbum($_GET['id']);
     }
 }
 
-function getAlbum($id){
+function getAlbum($id) {
     $albums = array();
-    if(!empty($id)){
+    if (!empty($id)) {
         $a = DbManager::Instance()->getAlbum($id);
-        if($a->isPublic){
+        if ($a->isPublic) {
             array_push($albums, $a);
         }
-    }
-    else{
+    } else {
         $albums = DbManager::Instance()->getPublicAlbums();
     }
-    
+
     $responseArray = array();
-    if(!empty($albums)){
+    if (!empty($albums)) {
         foreach ($albums as $album) {
             $obj = array(
                 "albumId" => $album->id,
@@ -35,8 +36,7 @@ function getAlbum($id){
             );
             array_push($responseArray, $obj);
         }
-    }
-    else{
+    } else {
         $obj = array(
             "error" => "Private album"
         );
@@ -44,4 +44,5 @@ function getAlbum($id){
     }
     return json_encode($responseArray);
 }
+
 ?>

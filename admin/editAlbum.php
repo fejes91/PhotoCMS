@@ -106,6 +106,11 @@ function handleUploadedFile() {
                     return $hashed_file_name . " already exists. ";
                 } else {
                     move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
+
+                    $thumb = new Imagick('../img/' . $hashed_file_name);
+                    $thumb->thumbnailimage(200, 300, true);
+                    $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
+                    
                     if (isset($_GET['album'])) {
                         $album = $_GET['album'];
                     } else if (isset($_POST['album'])) {

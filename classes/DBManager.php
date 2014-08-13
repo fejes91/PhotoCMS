@@ -148,6 +148,7 @@ class DbManager {
 
     public function deletePhoto($id) {
         unlink("../img/" . $this->getPhoto($id)->url);
+        unlink("../img/thumbnails/" . $this->getPhoto($id)->url);
         $sql = "DELETE FROM photos WHERE id = :id";
 
         $stmt = $this->con->prepare($sql);

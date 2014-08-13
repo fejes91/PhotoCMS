@@ -10,36 +10,10 @@ and open the template in the editor.
     </head>
     <body>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $.ajax({url: 'frontEndService.php',
-                    data: {type: 'album'},
-                    //data: {type: 'album', id: '3'},
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(albums) {
-                        if(albums["error"]){
-                            alert(albums["error"]);
-                        }
-                        
-                        for(var albumKey in albums){  
-                            var album = albums[albumKey];
-                            if(album.photos.length === 0){
-                                $("div").append("Nincsenek publikus képek az albumban: " + album.albumName + "<br>");
-                            }
-                            for(var photoKey in album.photos){
-                                var photo = album.photos[photoKey];
-                                console.log(JSON.stringify(photo));
-                                $("div").append('<img src="../img/' + photo.url + '" width="200"/>');
-                            }
-                            $("div").append("<br><br>");
-                        }
-                    }
-                });
-            });
-        </script>
-
-
-        <div>IMAGES:<br></div>
+        <script src="script.js"></script>
+        
+        <div id="stat"></div>
+        <div id="photos">IMAGES:<br></div>
+        
     </body>
 </html>
