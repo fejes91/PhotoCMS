@@ -1,7 +1,5 @@
 <?php
 
-
-
 include "../classes/DBManager.php";
 include "../classes/Album.php";
 include "../classes/Photo.php";
@@ -30,8 +28,8 @@ function getAlbum($id) {
     if (!empty($albums)) {
         foreach ($albums as $album) {
             $obj = array(
-                "albumId" => $album->id,
-                "albumName" => $album->name,
+                "id" => $album->id,
+                "name" => $album->name,
                 "photos" => $album->getPublicPhotos()
             );
             array_push($responseArray, $obj);

@@ -1,0 +1,97 @@
+body{
+    margin: 0px;
+    overflow: hidden;
+}
+
+#wrapper{
+    overflow: hidden;
+}
+
+#menuPanel{
+    height: 500px;
+    width: 50px;
+    background-color: green;
+    position: fixed;
+    top: 150px;
+    left: 0px;
+}
+
+#albumPanel{
+    float: left;
+    width: 200px;
+}
+
+#albumPanel ul{
+    margin-left: 40px;
+    margin-top: 180px;
+    list-style-type: none;
+}
+
+#albumPanel li{
+    margin: 20px 0;
+    font-size: 22px;
+    border-top: 1px solid rgba(0, 0, 0, 0);
+}
+
+#albumPanel li.active{
+    margin: 20px 0;
+    font-size: 22px;
+    border-color: rgba(0, 0, 0, 0.1);
+    width: 150px;
+}
+
+#thumbnailPanel{
+    border-left: 1px solid black;
+    height: 99%;
+    overflow-x: hidden;
+}
+
+#thumbnails{
+    float: right;
+    padding-right: 50px;
+    height: 99%;
+    width: 1000px;
+    max-width: 50%;
+    min-width: 240px;
+}
+
+.thumbnail{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border: 3px solid rgba(0, 0, 0, 0);
+    opacity: 0.05;
+    transition-duration: 0.5s;
+}
+
+.thumbnail.active{
+    border-color: green;
+    opacity: 1;
+}
+
+.thumbnail img{
+    max-height: 200px;
+    max-width: 200px;
+    margin: -20px 0 0 -20px;
+}
+
+
+#thumbnails .horizontalSeparator{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    width: 2000px;
+    position: relative;
+    left: -15px;
+    margin: 3px 0;
+}
+
+#thumbnails .horizontalSeparator:first-of-type{
+    margin-top: 30px;
+}
+
+
+#verticalSeparator{
+    position: absolute;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    display: none;
+}
