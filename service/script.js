@@ -26,7 +26,7 @@ manageActiveSeparators = function() {
 
         var top = Math.min(parseInt(activeHSepOffset.top), parseInt(activeAlbumOffset.top));
         var left = parseInt(activeAlbumOffset.left) + parseInt(activeAlbumWidth);
-        var height = Math.abs(parseInt(activeHSepOffset.top) - parseInt(activeAlbumOffset.top)) + 1;
+        var height = Math.abs(parseInt(activeHSepOffset.top) - parseInt(activeAlbumOffset.top)) + parseInt($("#albumPanel li.album").css("border-width"));
         $("#verticalSeparator").show().css("top", top).css("left", left).height(height);
     }
     else {

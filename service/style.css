@@ -30,13 +30,13 @@ body{
 #albumPanel li{
     margin: 20px 0;
     font-size: 22px;
-    border-top: 1px solid rgba(0, 0, 0, 0);
+    border-top: 2px solid rgba(0, 0, 0, 0);
 }
 
 #albumPanel li.active{
     margin: 20px 0;
     font-size: 22px;
-    border-color: rgba(0, 0, 0, 0.1);
+    border-color: rgb(40, 88, 89);
     width: 150px;
 }
 
@@ -62,11 +62,12 @@ body{
     overflow: hidden;
     border: 3px solid rgba(0, 0, 0, 0);
     opacity: 0.05;
+    margin: 1px;
     transition-duration: 0.5s;
 }
 
 .thumbnail.active{
-    border-color: green;
+    border-color: rgb(40, 88, 89);
     opacity: 1;
 }
 
@@ -78,20 +79,24 @@ body{
 
 
 #thumbnails .horizontalSeparator{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     width: 2000px;
     position: relative;
     left: -15px;
     margin: 3px 0;
 }
 
+#thumbnails .horizontalSeparator.active{
+    border-color: rgb(40, 88, 89);
+}
+
 #thumbnails .horizontalSeparator:first-of-type{
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 
 #verticalSeparator{
     position: absolute;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 2px solid rgb(40, 88, 89);
     display: none;
 }
