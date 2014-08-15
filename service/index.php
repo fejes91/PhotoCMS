@@ -23,9 +23,6 @@
                 <ul></ul>
             </div>
             <div id="thumbnailPanel">
-                <!--
-                    összekötők, cím, leírás, stb
-                -->
                 <div id="thumbnails"></div>
             </div>
         </div>

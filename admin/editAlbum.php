@@ -108,7 +108,7 @@ function handleUploadedFile() {
                     move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
 
                     $thumb = new Imagick('../img/' . $hashed_file_name);
-                    $thumb->thumbnailimage(200, 300, true);
+                    $thumb->thumbnailimage(400, 400, true);
                     $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
                     
                     if (isset($_GET['album'])) {
