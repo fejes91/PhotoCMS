@@ -27,7 +27,7 @@ body{
     -o-filter: blur(10px);
     -ms-filter: blur(10px);
     filter: blur(10px);
-    opacity: 0.05;
+    opacity: 0.08;
     
     background-size: 200%;
     background-position: center;
@@ -92,7 +92,7 @@ body{
     height: 100px;
     overflow: hidden;
     border: 0px solid rgba(0, 0, 0, 0);
-    opacity: 0.1;
+    opacity: 0.3;
     margin: 1px;
     transition-duration: 0.2s;
 }
@@ -147,6 +147,7 @@ body{
 #horizontalSeparator span{
     position: absolute;
     bottom: 0px;
+    font-size: 36px;
 }
 
 #verticalSeparator{
@@ -154,3 +155,4 @@ body{
     border-right: 2px solid rgb(40, 88, 89);
     display: none;
 }
+

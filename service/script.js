@@ -53,31 +53,27 @@ manageAlbumScroll = function(){
 };
 
 manageActiveSeparators = function(needScroll) {
-    /*$("#thumbnailPanel .horizontalSeparator").animate({left: "-15px"}, 100, function() {
-
-    });*/
-
-
     if ($("#albumPanel li.album.active").length > 0) {
         var activeAlbumOffset = $("#albumPanel li.album.active").offset();
         var activeAlbumRightPadding = $("#albumPanel li.album.active").css("paddingRight");
-        var activeHSepOffset = $("#thumbnailPanel .horizontalSeparator.active").offset();
+        //var activeHSepOffset = $("#thumbnailPanel .horizontalSeparator.active").offset();
         var activeHSepHeight = $("#thumbnailPanel .horizontalSeparator.active").height();
         var activeAlbumWidth = $("#albumPanel li.album.active").width();
         var activeAlbumHeight = $("#albumPanel li.album.active").height();
 
         $("#horizontalSeparator").animate({left: parseInt(activeAlbumOffset.left) + parseInt(activeAlbumWidth) + parseInt(activeAlbumRightPadding)}, 200);
 
-        
         var scroll = 0;
         if(needScroll){
             scroll = $("#thumbnailPanel .horizontalSeparator.active").offset().top - $("#horizontalSeparator").offset().top;
         }
+        
+        $("#horizontalSeparator span").fadeOut(200);
         $("#thumbnailPanel").animate({
             scrollTop: $("#thumbnailPanel").scrollTop() + scroll - 5
         }, 500, function() {
             $("#thumbnailPanel .horizontalSeparator:not(.active)").animate({left: "-15px"}, 100);
-            $("#horizontalSeparator span").html($("#thumbnailPanel .horizontalSeparator.active").attr("albumName"));
+            $("#horizontalSeparator span").html($("#thumbnailPanel .horizontalSeparator.active").attr("albumName")).fadeIn(300);
             $("#thumbnailPanel .horizontalSeparator.active").animate(
                     {
                         //marginLeft: -1 * (activeHSepOffset.left - parseInt(activeAlbumOffset.left) - parseInt(activeAlbumWidth) - parseInt(activeAlbumRightPadding))
@@ -95,8 +91,6 @@ manageActiveSeparators = function(needScroll) {
     else {
         $("#verticalSeparator").hide();
     }
-
-
 };
 
 setActiveAlbum = function(albumId, needScroll) {
@@ -142,7 +136,10 @@ populatePhotos = function() {
     var numberOfLoadedPhotos = 0;
     //$(".thumbnail").hide();
     
-    $("#background").css("background-image", "url(../img/thumbnails/" + cms.albums[0].photos[1].url + ")");
+    var bgAlbum = cms.albums[parseInt(Math.random() * cms.albums.length)];
+    var bgUrl = bgAlbum.photos[parseInt(Math.random() * bgAlbum.photos.length)].url;
+    
+    $("#background").css("background-image", "url(../img/thumbnails/" + bgUrl + ")");
 
     for (var albumKey in cms.albums) {
         var album = cms.albums[albumKey];
@@ -158,7 +155,11 @@ populatePhotos = function() {
             }
         }
     }
-    //$("#thumbnails").append('<div class="horizontalSeparator"></div>');
+    var footerHeight = window.innerHeight - ($(".thumbnail").last().offset().top + $(".thumbnail").last().height() - $(".horizontalSeparator").last().offset().top) - $("#horizontalSeparator").offset().top;
+    if(footerHeight < 0){
+        footerHeight = 0;
+    }
+    $("#thumbnails").append('<div id="thumbnailPanelFooter" style="height:' + footerHeight + '"></div>'); //TODO resizera is menjen
 
     $("#albumPanel li.album").click(function() {
         var albumId = $(this).attr("id");
@@ -175,7 +176,7 @@ populatePhotos = function() {
                 albumId = parts[parts.length - 1];
             }
         }
-        setActiveAlbum(albumId);
+        setActiveAlbum(albumId, true);
     });
 
     $("#thumbnailPanel img").load(function() {
