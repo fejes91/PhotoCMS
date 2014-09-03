@@ -13,6 +13,8 @@ $(document).ready(function() {
 });
 
 $(window).resize(function() {
+    $("#thumbnailPanel").height(window.innerHeight - 60);
+    
     clearTimeout(cms.resizeTimer);
     cms.resizeTimer = window.setTimeout(function() {
         manageActiveSeparators(false);
@@ -22,7 +24,7 @@ $(window).resize(function() {
 
 
 init = function() {
-    
+    $("#thumbnailPanel").height(window.innerHeight - 60);
     $("#horizontalSeparator").css("left", $("#horizontalSeparator").width());
 };
 
@@ -69,11 +71,11 @@ manageActiveSeparators = function(needScroll) {
         
         var scroll = 0;
         if(needScroll){
-            scroll = $("#thumbnailPanel .horizontalSeparator.active").offset().top - $("#horizontalSeparator").height();
+            scroll = $("#thumbnailPanel .horizontalSeparator.active").offset().top - $("#horizontalSeparator").offset().top;
         }
         $("#thumbnailPanel").animate({
-            scrollTop: $("#thumbnailPanel").scrollTop() + scroll
-        }, 200, function() {
+            scrollTop: $("#thumbnailPanel").scrollTop() + scroll - 5
+        }, 500, function() {
             $("#thumbnailPanel .horizontalSeparator:not(.active)").animate({left: "-15px"}, 100);
             $("#horizontalSeparator span").html($("#thumbnailPanel .horizontalSeparator.active").attr("albumName"));
             $("#thumbnailPanel .horizontalSeparator.active").animate(
@@ -139,6 +141,8 @@ populatePhotos = function() {
     var numberOfPhotos = 0;
     var numberOfLoadedPhotos = 0;
     //$(".thumbnail").hide();
+    
+    $("#background").css("background-image", "url(../img/thumbnails/" + cms.albums[0].photos[1].url + ")");
 
     for (var albumKey in cms.albums) {
         var album = cms.albums[albumKey];

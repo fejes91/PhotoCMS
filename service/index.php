@@ -14,7 +14,10 @@
         <script>
             cms.albums = JSON.parse('<?echo getAlbum()?>');
         </script>
-        
+        <div id="background">
+            
+            
+        </div>
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
         <div id="horizontalSeparator"><span id="text"></span></div>
