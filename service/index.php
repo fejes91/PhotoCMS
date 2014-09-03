@@ -17,6 +17,7 @@
         
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
+        <div id="horizontalSeparator"><span id="text"></span></div>
         <div id="menuPanel">menu</div>
         <div id="wrapper">
             <div id="albumPanel">

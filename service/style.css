@@ -28,6 +28,7 @@ body{
 }
 
 #albumPanel li{
+    width: 120px;
     margin: 20px 0;
     font-size: 22px;
     border-bottom: 2px solid rgba(0, 0, 0, 0);
@@ -37,21 +38,25 @@ body{
     margin: 20px 0;
     font-size: 22px;
     border-color: rgb(40, 88, 89);
-    width: 150px;
+    width: 120px;
+    padding-right: 30px;
 }
 
 #thumbnailPanel{
+    height: 100%;
     border-left: 1px solid black;
-    height: 99%;
     overflow-x: hidden;
+    margin-bottom: 10px;
 }
 
 #thumbnails{
     float: right;
     padding-right: 50px;
     width: 1000px;
+    height: 100%;
     max-width: 50%;
     min-width: 240px;
+    margin-top: 50px;
 }
 
 .thumbnail{
@@ -83,7 +88,7 @@ body{
     left: -10px;
 }*/
 
-#thumbnails .horizontalSeparator{
+#thumbnails .horizontalSeparator:not(:first-of-type){
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     width: 2000px;
     position: relative;
@@ -93,11 +98,25 @@ body{
 }
 
 #thumbnails .horizontalSeparator.active{
-    border-color: rgb(40, 88, 89);
+    border-color: rgba(0,0,0,0);
     padding-left: 10px;
     
 }
 
+#horizontalSeparator{
+    position: absolute;
+    left: 230px;
+    z-index: 999;
+    width: 2000px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 2px solid rgb(40, 88, 89);
+}
+
+#horizontalSeparator span{
+    position: absolute;
+    bottom: 0px;
+}
 
 #verticalSeparator{
     position: absolute;
