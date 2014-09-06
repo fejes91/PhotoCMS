@@ -43,43 +43,48 @@ body{
 }
 
 #albumPanel{
-    float: left;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width: 200px;
 }
 
 #albumPanel ul{
-    margin-left: 40px;
-    margin-top: 180px;
+    margin: 180px 52px;
+    padding: 0;
     list-style-type: none;
 }
 
-#albumPanel li{
+#albumPanel ul li{
     width: 120px;
-    margin: 20px 0;
+    height: 50px;
+    line-height: 50px;
+    margin: 2px 0;
+    padding: 0 10px;
     font-size: 22px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0);
+    transition-duration: 0.2s;
+    background-position-x: 50%;
+    background-position-y: 50%;
+    background-size: 400%;
 }
 
 #albumPanel li.active{
-    margin: 20px 0;
-    font-size: 22px;
-    border-color: rgb(40, 88, 89);
-    width: 120px;
-    padding-right: 30px;
+    margin: 5px 0;
+    padding-left: 50%;
+    background-size: 200%;
 }
 
-#thumbnailPanel{
+#contentPanel{
     height: 100%;
-    border-left: 1px solid black;
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 10px;
-    margin-top: 55px;
+    
 }
 
 #thumbnails{
     float: right;
-    padding-right: 50px;
+    padding-right: 10px;
     width: 1000px;
     height: 100%;
     max-width: 50%;
@@ -119,19 +124,17 @@ body{
     left: -10px;
 }*/
 
-#thumbnails .horizontalSeparator:not(:first-of-type){
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    width: 2000px;
+#thumbnails .horizontalSeparator{
     position: relative;
-    left: -15px;
     margin: 3px 0;
     margin-top: 50px;
+    text-align: right;
+    right: 0px;
+    transition-duration: 0.2s;
 }
 
 #thumbnails .horizontalSeparator.active{
-    border-color: rgba(0,0,0,0);
-    padding-left: 10px;
-
+   
 }
 
 #horizontalSeparator{
@@ -141,7 +144,7 @@ body{
     width: 2000px;
     background-color: rgba(255, 255, 255, 0.95);
     border-bottom: 2px solid rgb(40, 88, 89);
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 #horizontalSeparator span{

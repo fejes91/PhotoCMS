@@ -17,15 +17,21 @@
         <!--div id="background"></div-->
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
-        <div id="horizontalSeparator"><span id="text"></span></div>
+        <!--div id="horizontalSeparator"><span id="text"></span></div-->
         <div id="menuPanel">menu</div>
-        <div id="wrapper">
+        <div id="albumPanel">
+            <ul></ul>
+        </div>
+        <!--div id="wrapper">
             <div id="albumPanel">
                 <ul></ul>
             </div>
-            <div id="thumbnailPanel">
+            <div id="contentPanel">
                 <div id="thumbnails"></div>
             </div>
+        </div-->
+        <div id="contentPanel">
+            <div id="thumbnails"></div>
         </div>
 
     </body>
