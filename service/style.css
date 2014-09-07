@@ -1,7 +1,8 @@
 body{
     margin: 0px;
     overflow: hidden;
-
+    font-family: 'Open Sans Condensed', sans-serif;
+    color: white;
 }
 
 #wrapper{
@@ -36,7 +37,7 @@ body{
 #menuPanel{
     height: 500px;
     width: 50px;
-    background-color: green;
+    background-color: rgb(40, 88, 89);;
     position: fixed;
     top: 150px;
     left: 0px;
@@ -56,22 +57,65 @@ body{
 }
 
 #albumPanel ul li{
-    width: 120px;
+    width: 150px;
     height: 50px;
+    overflow: hidden;
+    position: relative;
     line-height: 50px;
     margin: 2px 0;
-    padding: 0 10px;
     font-size: 22px;
     transition-duration: 0.2s;
     background-position-x: 50%;
     background-position-y: 50%;
     background-size: 400%;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-family: 'Open Sans Condensed', sans-serif;
+    color: white;
+}
+
+#albumPanel ul li:hover{
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 #albumPanel li.active{
     margin: 5px 0;
-    padding-left: 50%;
+    padding-left: 30px;
     background-size: 200%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#albumPanel ul li img{
+    width: 200%;
+    opacity: 0.3;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+    
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+#albumPanel ul li.active img{
+    opacity: 0.5;
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+    
+
+}
+
+#albumPanel ul li span{
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    transition-duration: 0.4s;
+    display: inline-block;
+    margin-left: 0px;
 }
 
 #contentPanel{
@@ -87,7 +131,7 @@ body{
     padding-right: 10px;
     width: 1000px;
     height: 100%;
-    max-width: 50%;
+    max-width: 70%;
     min-width: 240px;
 }
 
@@ -103,11 +147,10 @@ body{
 }
 
 .thumbnail:hover{
-    opacity: 0.5;
+    /*opacity: 0.5;*/
 }
 
 .thumbnail.active{
-    border-color: rgb(40, 88, 89);
     opacity: 1;
 }
 

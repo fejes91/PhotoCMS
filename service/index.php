@@ -7,6 +7,7 @@
         <title>Fejes Ádám Fotó</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="script.js"></script>
     </head>
