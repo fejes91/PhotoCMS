@@ -108,6 +108,8 @@ setActiveAlbum = function(albumId, needScroll) {
                 scrollToAlbum();
             }
             animateAlbumThumbnails($("#albumPanel ul li:not(.active) img:not(:animated)").parents("li").attr("id"));
+            
+            manageThumbnailSizes();
         });
 
         $(".horizontalSeparator.active").animate({
@@ -119,7 +121,7 @@ setActiveAlbum = function(albumId, needScroll) {
 
 
 
-        manageThumbnailSizes();
+        
     }
 }
 

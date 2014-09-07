@@ -151,6 +151,7 @@ body{
 }
 
 .thumbnail.active{
+    
     opacity: 1;
 }
 
