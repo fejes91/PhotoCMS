@@ -9,7 +9,6 @@ $(document).ready(function() {
 });
 
 $(window).resize(function() {
-    $("#contentPanel").height(window.innerHeight - 60);
 });
 
 animateAlbumThumbnails = function(id, switcher) {
@@ -56,8 +55,8 @@ animateAlbumThumbnails = function(id, switcher) {
 };
 
 initThumbnailView = function() {
-    $("#contentPanel").height(window.innerHeight - 60);
     $("#horizontalSeparator").css("left", $("#horizontalSeparator").width());
+
 
     populatePhotos();
     $("#contentPanel").scroll(function() {
@@ -207,6 +206,8 @@ populatePhotos = function() {
             }
         }
     });
+    
+    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", window.innerHeight * 0.5);
 
 };
 

@@ -65,23 +65,21 @@ body{
     margin: 2px 0;
     font-size: 22px;
     transition-duration: 0.2s;
-    background-position-x: 50%;
-    background-position-y: 50%;
-    background-size: 400%;
+   
     background-color: rgba(0, 0, 0, 0.3);
     font-family: 'Open Sans Condensed', sans-serif;
     color: white;
 }
 
 #albumPanel ul li:hover{
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(40, 88, 89, 0.9);
 }
 
 #albumPanel li.active{
     margin: 5px 0;
     padding-left: 30px;
     background-size: 200%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(40, 88, 89, 0.9);
 }
 
 #albumPanel ul li img{
@@ -140,10 +138,10 @@ body{
     width: 100px;
     height: 100px;
     overflow: hidden;
-    border: 0px solid rgba(0, 0, 0, 0);
     opacity: 0.3;
     margin: 1px;
     transition-duration: 0.2s;
+
 }
 
 .thumbnail:hover{
@@ -151,7 +149,6 @@ body{
 }
 
 .thumbnail.active{
-    
     opacity: 1;
 }
 
@@ -180,6 +177,7 @@ body{
 #thumbnails .horizontalSeparator.active{
    
 }
+
 
 #horizontalSeparator{
     position: absolute;
