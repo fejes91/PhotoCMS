@@ -9,9 +9,11 @@ $(document).ready(function() {
 });
 
 $(window).resize(function() {
+    $("#thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.8);
 });
 
 animateAlbumThumbnails = function(id, switcher) {
+    //console.log("switcher for: " + id + " - " + switcher);
     var time = (Math.random() * 3000) + 4000;
     var liWidth = $('#albumPanel ul li:not(.active)').width();
     var liHeight = $('#albumPanel ul li').height();
@@ -23,10 +25,11 @@ animateAlbumThumbnails = function(id, switcher) {
 
     var left;
     var top;
-    if (switcher) {
+    if (switcher % 2 === 0) {
         top = parseInt(Math.random() * (height - liHeight)) * (-1);
 
-        if (currentLeft === -1 * liActiveLeftPadding) {
+        //if (currentLeft === -1 * liActiveLeftPadding) {
+        if ( switcher === 2 ) {
             left = liWidth * -1;
         }
         else {
@@ -36,7 +39,8 @@ animateAlbumThumbnails = function(id, switcher) {
     else {
         left = (parseInt(Math.random() * liWidth - liActiveLeftPadding) + liActiveLeftPadding) * -1;
 
-        if (currentTop === 0) {
+        //if (currentTop === 0) {
+        if (switcher === 3 ) {
             top = (height - liHeight) * -1;
         }
         else {
@@ -44,19 +48,18 @@ animateAlbumThumbnails = function(id, switcher) {
         }
     }
 
-
-
     $('#albumPanel ul #' + id + ' img').animate({
         top: top,
         left: left
     }, time, function() {
-        animateAlbumThumbnails(id, !switcher);
+        animateAlbumThumbnails(id, switcher === 3 ? 0 : switcher + 1);
     });
 };
 
 initThumbnailView = function() {
     $("#horizontalSeparator").css("left", $("#horizontalSeparator").width());
 
+    $("#thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.8);
 
     populatePhotos();
     $("#contentPanel").scroll(function() {
@@ -99,28 +102,28 @@ setActiveAlbum = function(albumId, needScroll) {
         }, 50, function() {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $("#contentPanel .thumbnail.album-" + albumId + ", #contentPanel .horizontalSeparator#album-" + albumId + ", #albumPanel li#" + albumId).addClass("active");
-            
+
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
-        
+
             if (needScroll) {
                 scrollToAlbum();
             }
-            animateAlbumThumbnails($("#albumPanel ul li:not(.active) img:not(:animated)").parents("li").attr("id"));
-            
+            animateAlbumThumbnails($("#albumPanel ul li:not(.active) img:not(:animated)").parents("li").attr("id"), Math.round(Math.random() * 3));
+
             manageThumbnailSizes();
         });
 
-        $(".horizontalSeparator.active").animate({
-            right: 30
-        }, 200);
-        $(".horizontalSeparator:not(.active)").animate({
-            right: 0
-        }, 200);
+        /*$(".horizontalSeparator.active").animate({
+         right: 70
+         }, 200);
+         $(".horizontalSeparator:not(.active)").animate({
+         right: 0
+         }, 200);*/
 
 
 
-        
+
     }
 }
 
@@ -168,9 +171,9 @@ populatePhotos = function() {
 
             thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
             numberOfPhotos += album.photos.length;
-            for (var photoKey in album.photos) {
-                var photo = album.photos[photoKey];
-                for (var i = 0; i < 20; ++i) { //extra sok kép legyen TODO kivenni innen
+            for (var i = 0; i < 10; ++i) { //extra sok kép legyen TODO kivenni innen
+                for (var photoKey in album.photos) {
+                    var photo = album.photos[photoKey];
                     thumbnailsStr += '<div class="thumbnail album-' + album.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
                 }
             }
@@ -202,12 +205,14 @@ populatePhotos = function() {
         $("#menuPanel").html(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
             for (var albumkey in cms.albums) {
-                animateAlbumThumbnails(cms.albums[albumkey].id, true);
+                animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
             }
         }
     });
-    
-    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", window.innerHeight * 0.5);
+
+    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) * 0.8);
+
+
 
 };
 
