@@ -76,7 +76,7 @@ body{
 }
 
 #albumPanel li.active{
-    margin: 5px 0;
+    margin: 5px 0px;
     padding-left: 30px;
     background-size: 200%;
     background-color: rgba(40, 88, 89, 0.9);
@@ -116,6 +116,10 @@ body{
     margin-left: 0px;
 }
 
+#albumPanel ul li.active span{
+    margin-left: 5px;
+}
+
 #contentPanel{
     height: 100%;
     overflow-x: hidden;
@@ -127,19 +131,18 @@ body{
 #thumbnails{
     float: right;
     padding-right: 10px;
-    width: 1000px;
+    /*width: 1000px;*/
     height: 100%;
-    max-width: 70%;
     min-width: 240px;
 }
 
 .thumbnail{
     display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     overflow: hidden;
     opacity: 0.3;
-    margin: 1px;
+    margin: 3px;
     transition-duration: 0.2s;
 
 }
@@ -175,7 +178,7 @@ body{
 }
 
 #thumbnails .horizontalSeparator.active{
-   
+   right: 30px;
 }
 
 

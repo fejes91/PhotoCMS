@@ -19,7 +19,11 @@
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
         <!--div id="horizontalSeparator"><span id="text"></span></div-->
-        <div id="menuPanel">menu</div>
+        <div id="menuPanel">
+            <img src="../img/build/camera.png">
+            <img src="../img/build/me.png">
+            <img src="../img/build/book.png">
+        </div>
         <div id="albumPanel">
             <ul></ul>
         </div>
