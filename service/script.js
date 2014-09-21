@@ -2,14 +2,25 @@ cms = {};
 cms.albums = {};
 cms.activeAlbum;
 
+cms.VIEW;
+cms.THUMBNAIL_VIEW = 1;
+cms.SLIDE_VIEW = 2;
+cms.ME_VIEW = 3;
+cms.GUESTBOOK_VIEW = 4;
+
 cms.resizeTimer;
 
 $(document).ready(function() {
-    initThumbnailView();
+    initPortfolio();
+    
+    $("#menuPanel #portfolio").click(function(){showPortfolio();});
+    $("#menuPanel #me").click(function(){showMe();});
+    
+    $("#menuPanel #portfolio").click();
 });
 
 $(window).resize(function() {
-    $("#thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.8);
+    $("#contentPanel>div").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
 });
 
 animateAlbumThumbnails = function(id, switcher) {
@@ -18,10 +29,7 @@ animateAlbumThumbnails = function(id, switcher) {
     var liWidth = $('#albumPanel ul li:not(.active)').width();
     var liHeight = $('#albumPanel ul li').height();
     var liActiveLeftPadding = 30;
-    var width = $('#albumPanel ul #' + id + ' img').width();
     var height = $('#albumPanel ul #' + id + ' img').height();
-    var currentLeft = parseInt($('#albumPanel ul li img').css("left"));
-    var currentTop = parseInt($('#albumPanel ul li img').css("top"));
 
     var left;
     var top;
@@ -56,10 +64,8 @@ animateAlbumThumbnails = function(id, switcher) {
     });
 };
 
-initThumbnailView = function() {
-    $("#horizontalSeparator").css("left", $("#horizontalSeparator").width());
-
-    $("#thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.8);
+initPortfolio = function() {
+    $("#contentPanel>div").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
 
     populatePhotos();
     $("#contentPanel").scroll(function() {
@@ -67,8 +73,37 @@ initThumbnailView = function() {
     });
 };
 
+showPortfolio = function(){
+    if(cms.VIEW === cms.THUMBNAIL_VIEW){
+        return;
+    }
+    cms.VIEW = cms.THUMBNAIL_VIEW;
+    $("#menuPanel img").removeClass("active");
+    $("#menuPanel img#portfolio").addClass("active");
+    
+    $("#contentPanel>div").hide();
+    $("#contentPanel #thumbnails").fadeIn(300);
+    $("#albumPanel").show().animate({marginLeft: 0}, 300, function(){$("#albumPanel li").first().click();});
+};
+
+showMe = function(){
+    if(cms.VIEW === cms.ME_VIEW){
+        return;
+    }
+    cms.VIEW = cms.ME_VIEW;
+    $("#contentPanel>div").hide();
+    $("#albumPanel").hide().css("marginLeft", "-250px");
+    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
+    $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
+    
+    $("#menuPanel img").removeClass("active");
+    $("#menuPanel img#me").addClass("active");
+    
+    $("#contentPanel div#me").fadeIn(300);
+};
+
 manageThumbnailScroll = function() {
-    if ($("#contentPanel:animated").length === 0) {
+    if (cms.VIEW === cms.THUMBNAIL_VIEW && $("#contentPanel:animated").length === 0) {
         var $lowestOffset = $(".horizontalSeparator").first();
         $(".horizontalSeparator").each(function() {
             var $this = $(this);
@@ -92,7 +127,7 @@ scrollToAlbum = function() {
 };
 
 setActiveAlbum = function(albumId, needScroll) {
-    cms.actualSeparator = $('.horizontalSeparator[albumId="' + albumId + '"]');
+    //cms.actualSeparator = $('.horizontalSeparator[albumId="' + albumId + '"]');
 
     cms.activeAlbum = albumId;
     if (!$("#albumPanel li#" + albumId).hasClass("active")) {
@@ -113,19 +148,8 @@ setActiveAlbum = function(albumId, needScroll) {
 
             manageThumbnailSizes();
         });
-
-        /*$(".horizontalSeparator.active").animate({
-         right: 70
-         }, 200);
-         $(".horizontalSeparator:not(.active)").animate({
-         right: 0
-         }, 200);*/
-
-
-
-
     }
-}
+};
 
 manageThumbnailSizes = function() {
     $(".thumbnail").unbind('mouseover');
@@ -202,10 +226,11 @@ populatePhotos = function() {
 
     $("#contentPanel img").load(function() {
         numberOfLoadedPhotos++;
-        $("#menuPanel").html(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
+        //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
             for (var albumkey in cms.albums) {
                 animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
+                
             }
         }
     });
@@ -222,7 +247,6 @@ loadAlbum = function(id) {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log("csá3");
             populatePhotos(data);
         }
     });

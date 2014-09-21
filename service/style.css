@@ -1,8 +1,9 @@
 body{
     margin: 0px;
     overflow: hidden;
-    font-family: 'Open Sans Condensed', sans-serif;
-    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: -1px;   
 }
 
 #wrapper{
@@ -35,25 +36,40 @@ body{
 }
 
 #menuPanel{
-    height: 500px;
     width: 50px;
     background-color: rgb(40, 88, 89);;
     position: fixed;
     top: 150px;
     left: 0px;
+    text-align: center;
+    z-index: 999;
+}
+
+#menuPanel img{
+    width: 70%;
+    margin: 20px 0px;
+    opacity: 0.4;
+    transition-duration: 0.2s;
+}
+
+#menuPanel img:hover, #menuPanel img.active{
+    opacity: 1;
 }
 
 #albumPanel{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 150px;
+    left: 52px;
     width: 200px;
+    color: white;
+    margin-left: -250px;
+    z-index: 10;
 }
 
 #albumPanel ul{
-    margin: 180px 52px;
     padding: 0;
     list-style-type: none;
+    margin: 0px;
 }
 
 #albumPanel ul li{
@@ -63,12 +79,15 @@ body{
     position: relative;
     line-height: 50px;
     margin: 2px 0;
-    font-size: 22px;
+    font-size: 20px;
     transition-duration: 0.2s;
    
     background-color: rgba(0, 0, 0, 0.3);
-    font-family: 'Open Sans Condensed', sans-serif;
     color: white;
+}
+
+#albumPanel ul li:first-of-type{
+    margin: 0px;
 }
 
 #albumPanel ul li:hover{
@@ -77,6 +96,13 @@ body{
 
 #albumPanel li.active{
     margin: 5px 0px;
+    padding-left: 30px;
+    background-size: 200%;
+    background-color: rgba(40, 88, 89, 0.9);
+}
+
+#albumPanel li:first-of-type.active{
+    margin-bottom: 5px;
     padding-left: 30px;
     background-size: 200%;
     background-color: rgba(40, 88, 89, 0.9);
@@ -125,15 +151,18 @@ body{
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 10px;
+    margin-left: 60px;
+}
+
+#contentPanel>div{
+    float: right;
     
 }
 
 #thumbnails{
-    float: right;
     padding-right: 10px;
-    /*width: 1000px;*/
-    height: 100%;
     min-width: 240px;
+    margin-right: 20%;
 }
 
 .thumbnail{
@@ -177,8 +206,12 @@ body{
     transition-duration: 0.2s;
 }
 
+#thumbnails .horizontalSeparator:first-of-type{
+    margin-top: 0px;
+}
+
 #thumbnails .horizontalSeparator.active{
-   right: 30px;
+   /*right: 30px;*/
 }
 
 
@@ -204,3 +237,16 @@ body{
     display: none;
 }
 
+
+#me{
+    max-width: 800px;
+    margin: 0px 20px;
+    letter-spacing: 2px;
+    margin-right: 25%;
+    text-align: justify;
+    font-size: 20px;
+}
+
+#me img{
+    border: 5px solid rgba(0,0,0,0);
+}
