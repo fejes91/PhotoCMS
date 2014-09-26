@@ -12,16 +12,33 @@ cms.resizeTimer;
 
 $(document).ready(function() {
     initPortfolio();
-    
-    $("#menuPanel #portfolio").click(function(){showPortfolio();});
-    $("#menuPanel #me").click(function(){showMe();});
-    
+
+    $("#menuPanel #portfolio").click(function() {
+        showPortfolio();
+    });
+    $("#menuPanel #me").click(function() {
+        showMe();
+    });
+
     $("#menuPanel #portfolio").click();
 });
 
 $(window).resize(function() {
-    $("#contentPanel>div").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
+    adjustSizes();
+
 });
+
+adjustSizes = function() {
+    if (cms.VIEW === cms.THUMBNAIL_VIEW) {
+        $("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.3);
+
+
+        alignSlide();
+    }
+    else if (cms.VIEW === cms.ME_VIEW) {
+        $("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
+    }
+}
 
 animateAlbumThumbnails = function(id, switcher) {
     //console.log("switcher for: " + id + " - " + switcher);
@@ -37,7 +54,7 @@ animateAlbumThumbnails = function(id, switcher) {
         top = parseInt(Math.random() * (height - liHeight)) * (-1);
 
         //if (currentLeft === -1 * liActiveLeftPadding) {
-        if ( switcher === 2 ) {
+        if (switcher === 2) {
             left = liWidth * -1;
         }
         else {
@@ -48,7 +65,7 @@ animateAlbumThumbnails = function(id, switcher) {
         left = (parseInt(Math.random() * liWidth - liActiveLeftPadding) + liActiveLeftPadding) * -1;
 
         //if (currentTop === 0) {
-        if (switcher === 3 ) {
+        if (switcher === 3) {
             top = (height - liHeight) * -1;
         }
         else {
@@ -65,29 +82,32 @@ animateAlbumThumbnails = function(id, switcher) {
 };
 
 initPortfolio = function() {
-    $("#contentPanel>div").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
-
     populatePhotos();
     $("#contentPanel").scroll(function() {
         manageThumbnailScroll();
     });
 };
 
-showPortfolio = function(){
-    if(cms.VIEW === cms.THUMBNAIL_VIEW){
+showPortfolio = function() {
+    if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         return;
     }
     cms.VIEW = cms.THUMBNAIL_VIEW;
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#portfolio").addClass("active");
-    
+    $("#slide").html('');
+
     $("#contentPanel>div").hide();
-    $("#contentPanel #thumbnails").fadeIn(300);
-    $("#albumPanel").show().animate({marginLeft: 0}, 300, function(){$("#albumPanel li").first().click();});
+    $("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
+        $("#contentPanel #thumbnails").fadeIn(300, function() {
+            $("#albumPanel li").first().click();
+        });
+    });
+    adjustSizes();
 };
 
-showMe = function(){
-    if(cms.VIEW === cms.ME_VIEW){
+showMe = function() {
+    if (cms.VIEW === cms.ME_VIEW) {
         return;
     }
     cms.VIEW = cms.ME_VIEW;
@@ -95,10 +115,11 @@ showMe = function(){
     $("#albumPanel").hide().css("marginLeft", "-250px");
     $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
     $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
-    
+
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#me").addClass("active");
-    
+
+    adjustSizes();
     $("#contentPanel div#me").fadeIn(300);
 };
 
@@ -136,7 +157,8 @@ setActiveAlbum = function(albumId, needScroll) {
             left: "-50%"
         }, 50, function() {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
-            $("#contentPanel .thumbnail.album-" + albumId + ", #contentPanel .horizontalSeparator#album-" + albumId + ", #albumPanel li#" + albumId).addClass("active");
+            $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
+            $("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
 
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
@@ -198,11 +220,12 @@ populatePhotos = function() {
             for (var i = 0; i < 10; ++i) { //extra sok kép legyen TODO kivenni innen
                 for (var photoKey in album.photos) {
                     var photo = album.photos[photoKey];
-                    thumbnailsStr += '<div class="thumbnail album-' + album.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
+                    thumbnailsStr += '<div class="thumbnail" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
                 }
             }
             thumbnailsStr += "</div>";
         }
+
     }
     $("#thumbnails").html(thumbnailsStr);
 
@@ -212,15 +235,7 @@ populatePhotos = function() {
     });
 
     $(".thumbnail").click(function() {
-        var classes = $(this).attr("class").split(" ");
-        var albumId;
-        for (var key in classes) {
-            var c = classes[key];
-            if (c.indexOf("album") === 0) {
-                var parts = c.split("-");
-                albumId = parts[parts.length - 1];
-            }
-        }
+        var albumId = $(this).attr("album");
         setActiveAlbum(albumId, true);
     });
 
@@ -228,17 +243,37 @@ populatePhotos = function() {
         numberOfLoadedPhotos++;
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
+            $("#contentPanel .thumbnail img").click(function() {
+                showImage($(this));
+            });
             for (var albumkey in cms.albums) {
                 animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
-                
             }
         }
     });
 
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) * 0.8);
 
+};
 
 
+showImage = function($img) {
+    var url = $img.attr('src').replace("thumbnails/", "");
+    $("#slide").fadeOut(100, function() {
+        $(this).html('<img src="' + url + '">');
+        $("#slide img").load(function() {
+            alignSlide();
+            $("#slide img").fadeIn(300);
+        });
+    });
+
+};
+
+alignSlide = function() {
+    $("#slide").css("maxHeight", window.innerHeight - 10).css("maxWidth", parseInt($("#contentPanel").width()) - parseInt($("#thumbnails").width()) - 70);
+    $("#slide").show().
+            css("top", (window.innerHeight - parseInt($("#slide img").height())) / 2).
+            css("right", (parseInt($("#contentPanel").width()) - parseInt($("#thumbnails").width()) - parseInt($("#slide img").width())) / 2);
 };
 
 loadAlbum = function(id) {

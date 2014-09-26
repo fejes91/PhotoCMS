@@ -36,18 +36,20 @@ body{
 }
 
 #menuPanel{
-    width: 50px;
+    height: 50px;
+    width: 250px;
     background-color: rgb(40, 88, 89);;
     position: fixed;
-    top: 150px;
+    top: 0px;
     left: 0px;
     text-align: center;
     z-index: 999;
 }
 
 #menuPanel img{
-    width: 70%;
-    margin: 20px 0px;
+    height: 35px;
+    margin: 7px 10px;
+    
     opacity: 0.4;
     transition-duration: 0.2s;
 }
@@ -58,9 +60,8 @@ body{
 
 #albumPanel{
     position: absolute;
-    top: 150px;
-    left: 52px;
-    width: 200px;
+    top: 50px;
+    left: 0px;
     color: white;
     margin-left: -250px;
     z-index: 10;
@@ -86,9 +87,7 @@ body{
     color: white;
 }
 
-#albumPanel ul li:first-of-type{
-    margin: 0px;
-}
+
 
 #albumPanel ul li:hover{
     background-color: rgba(40, 88, 89, 0.9);
@@ -151,18 +150,14 @@ body{
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 10px;
-    margin-left: 60px;
+    margin-left: 250px;
 }
 
-#contentPanel>div{
-    float: right;
-    
-}
 
 #thumbnails{
     padding-right: 10px;
     min-width: 240px;
-    margin-right: 20%;
+    float: left;
 }
 
 .thumbnail{
@@ -237,16 +232,30 @@ body{
     display: none;
 }
 
+#slide{
+    position: fixed;
+    top: 5px;
+    right: 20px;
+    text-align: right;
+}
 
-#me{
+#slide img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#contentPanel #me{
     max-width: 800px;
     margin: 0px 20px;
     letter-spacing: 2px;
     margin-right: 25%;
     text-align: justify;
     font-size: 20px;
+    float: right;
 }
 
 #me img{
     border: 5px solid rgba(0,0,0,0);
 }
+
+

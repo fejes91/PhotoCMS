@@ -39,6 +39,7 @@ include "frontEndService.php";
         </div-->
         <div id="contentPanel">
             <div id="thumbnails"></div>
+            <div id="slide"></div>
             <div id="me">
                 <p style="margin-top: 80px;">
                     <b style="font-size: 32px;">Fejes Ádám</b> vagyok. 91-ben születtem, jelenleg fejlesztőként dolgozok és a hobbim a fotózás. Nem vagyok és nem is akarok profi fotós lenni, nekem ez mindig kikapcsolódást jelent, sosem munkát. Kérdezhetnéd, hogy akkor minek a portfólió és a saját domain? Csak! Mert nem csak fotózni szeretek, hanem weboldalakkal is szívesen molyolok, ez az oldal nem csak fotós, hanem webfejlesztői portfólió is.
