@@ -29,7 +29,7 @@ $(window).resize(function() {
 
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
-        $("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.3);
+        //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
         alignSlide();
     }
     else if (cms.VIEW === cms.ME_VIEW) {
@@ -205,6 +205,10 @@ manageThumbnailSizes = function() {
 populatePhotos = function() {
     var numberOfPhotos = 0;
     var numberOfLoadedPhotos = 0;
+    var photoPerRow = 3;
+    if(window.innerWidth < 1025){
+        photoPerRow = 2;
+    }
     //$(".thumbnail").hide();
 
     var thumbnailsStr = "";
@@ -219,10 +223,15 @@ populatePhotos = function() {
 
             thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
             numberOfPhotos += album.photos.length;
+            var nr = 1;
             for (var i = 0; i < 10; ++i) { //extra sok kép legyen TODO kivenni innen
                 for (var photoKey in album.photos) {
                     var photo = album.photos[photoKey];
                     thumbnailsStr += '<div class="thumbnail" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
+                    if(nr % photoPerRow === 0){
+                        thumbnailsStr += "<br>";
+                    }
+                    nr++;
                 }
             }
             thumbnailsStr += "</div>";
