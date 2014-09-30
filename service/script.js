@@ -8,37 +8,36 @@ cms.SLIDE_VIEW = 2;
 cms.ME_VIEW = 3;
 cms.GUESTBOOK_VIEW = 4;
 
+cms.VIEW_LOCK;
 cms.resizeTimer;
 
 $(document).ready(function() {
     initPortfolio();
-
     $("#menuPanel #portfolio").click(function() {
         showPortfolio();
     });
-    $("#menuPanel #me").click(function() {
+    $("#menuPanel #meMenu").click(function() {
         showMe();
     });
 
-    $("#menuPanel #portfolio").click();
+    showPortfolio();
 });
 
 $(window).resize(function() {
     adjustSizes();
-
 });
 
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         $("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.3);
-
-
         alignSlide();
     }
     else if (cms.VIEW === cms.ME_VIEW) {
-        $("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
+        //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
     }
-}
+    
+    $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
+};
 
 animateAlbumThumbnails = function(id, switcher) {
     //console.log("switcher for: " + id + " - " + switcher);
@@ -89,7 +88,7 @@ initPortfolio = function() {
 };
 
 showPortfolio = function() {
-    if (cms.VIEW === cms.THUMBNAIL_VIEW) {
+    if (cms.VIEW === cms.THUMBNAIL_VIEW || cms.VIEW_LOCK) {
         return;
     }
     cms.VIEW = cms.THUMBNAIL_VIEW;
@@ -100,14 +99,15 @@ showPortfolio = function() {
     $("#contentPanel>div").hide();
     $("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
         $("#contentPanel #thumbnails").fadeIn(300, function() {
-            $("#albumPanel li").first().click();
+            //$("#albumPanel li").first().click();
+            setActiveAlbum($("#albumPanel li").first().attr("id"), true);
         });
     });
     adjustSizes();
 };
 
 showMe = function() {
-    if (cms.VIEW === cms.ME_VIEW) {
+    if (cms.VIEW === cms.ME_VIEW || cms.VIEW_LOCK) {
         return;
     }
     cms.VIEW = cms.ME_VIEW;
@@ -117,14 +117,17 @@ showMe = function() {
     $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
 
     $("#menuPanel img").removeClass("active");
-    $("#menuPanel img#me").addClass("active");
+    $("#menuPanel img#meMenu").addClass("active");
 
     adjustSizes();
-    $("#contentPanel div#me").fadeIn(300);
+    $("#me").fadeIn(300);
 };
 
 manageThumbnailScroll = function() {
-    if (cms.VIEW === cms.THUMBNAIL_VIEW && $("#contentPanel:animated").length === 0) {
+    if (cms.VIEW === cms.THUMBNAIL_VIEW && 
+            $("#contentPanel:animated").length === 0 && //ne lehessen behülyíteni
+            $("#thumbnails:visible").length > 0) //másik viewból visszajőve ne zavarja a scroll állás
+            {
         var $lowestOffset = $(".horizontalSeparator").first();
         $(".horizontalSeparator").each(function() {
             var $this = $(this);
@@ -142,14 +145,12 @@ scrollToAlbum = function() {
     var scroll = 0;
     scroll = $("#contentPanel .horizontalSeparator.active").offset().top;
     $("#contentPanel").animate({
-        scrollTop: $("#contentPanel").scrollTop() + scroll - 5
+        scrollTop: $("#contentPanel").scrollTop() + scroll - $("#menuPanel").height() -  5
     }, 300);
 
 };
 
 setActiveAlbum = function(albumId, needScroll) {
-    //cms.actualSeparator = $('.horizontalSeparator[albumId="' + albumId + '"]');
-
     cms.activeAlbum = albumId;
     if (!$("#albumPanel li#" + albumId).hasClass("active")) {
         $('#albumPanel ul #' + albumId + ' img').stop().animate({
@@ -158,7 +159,8 @@ setActiveAlbum = function(albumId, needScroll) {
         }, 50, function() {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
-            $("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
+            //$("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
+            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first img"));
 
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
@@ -227,7 +229,7 @@ populatePhotos = function() {
         }
 
     }
-    $("#thumbnails").html(thumbnailsStr);
+    $("#thumbnails").prepend(thumbnailsStr);
 
     $("#albumPanel li.album").click(function() {
         var albumId = $(this).attr("id");
@@ -244,7 +246,7 @@ populatePhotos = function() {
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
             $("#contentPanel .thumbnail img").click(function() {
-                showImage($(this));
+                showSlide($(this));
             });
             for (var albumkey in cms.albums) {
                 animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
@@ -257,7 +259,7 @@ populatePhotos = function() {
 };
 
 
-showImage = function($img) {
+showSlide = function($img) {
     var url = $img.attr('src').replace("thumbnails/", "");
     $("#slide").fadeOut(100, function() {
         $(this).html('<img src="' + url + '">');
@@ -266,24 +268,12 @@ showImage = function($img) {
             $("#slide img").fadeIn(300);
         });
     });
-
 };
 
 alignSlide = function() {
-    $("#slide").css("maxHeight", window.innerHeight - 10).css("maxWidth", parseInt($("#contentPanel").width()) - parseInt($("#thumbnails").width()) - 70);
+    $("#slide").css("maxHeight", window.innerHeight - parseInt($("#menuPanel").height()) -  50).css("maxWidth", parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) +  parseInt($("#thumbnails").width())) - 50);
     $("#slide").show().
-            css("top", (window.innerHeight - parseInt($("#slide img").height())) / 2).
-            css("right", (parseInt($("#contentPanel").width()) - parseInt($("#thumbnails").width()) - parseInt($("#slide img").width())) / 2);
-};
-
-loadAlbum = function(id) {
-    $.ajax({url: 'frontEndService.php',
-        data: {type: 'album', id: id},
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            populatePhotos(data);
-        }
-    });
+            css("top", (window.innerHeight - parseInt($("#slide img").height()) + parseInt($("#menuPanel").height())) / 2 ).
+            css("right", (parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) +  parseInt($("#thumbnails").width())) - parseInt($("#slide img").width())) / 2);
 };
 
