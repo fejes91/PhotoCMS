@@ -36,19 +36,19 @@ body{
 }
 
 #menuPanel{
-    height: 50px;
-    width: 250px;
+    height: 40px;
+    width: 100%;
     background-color: rgb(40, 88, 89);;
     position: fixed;
     top: 0px;
     left: 0px;
-    text-align: center;
+    text-align: left;
     z-index: 999;
 }
 
 #menuPanel img{
-    height: 35px;
-    margin: 7px 10px;
+    height: 30px;
+    margin: 5px 30px;
     
     opacity: 0.4;
     transition-duration: 0.2s;
@@ -60,7 +60,7 @@ body{
 
 #albumPanel{
     position: absolute;
-    top: 50px;
+    top: 40px;
     left: 0px;
     color: white;
     margin-left: -250px;
@@ -75,10 +75,10 @@ body{
 
 #albumPanel ul li{
     width: 150px;
-    height: 50px;
+    height: 40px;
     overflow: hidden;
     position: relative;
-    line-height: 50px;
+    line-height: 40px;
     margin: 2px 0;
     font-size: 20px;
     transition-duration: 0.2s;
@@ -94,7 +94,7 @@ body{
 }
 
 #albumPanel li.active{
-    margin: 5px 0px;
+    margin: 4px 0px;
     padding-left: 30px;
     background-size: 200%;
     background-color: rgba(40, 88, 89, 0.9);
@@ -146,18 +146,19 @@ body{
 }
 
 #contentPanel{
-    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 10px;
-    margin-left: 250px;
+    
+    margin-top: 40px;
 }
 
 
 #thumbnails{
     padding-right: 10px;
-    min-width: 240px;
+
     float: left;
+    margin-left: 200px;
 }
 
 .thumbnail{
@@ -202,35 +203,9 @@ body{
 }
 
 #thumbnails .horizontalSeparator:first-of-type{
-    margin-top: 0px;
+    margin-top: 5px;
 }
 
-#thumbnails .horizontalSeparator.active{
-   /*right: 30px;*/
-}
-
-
-#horizontalSeparator{
-    position: absolute;
-    left: 230px;
-    z-index: 999;
-    width: 2000px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-bottom: 2px solid rgb(40, 88, 89);
-    margin-top: 70px;
-}
-
-#horizontalSeparator span{
-    position: absolute;
-    bottom: 0px;
-    font-size: 36px;
-}
-
-#verticalSeparator{
-    position: absolute;
-    border-right: 2px solid rgb(40, 88, 89);
-    display: none;
-}
 
 #slide{
     position: fixed;
@@ -244,15 +219,17 @@ body{
     max-height: 100%;
 }
 
-#contentPanel #me{
+#me{
     max-width: 800px;
-    margin: 0px 20px;
+    min-width: 500px;
+    margin: 50px auto;
+    padding: 0px 40px;
+    display: block;
     letter-spacing: 2px;
-    margin-right: 25%;
     text-align: justify;
     font-size: 20px;
-    float: right;
 }
+
 
 #me img{
     border: 5px solid rgba(0,0,0,0);
