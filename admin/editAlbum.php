@@ -116,7 +116,7 @@ function handleUploadedFile() {
                     } else if (isset($_POST['album'])) {
                         $album = $_POST['album'];
                     }
-                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption']);
+                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $thumb->getimagewidth() > $thumb->getimageheight());
                     if ($rowCount) {
                         return "Kép feltöltve";
                     } else {

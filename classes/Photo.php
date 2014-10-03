@@ -7,6 +7,7 @@ class Photo {
     public $album;
     public $caption;
     public $isPublic;
+    public $isLandscape;
 
     public function __construct($row) {
         $this->id = $row['id'];
@@ -14,6 +15,7 @@ class Photo {
         $this->album = $row['album_id'];
         $this->caption = $row['caption'];
         $this->isPublic = $row['public'];
+        $this->isLandscape = $row['landscape'];
     }
 
     public function show() {
