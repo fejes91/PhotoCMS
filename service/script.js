@@ -12,7 +12,7 @@ cms.VIEW_LOCK;
 cms.resizeTimer;
 
 $(document).ready(function() {
-    initPortfolio();
+    initPortfolio2();
     $("#menuPanel #portfolio").click(function() {
         showPortfolio();
     });
@@ -78,6 +78,10 @@ animateAlbumThumbnails = function(id, switcher) {
     }, time, function() {
         animateAlbumThumbnails(id, switcher === 3 ? 0 : switcher + 1);
     });
+};
+
+initPortfolio2 = function() {
+    populatePhotos2();
 };
 
 initPortfolio = function() {
@@ -186,16 +190,12 @@ manageThumbnailSizes = function() {
         }
         $(this).find("img").stop().animate({
             width: width,
-            top: "0px",
-            left: "0px"
-        }, 100);
+        }, 300);
     });
 
     $(".thumbnail.active").on('mouseout', function() {
         $(this).find("img").stop().animate({
             width: "250%",
-            left: "-50%",
-            top: "-50%"
         }, 300);
     });
 
@@ -237,6 +237,67 @@ populatePhotos = function() {
             thumbnailsStr += "</div>";
         }
 
+    }
+    $("#thumbnails").prepend(thumbnailsStr);
+
+    $("#albumPanel li.album").click(function() {
+        var albumId = $(this).attr("id");
+        setActiveAlbum(albumId, true);
+    });
+
+    $(".thumbnail").click(function() {
+        var albumId = $(this).attr("album");
+        setActiveAlbum(albumId, true);
+    });
+
+    $("#contentPanel img").load(function() {
+        numberOfLoadedPhotos++;
+        //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
+        if (numberOfLoadedPhotos === numberOfPhotos) {
+            $("#contentPanel .thumbnail img").click(function() {
+                showSlide($(this));
+            });
+            for (var albumkey in cms.albums) {
+                animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
+            }
+        }
+    });
+
+    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) * 0.8);
+
+};
+
+
+populatePhotos2 = function() {
+    var numberOfPhotos = 0;
+    var numberOfLoadedPhotos = 0;
+    //$(".thumbnail").hide();
+
+    var thumbnailsStr = "";
+    for (var albumKey in cms.albums) {
+        var album = cms.albums[albumKey];
+
+        if (album.photos.length > 0) {
+            var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
+            $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
+            
+            var thumbnailsStr = "";
+            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
+            var landscapes = [];
+            var portraits = [];
+            for (var photoKey in album.photos) {
+                var photo = album.photos[photoKey];
+                photo.isLandscape === '1' ? landscapes.push(photo) : portraits.push(photo);                    
+            }
+            var thumbnailClass = "";
+            
+            
+            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + portraits[0].url + '"/></div>';
+            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + landscapes[0].url + '"/></div>';
+            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + landscapes[1].url + '"/></div>';
+            
+            
+        }
     }
     $("#thumbnails").prepend(thumbnailsStr);
 
