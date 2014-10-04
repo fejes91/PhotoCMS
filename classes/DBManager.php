@@ -86,19 +86,20 @@ class DbManager {
         return $array;
     }
 
-    public function insertPhoto($hfn, $album, $caption, $isLandscape) {
+    public function insertPhoto($hfn, $album, $caption, $width, $height) {
         if (strcmp($album, "-1") == 0) {
             return false;
         }
 
-        $sql = "INSERT INTO photos (photo_url, album_id, caption, landscape) VALUES (:hashed_file_name, :album, :caption, :landscape)";
+        $sql = "INSERT INTO photos (photo_url, album_id, caption, width, height) VALUES (:hashed_file_name, :album, :caption, :width, :height)";
 
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "hashed_file_name" => $hfn,
             "album" => $album,
             "caption" => $caption,
-            "landscape" => $isLandscape)
+            "width" => $width,
+            "height" => $height)
         );
 
         return $stmt->rowCount();

@@ -164,7 +164,8 @@ setActiveAlbum = function(albumId, needScroll) {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
             //$("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
-            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first img"));
+            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail2:first img"));
+            //showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first img"));
 
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
@@ -271,6 +272,10 @@ populatePhotos = function() {
 populatePhotos2 = function() {
     var numberOfPhotos = 0;
     var numberOfLoadedPhotos = 0;
+    
+    cms.oneTwoSwitcher = true;
+    cms.thumbnailsWidth = 350;
+    $("#thumbnails").width(cms.thumbnailsWidth + 20); //margins
     //$(".thumbnail").hide();
 
     var thumbnailsStr = "";
@@ -283,23 +288,25 @@ populatePhotos2 = function() {
             
             var thumbnailsStr = "";
             thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
-            var landscapes = [];
-            var portraits = [];
+            landscapes = [];
+            portraits = [];
             for (var photoKey in album.photos) {
                 var photo = album.photos[photoKey];
-                photo.isLandscape === '1' ? landscapes.push(photo) : portraits.push(photo);                    
+                parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight) ? landscapes.push(photo) : portraits.push(photo);                    
             }
-            var thumbnailClass = "";
             
             
-            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + portraits[0].url + '"/></div>';
-            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + landscapes[0].url + '"/></div>';
-            thumbnailsStr += '<div class="' + thumbnailClass + '" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + landscapes[1].url + '"/></div>';
-            
-            
+            //thumbnailsStr += generateThree(album.id, portraits[0], portraits[1], portraits[2]);
+            thumbnailsStr += generateOneTwo(album.id, portraits[2], landscapes[4], landscapes[5]);
+            thumbnailsStr += generateOneTwo(album.id, portraits[3], landscapes[2], landscapes[3]);
+            thumbnailsStr += generateTwo(album.id, landscapes[0], landscapes[1]);
+            thumbnailsStr += generateOneTwo(album.id, portraits[4], landscapes[6], landscapes[7]);
         }
     }
     $("#thumbnails").prepend(thumbnailsStr);
+    $("#contentPanel .thumbnail2 img").click(function() {
+                showSlide($(this));
+            });
 
     $("#albumPanel li.album").click(function() {
         var albumId = $(this).attr("id");
@@ -315,7 +322,7 @@ populatePhotos2 = function() {
         numberOfLoadedPhotos++;
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
-            $("#contentPanel .thumbnail img").click(function() {
+            $("#contentPanel .thumbnail2 img").click(function() {
                 showSlide($(this));
             });
             for (var albumkey in cms.albums) {
@@ -326,6 +333,75 @@ populatePhotos2 = function() {
 
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) * 0.8);
 
+};
+
+generateThree = function(albumId, portrait1, portrait2, portrait3){
+    var portraitsWidth = cms.thumbnailsWidth / 3;
+    var portrait1Height = portrait1.naturalHeight * portraitsWidth / portrait1.naturalWidth;
+    var portrait2Height = portrait2.naturalHeight * portraitsWidth / portrait2.naturalWidth;
+    var portrait3Height = portrait3.naturalHeight * portraitsWidth / portrait3.naturalWidth;
+
+    var portrait1Style = "width: " + portraitsWidth + "px; height: " + portrait1Height +"px;";
+    var portrait2Style = "width: " + portraitsWidth + "px; height: " + portrait2Height +"px;";
+    var portrait3Style = "width: " + portraitsWidth + "px; height: " + portrait3Height +"px;";
+    var str = "";        
+
+    str += '<div class="thumbnail2 onetwo portrait" style="' + portrait1Style + '" album="' + albumId + '" photo="' + portrait1.id + '"><img src="../img/thumbnails/' + portrait1.url + '"/></div>';
+    str += '<div class="thumbnail2 onetwo portrait" style="' + portrait2Style + '" album="' + albumId + '" photo="' + portrait2.id + '"><img src="../img/thumbnails/' + portrait2.url + '"/></div>';
+    str += '<div class="thumbnail2 onetwo portrait" style="' + portrait3Style + '" album="' + albumId + '" photo="' + portrait3.id + '"><img src="../img/thumbnails/' + portrait3.url + '"/></div>';
+    return str;
+};
+
+generateTwo = function(albumId, landscape1, landscape2){
+    var landscapesWidth = cms.thumbnailsWidth / 2;
+    var landScape1Height = landscape1.naturalHeight * landscapesWidth / landscape1.naturalWidth;
+    var landScape2Height = landscape2.naturalHeight * landscapesWidth / landscape2.naturalWidth;
+
+    var landscape1Style = "width: " + landscapesWidth + "px; height: " + landScape1Height +"px;";
+    var landscape2Style = "width: " + landscapesWidth + "px; height: " + landScape2Height +"px;";
+    var str = "";        
+
+    str += '<div class="thumbnail2 onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '"/></div>';
+    str += '<div class="thumbnail2 onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '"/></div>';
+    return str;
+};
+
+generateOneTwo = function(albumId, portrait, landscape1, landscape2){
+    var landscapesWidth = Math.max(landscape1.naturalWidth, landscape2.naturalWidth);
+    var landScape1Height = landscape1.naturalHeight * landscapesWidth / landscape1.naturalWidth;
+    var landScape2Height = landscape2.naturalHeight * landscapesWidth / landscape2.naturalWidth;
+   
+    var portraitHeight = landScape1Height + landScape2Height;
+    var portraitWidth = portraitHeight * parseFloat(portrait.naturalWidth) / parseFloat(portrait.naturalHeight);
+    
+    var completeWidth = portraitWidth + landscapesWidth;
+    var ratio = cms.thumbnailsWidth / completeWidth;
+    
+    portraitWidth = portraitWidth * ratio;    
+    landscapesWidth = landscapesWidth * ratio;
+    landScape1Height = Math.ceil(landScape1Height * ratio);
+    landScape2Height = Math.ceil(landScape2Height * ratio);
+    portraitHeight = landScape1Height + landScape2Height + 4;
+    
+    var portraitStyle = "width: " + portraitWidth + "px; height: " + portraitHeight +"px;";
+    var landscape1Style = "width: " + landscapesWidth + "px; height: " + landScape1Height +"px;";
+    var landscape2Style = "width: " + landscapesWidth + "px; height: " + landScape2Height +"px;";
+    var landscapeWrapperStlye = "width: " + (4 + landscapesWidth)  + "px; height: " + (4 + portraitHeight) +"px;";
+    var str = "";        
+
+    if(cms.oneTwoSwitcher){
+        str += '<div class="thumbnail2 onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '"/></div>';
+    }
+    str += '<div class="landscapeWrapper" style="' + landscapeWrapperStlye + ' float: left;">';
+        str += '<div class="thumbnail2 onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '"/></div>';
+        str += '<div class="thumbnail2 onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '"/></div>'; 
+    str += '</div>';
+    if(!cms.oneTwoSwitcher){
+        str += '<div class="thumbnail2 onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '"/></div>';
+    }
+    
+    cms.oneTwoSwitcher = !cms.oneTwoSwitcher;
+    return str;
 };
 
 

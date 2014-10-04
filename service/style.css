@@ -206,6 +206,21 @@ body{
     margin-top: 5px;
 }
 
+.thumbnail2{
+    float: left;
+    margin: 2px;
+    overflow: hidden;
+}
+
+.thumbnail2.portrait img{
+    height: 100%;
+}
+
+.thumbnail2.landscape img{
+    height: 100%;
+}
+
+
 
 #slide{
     position: fixed;

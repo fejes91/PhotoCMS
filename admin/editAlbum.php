@@ -108,6 +108,8 @@ function handleUploadedFile() {
                     move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
 
                     $thumb = new Imagick('../img/' . $hashed_file_name);
+                    $naturalWidth = $thumb->getimagewidth();
+                    $naturalHeight = $thumb->getimageheight();
                     $thumb->thumbnailimage(400, 400, true);
                     $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
                     
@@ -116,7 +118,7 @@ function handleUploadedFile() {
                     } else if (isset($_POST['album'])) {
                         $album = $_POST['album'];
                     }
-                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $thumb->getimagewidth() > $thumb->getimageheight());
+                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $naturalWidth, $naturalHeight);
                     if ($rowCount) {
                         return "Kép feltöltve";
                     } else {
