@@ -214,13 +214,10 @@ body{
     transition-duration: 0.2s;
 }
 
-.thumbnail.portrait img{
+.thumbnail img{
     height: 100%;
 }
 
-.thumbnail.landscape img{
-    height: 100%;
-}
 
 
 

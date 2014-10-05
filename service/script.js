@@ -278,45 +278,61 @@ populatePhotos2 = function() {
 
     cms.oneTwoSwitcher = true;
     cms.thumbnailsWidth = 350;
-    $("#thumbnails").width(cms.thumbnailsWidth + 20); //margins
+    $("#thumbnails").width(cms.thumbnailsWidth + 10); //margins
     //$(".thumbnail").hide();
 
     var thumbnailsStr = "";
     for (var albumKey in cms.albums) {
         var album = cms.albums[albumKey];
-
+        console.log("album: " + album.name);
         if (album.photos.length > 0) {
             numberOfPhotos += album.photos.length;
             var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
             $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
 
             thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
-             landscapes = [];
-             portraits = [];
+            var landscapes = [];
+            var portraits = [];
             var nextLandscape = 0;
             var nextPortrait = 0;
             for (var photoKey in album.photos) {
                 var photo = album.photos[photoKey];
                 parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight) ? landscapes.push(photo) : portraits.push(photo);
             }
-            
             while (portraits.length - nextPortrait > 0 || landscapes.length - nextLandscape > 0) {
-                if(portraits.length - nextPortrait >= 3 && (landscapes.length === 0 || (landscapes.length - nextLandscape) * 2 > portraits.length - nextPortrait)) {
-                    thumbnailsStr += generateEqual(album.id, [portraits[nextPortrait++], portraits[nextPortrait++], portraits[nextPortrait++]]);
-                }
-                else if (portraits.length - nextPortrait > 0) {
-                    if (landscapes.length - nextLandscape >= 2) { //TODO ezek legyenek előnyben!
+                if (portraits.length - nextPortrait > 0) { 
+                    if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 1) {
                         thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
+                        if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
+                            thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
+                        }
+                    }
+                    else if((landscapes.length - nextLandscape === 1 || portraits.length - nextPortrait === 1) &&
+                        landscapes.length - nextLandscape > 0 && portraits.length - nextPortrait > 0){
+                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], portraits[nextPortrait++]]);
                     }
                     else {
-                        thumbnailsStr += generateEqual(album.id, [portraits[nextPortrait++], portraits[nextPortrait++]]);
+                        if(portraits.length - nextPortrait === 1){
+                            thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++]]);
+                        }
+                        else if((portraits.length - nextPortrait) % 3 === 0){
+                            thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++], portraits[nextPortrait++]]);
+                        }
+                        else{
+                            thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++]]);  
+                        }
                     }
                 }
-                else if((landscapes.length - nextLandscape) % 2 === 0){
-                    thumbnailsStr += generateEqual(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
-                }
-                else{
-                    thumbnailsStr += generateEqual(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++], landscapes[nextLandscape++]]);
+                else if(landscapes.length - nextLandscape > 0){
+                    if(landscapes.length - nextLandscape === 1){
+                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++]]);
+                    }
+                    else if((landscapes.length - nextLandscape) % 2 === 0){
+                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
+                    }
+                    else{
+                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++], landscapes[nextLandscape++]]);
+                    }
                 }
             }
             thumbnailsStr += "</div>";
@@ -352,8 +368,25 @@ populatePhotos2 = function() {
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 2);
 };
 
-generateEqual = function(albumId, photoArray) {
-    console.log("generate equal: " + photoArray.length);
+generateRow = function(albumId, photoArray) {
+    console.log("generate row: " + photoArray.length);
+    if(photoArray.length === 1){
+        var photo = photoArray[0];
+        var style;
+        if(parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight)){
+           var width = cms.thumbnailsWidth * 0.6;
+           var height = photo.naturalHeight * width / photo.naturalWidth;
+           style  = "width: " + width + "px; height: " + height + "px;";
+        }
+        else{
+           var width = cms.thumbnailsWidth * 0.4;
+           var height = photo.naturalHeight * width / photo.naturalWidth;
+           style  = "width: " + width + "px; height: " + height + "px;";
+        }
+        
+        return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
+    }
+    
     var HEIGHT = photoArray[0].naturalHeight;
 
     var widths = [];
