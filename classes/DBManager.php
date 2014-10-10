@@ -85,13 +85,27 @@ class DbManager {
         }
         return $array;
     }
+    public function getHighestHeightInAlbum($id){
+        $sql = "SELECT max(weight) FROM photos WHERE album_id = :id group by album_id";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "id" => $id)
+        );
+
+        $row = $stmt->fetch();
+
+        return $row[0] ? $row[0] : 0;
+    }
 
     public function insertPhoto($hfn, $album, $caption, $width, $height) {
         if (strcmp($album, "-1") == 0) {
             return false;
         }
-
-        $sql = "INSERT INTO photos (photo_url, album_id, caption, width, height) VALUES (:hashed_file_name, :album, :caption, :width, :height)";
+        
+        $newHeight = DbManager::Instance()->getHighestHeightInAlbum($album) + 1;
+        
+        $sql = "INSERT INTO photos (photo_url, album_id, caption, width, height, weight) VALUES (:hashed_file_name, :album, :caption, :width, :height, :weight)";
 
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
@@ -99,13 +113,20 @@ class DbManager {
             "album" => $album,
             "caption" => $caption,
             "width" => $width,
-            "height" => $height)
+            "height" => $height,
+            "weight" => $newHeight)
         );
 
         return $stmt->rowCount();
     }
+    
+    
 
     public function insertAlbum($name, $caption, $public) {
+        if(strcmp($name, "") == 0){
+            return 0;
+        }
+        
         $sql = "INSERT INTO albums (name, caption, public) VALUES (:album_name, :caption, :public)";
 
         $stmt = $this->con->prepare($sql);
@@ -190,6 +211,19 @@ class DbManager {
             "album" => $photo->album,
             "id" => $photo->id,
             "public" => $photo->isPublic)
+        );
+        return $stmt->rowCount();
+    }
+    
+    public function updatePhoto2($id, $caption, $weight) {
+        error_log("DB Manager update photo: " . $caption . ", " . $weight);
+        $sql = "UPDATE photos SET caption = :caption, weight = :weight WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "caption" => $caption,
+            "weight" => $weight,
+            "id" => $id
+            )
         );
         return $stmt->rowCount();
     }

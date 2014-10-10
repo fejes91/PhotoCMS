@@ -5,5 +5,20 @@ $(document).ready(function() {
             e.preventDefault();
         }
     });
+    
+    
+    
+    $(".selectAll").click(function(e){
+        e.preventDefault();
+        console.log("asd");
+        $(this).parents("form").find('input[type="checkbox"]').prop("checked", true);
+    });
+    
+    $(".selectNone").click(function(e){
+        e.preventDefault();
+        $(this).parents("form").find('input[type="checkbox"]').prop("checked", false);
+    });
 });
+
+
 

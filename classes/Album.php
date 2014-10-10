@@ -38,14 +38,29 @@ class Album {
     }
 
     public function showPicturesEditor() {
-        $str = '<div class="album">';
-        $str .= "<h2>Photos of " . $this->show() . "</h2>";
-        
         $photos = $this->getPhotos();
-        foreach ($photos as $photo) {
-            $str = $str . $photo->showEditor();
+        $str = '';
+        if(count($photos) > 0){
+            $str .= '<form method="POST" class="photoEditor">';
+            $str .= '<div class="album" albumId="' . $this->id . '">';
+            $str .= "<h2>Photos of " . $this->show() . "</h2>";
+            $str .= '<button class="selectAll">Mind</button>';
+            $str .= '<button class="selectNone">Egyik sem</button><br>';
+
+
+            foreach ($photos as $photo) {
+                $str = $str . $photo->showEditor();
+            }
+
+            $str .= '</div>';
+
+            $str .= '<br>A kijelöltek legyenek: <select name="albumAction">';
+                $str .= '<option value="public">publikusak</option>';
+                $str .= '<option value="private">privátak</option>';
+                $str .= '<option value="delete">törölve</option>';
+            $str .= '</select>';
+            $str .= '<br><input type="submit" ></form>';   
         }
-        $str .= '</div>';
         return $str;
     }
 

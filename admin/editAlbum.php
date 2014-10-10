@@ -28,31 +28,34 @@ if (isset($_SESSION["rowCount"])) {
     <input type="submit" name="submit" value="Upload">
 </form>
 
-<? if (isset($_GET['album'])) { 
+<?
+if (isset($_GET['album'])) {
     $album = DbManager::Instance()->getAlbum($_GET['album']);
     ?>
     <hr>
     <form method="post"
           enctype="multipart/form-data">
         <label for="name">Album name:</label>
-        <input type="text" name="name" id="name" value="<?echo $album->name?>">
+        <input type="text" name="name" id="name" value="<? echo $album->name ?>">
         <label for="caption">Caption:</label>
-        <textarea name="caption"><?echo $album->caption?></textarea>
+        <textarea name="caption"><? echo $album->caption ?></textarea>
         <br>
         <label for="public">Public:</label>
-        <input type="checkbox" name="public" <? if($album->isPublic){echo "checked";} ?>>
+        <input type="checkbox" name="public" <? if ($album->isPublic) {
+        echo "checked";
+    } ?>>
         <br>
         <input type="submit" name="save" value="Save">
         <input type="submit" name="delete" class="confirm" confirmText="Biztos törlöd ezt az albumot?" value="Delete">
     </form>
-<? } ?>
+    <? } ?>
 
 <div id="upload-result">
     <?
     echo handleUploadedFile() . "<br>";
-    
+
     if ($_POST) {
-        $rowCount;
+        $rowCount = 0;
         if (isset($_POST['delete'])) {
             $rowCount = DbManager::Instance()->deleteAlbum($_GET['album']);
             if ($rowCount) {
@@ -60,14 +63,35 @@ if (isset($_SESSION["rowCount"])) {
                 header("Location: ?page=albumList");
                 exit();
             }
-        }
-        else if (isset($_POST['save'])) {
+        } else if (isset($_POST['save'])) {
             $album = new Album(array(
                 "id" => $_GET['album'],
                 "name" => $_POST['name'],
                 "caption" => $_POST['caption'],
                 "public" => !empty($_POST['public']) ? 1 : 0));
             $rowCount = DbManager::Instance()->updateAlbum($album);
+        } else if (isset($_POST['albumAction'])) {
+            error_log("Edit album's photos...");
+            $photos = array();
+            foreach ($_POST as $key => $val) {
+                if (strcmp($key, 'albumAction') !== 0) {
+                    $keys = explode("-", $key);
+                    if ($keys[0] && $keys[1]) {
+                        if(!$photos[$keys[0]]){
+                            $photos[$keys[0]] = array();
+                        }
+                        $photos[$keys[0]][$keys[1]] = $val;
+                    }
+                }
+            }
+            error_log("request parsed: " . count($photos));
+
+            foreach ($photos as $id => $photo) {
+                error_log("update photo: " . $photo['caption'] . " " . $photo['weight']);
+                if ($photo['caption'] && $photo['weight']) {
+                    $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption'], $photo['weight']);
+                }
+            }
         }
         $_SESSION["rowCount"] = $rowCount;
         header("Location: " . $_SERVER['REQUEST_URI']);
@@ -79,7 +103,6 @@ if (isset($_SESSION["rowCount"])) {
 <div id="photo-container">
     <?
     if (isset($_GET['album'])) {
-        
         echo $album->showPicturesEditor();
     } else {
         $albums = DbManager::Instance()->getAlbums();
@@ -112,7 +135,7 @@ function handleUploadedFile() {
                     $naturalHeight = $thumb->getimageheight();
                     $thumb->thumbnailimage(400, 400, true);
                     $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
-                    
+
                     if (isset($_GET['album'])) {
                         $album = $_GET['album'];
                     } else if (isset($_POST['album'])) {
