@@ -61,7 +61,7 @@ class DbManager {
     }
 
     public function getAlbums() {
-        $sql = "SELECT * FROM albums";
+        $sql = "SELECT * FROM albums order by weight";
         $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
@@ -74,7 +74,7 @@ class DbManager {
     }
     
     public function getPublicAlbums() {
-        $sql = "SELECT * FROM albums WHERE public = 1";
+        $sql = "SELECT * FROM albums WHERE public = 1 order by weight";
         $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
@@ -85,27 +85,13 @@ class DbManager {
         }
         return $array;
     }
-    public function getHighestHeightInAlbum($id){
-        $sql = "SELECT max(weight) FROM photos WHERE album_id = :id group by album_id";
-
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "id" => $id)
-        );
-
-        $row = $stmt->fetch();
-
-        return $row[0] ? $row[0] : 0;
-    }
 
     public function insertPhoto($hfn, $album, $caption, $width, $height) {
         if (strcmp($album, "-1") == 0) {
             return false;
         }
         
-        $newHeight = DbManager::Instance()->getHighestHeightInAlbum($album) + 1;
-        
-        $sql = "INSERT INTO photos (photo_url, album_id, caption, width, height, weight) VALUES (:hashed_file_name, :album, :caption, :width, :height, :weight)";
+        $sql = "INSERT INTO photos (photo_url, album_id, caption, width, height) VALUES (:hashed_file_name, :album, :caption, :width, :height)";
 
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
@@ -113,8 +99,7 @@ class DbManager {
             "album" => $album,
             "caption" => $caption,
             "width" => $width,
-            "height" => $height,
-            "weight" => $newHeight)
+            "height" => $height)
         );
 
         return $stmt->rowCount();
@@ -153,6 +138,10 @@ class DbManager {
         );
 
         return $stmt->rowCount();
+    }
+    
+    public function moveAlbumUp($id){
+        $albums;
     }
 
     public function updateAlbum($album) {
@@ -215,13 +204,11 @@ class DbManager {
         return $stmt->rowCount();
     }
     
-    public function updatePhoto2($id, $caption, $weight) {
-        error_log("DB Manager update photo: " . $caption . ", " . $weight);
-        $sql = "UPDATE photos SET caption = :caption, weight = :weight WHERE id = :id";
+    public function updatePhoto2($id, $caption) {
+        $sql = "UPDATE photos SET caption = :caption WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "caption" => $caption,
-            "weight" => $weight,
             "id" => $id
             )
         );

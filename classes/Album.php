@@ -6,6 +6,7 @@ class Album {
     public $name;
     public $caption;
     public $isPublic;
+    public $weight;
     private $photos = array();
 
     public function __construct($row) {
@@ -13,13 +14,21 @@ class Album {
         $this->name = $row['name'];
         $this->caption = $row['caption'];
         $this->isPublic = $row['public'];
+        $this->weight = $row['weight'];
     }
 
     public function show() {
         $str = '<a href="?album=' . $this->id . '">' . $this->name . '</a>';
+         
+        $str .= '<button type="submit" name="delete-' . $this->id .  '" class="right btn deleteAlbum confirm" confirmText="Biztos törlöd ezt az albumot?" >Delete</button>';
+        
+        $str .= '<button type="submit" name="moveUp-' . $this->id .  '" class="right btn moveUp">Move up</button>';
+        $str .= '<button type="submit" name="moveDown-' . $this->id .  '" class="right btn moveUp">Move down</button>';
+                
         if(!$this->isPublic){
             $str = $str . '<div class="right error"> (Private)</div>';
         }
+        
         return $str;
     }
 

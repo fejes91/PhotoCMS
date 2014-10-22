@@ -85,6 +85,10 @@ textarea{
     display: inline-block;
 }
 
+.album button{
+    margin: 0px 5px;
+}
+
 ul{
     list-style-type: none;
     width: 800px;

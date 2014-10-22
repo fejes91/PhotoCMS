@@ -9,7 +9,6 @@ class Photo {
     public $isPublic;
     public $naturalWidth;
     public $naturalHeight;
-    public $weight;
 
     public function __construct($row) {
         $this->id = $row['id'];
@@ -19,7 +18,6 @@ class Photo {
         $this->isPublic = $row['public'];
         $this->naturalWidth = $row['width'];
         $this->naturalHeight = $row['height'];
-        $this->weight = $row['weight'];
     }
 
     public function show() {
@@ -36,10 +34,6 @@ class Photo {
                 }
                 $str .= "ID: " . $this->id;
                 $str .= '<br><input type="text" value="' . $caption . '" name="' . $this->id . '-caption">';
-                $str .= '<input type="text" style="display: none;" value="' . $this->weight . '" name="' . $this->id . '-weight">';
-                
-                $str .= '<br><a href="#" class="moveDown" style="float: right; margin-left: 10px;"> -></a>';
-                $str .= '<a href="#" class="moveUp" style="float: right;"><- </a>';
                 
                 $str .= '<br><a href="?photo=' . $this->id . '">Edit</a>';
                 $str .= '<input style="float: right;" type="checkbox" name="' . $this->id . '-checked value="' . $this->id . '">';

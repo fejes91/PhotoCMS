@@ -20,6 +20,29 @@
                 if ($success) {
                     echo "Album created!";
                 }
+            } 
+            else {
+                foreach ($_POST as $key => $val) {
+                    $keys = explode("-", $key);
+                    if ($keys[0] && $keys[1]) {
+                        if(strcmp($keys[0], "moveUp") == 0){
+                            
+                        }
+                        else if(strcmp($keys[0], "moveDown") == 0){
+                            
+                        }
+                        else if(strcmp($keys[0], "delete") == 0){
+                            DbManager::Instance()->deleteAlbum($keys[1]);
+                        }
+                    }
+                }
+                error_log("request parsed: " . count($photos));
+
+                foreach ($photos as $id => $photo) {
+                    if ($photo['caption']) {
+                        $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption']);
+                    }
+                }
             }
 
             // Redirect to this page.
@@ -29,11 +52,13 @@
 
 
         $albums = DbManager::Instance()->getAlbums();
+        echo '<form method="POST">';
         foreach ($albums as $album) {
             echo '<li class="album">';
             echo $album->show();
             echo '</li>';
         }
+        echo '</form>';
         ?>
     </ul>
 </div>

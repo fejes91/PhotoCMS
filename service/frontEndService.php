@@ -30,7 +30,8 @@ function getAlbum($id) {
             $obj = array(
                 "id" => $album->id,
                 "name" => $album->name,
-                "photos" => $album->getPublicPhotos()
+                "photos" => $album->getPublicPhotos(),
+                "weight" => $album->weight
             );
             array_push($responseArray, $obj);
         }

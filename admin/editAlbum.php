@@ -70,7 +70,8 @@ if (isset($_GET['album'])) {
                 "caption" => $_POST['caption'],
                 "public" => !empty($_POST['public']) ? 1 : 0));
             $rowCount = DbManager::Instance()->updateAlbum($album);
-        } else if (isset($_POST['albumAction'])) {
+        } 
+        else if (isset($_POST['albumAction'])) {
             error_log("Edit album's photos...");
             $photos = array();
             foreach ($_POST as $key => $val) {
@@ -87,9 +88,8 @@ if (isset($_GET['album'])) {
             error_log("request parsed: " . count($photos));
 
             foreach ($photos as $id => $photo) {
-                error_log("update photo: " . $photo['caption'] . " " . $photo['weight']);
-                if ($photo['caption'] && $photo['weight']) {
-                    $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption'], $photo['weight']);
+                if ($photo['caption']) {
+                    $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption']);
                 }
             }
         }
