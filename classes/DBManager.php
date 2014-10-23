@@ -111,13 +111,21 @@ class DbManager {
         if(strcmp($name, "") == 0){
             return 0;
         }
+        $sql = "SELECT max(weight) maxWeight FROM albums";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        if($row = $stmt->fetch()) {
+            $maxWeight = $row['maxWeight'];
+        }
         
-        $sql = "INSERT INTO albums (name, caption, public) VALUES (:album_name, :caption, :public)";
+        $sql = "INSERT INTO albums (name, caption, public, weight) VALUES (:album_name, :caption, :public, :weight)";
 
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "album_name" => $name,
             "caption" => $caption,
+            "weight" => intval($maxWeight) + 1,
             "public" => !empty($public) ? 1 : 0)
         );
 
@@ -136,22 +144,58 @@ class DbManager {
         $stmt->execute(array(
             "id" => $id)
         );
+        
+        DbManager::Instance()->normalizeWeights();
 
         return $stmt->rowCount();
     }
     
-    public function moveAlbumUp($id){
-        $albums;
+    public function normalizeWeights(){
+        $albums = DbManager::Instance()->getAlbums();
+        error_log("Moving " . $direction . " album " . $id . ". Albums: " . count($albums));
+        for($i = 0; $i < count($albums); ++$i){
+            $album = $albums[$i];
+            $album->weight = $i + 1;
+            DbManager::Instance()->updateAlbum($album);
+        }
+    }
+    
+    public function moveAlbum($direction, $id){
+        $albums = DbManager::Instance()->getAlbums();
+        error_log("Moving " . $direction . " album " . $id . ". Albums: " . count($albums));
+        for($i = 0; $i < count($albums); ++$i){
+            $album = $albums[$i];
+            error_log("checking album " . $album->id . ", weight: " . $album->weight);
+            if(strcmp($album->id, $id) == 0){
+                error_log("Album found. Weight: " . $album->weight);
+                if(strcmp($direction, "up") == 0 && $album->weight > 1){
+                    $albums[$i-1]->weight = $album->weight;
+                    $album->weight = intval($album->weight) - 1;
+                    
+                    DbManager::Instance()->updateAlbum($albums[$i-1]);
+                }
+                else if(strcmp($direction, "down") == 0 && $album->weight < count($albums)){
+                    $albums[$i+1]->weight = $album->weight;
+                    error_log("i + 1 weight: " . $albums[$i+1]->weight);
+                    $album->weight = intval($album->weight) + 1;
+                    error_log("i weight: " . $album->weight);
+                    
+                    DbManager::Instance()->updateAlbum($albums[$i+1]);
+                }
+                DbManager::Instance()->updateAlbum($album);
+            }
+        }
     }
 
     public function updateAlbum($album) {
-        error_log("DB Manager saves album...");
-        $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption WHERE id = :id";
+        error_log("DB Manager saves album " . $album->id);
+        $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption, weight = :weight WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "name" => $album->name,
             "public" => $album->isPublic,
             "caption" => $album->caption,
+            "weight" => $album->weight,
             "id" => $album->id)
         );
         error_log("DB Manager updated " . $stmt->rowCount() . " rows");

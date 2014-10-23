@@ -1,57 +1,34 @@
-
-[10-Oct-2014 14:32:52 Europe/Budapest] DB Manager saves album...
-[10-Oct-2014 14:32:52 Europe/Budapest] DB Manager updated 1 rows
-[10-Oct-2014 14:33:52 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:35:20 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:35:20 Europe/Budapest] request parsed: Array
-[10-Oct-2014 14:36:07 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:36:07 Europe/Budapest] request parsed: 6
-[10-Oct-2014 14:37:20 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:37:20 Europe/Budapest] request parsed: 6
-[10-Oct-2014 14:38:28 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:38:28 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:38:40 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:38:40 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:38:45 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:38:45 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:40:01 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:40:01 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:40:01 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:40:01 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:40:01 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:40:01 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:40:01 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:41:23 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:41:23 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:41:23 Europe/Budapest] update photo: levél 1
-[10-Oct-2014 14:41:23 Europe/Budapest] DB Manager update photo: levél, 1
-[10-Oct-2014 14:41:23 Europe/Budapest] PHP Warning:  PDOStatement::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /home/fejesada/domains/fejesadamfoto.hu/public_html/v3/classes/DBManager.php on line 225
-[10-Oct-2014 14:41:23 Europe/Budapest] update photo: fa 1
-[10-Oct-2014 14:41:23 Europe/Budapest] DB Manager update photo: fa, 1
-[10-Oct-2014 14:41:23 Europe/Budapest] PHP Warning:  PDOStatement::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /home/fejesada/domains/fejesadamfoto.hu/public_html/v3/classes/DBManager.php on line 225
-[10-Oct-2014 14:41:23 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:41:23 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:41:23 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:43:45 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:43:45 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:43:45 Europe/Budapest] update photo: levél 1
-[10-Oct-2014 14:43:45 Europe/Budapest] DB Manager update photo: levél, 1
-[10-Oct-2014 14:43:45 Europe/Budapest] update photo: fa 1
-[10-Oct-2014 14:43:45 Europe/Budapest] DB Manager update photo: fa, 1
-[10-Oct-2014 14:43:45 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:43:45 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:43:45 Europe/Budapest] update photo:  1
-[10-Oct-2014 14:44:17 Europe/Budapest] Edit album's photos...
-[10-Oct-2014 14:44:17 Europe/Budapest] request parsed: 5
-[10-Oct-2014 14:44:17 Europe/Budapest] update photo: levél 1
-[10-Oct-2014 14:44:17 Europe/Budapest] DB Manager update photo: levél, 1
-[10-Oct-2014 14:44:17 Europe/Budapest] update photo: fa 1
-[10-Oct-2014 14:44:17 Europe/Budapest] DB Manager update photo: fa, 1
-[10-Oct-2014 14:44:17 Europe/Budapest] update photo: ajtó 1
-[10-Oct-2014 14:44:17 Europe/Budapest] DB Manager update photo: ajtó, 1
-[10-Oct-2014 14:44:17 Europe/Budapest] update photo: fenyő 1
-[10-Oct-2014 14:44:17 Europe/Budapest] DB Manager update photo: fenyő, 1
-[10-Oct-2014 14:44:17 Europe/Budapest] update photo: müpa 1
-[10-Oct-2014 14:44:17 Europe/Budapest] DB Manager update photo: müpa, 1
-[10-Oct-2014 14:49:12 Europe/Budapest] PHP Fatal error:  Call to undefined function getHighestHeightInAlbum() in /home/fejesada/domains/fejesadamfoto.hu/public_html/v3/classes/DBManager.php on line 94
-[10-Oct-2014 14:50:05 Europe/Budapest] PHP Fatal error:  Call to undefined function getHighestHeightInAlbum() in /home/fejesada/domains/fejesadamfoto.hu/public_html/v3/classes/DBManager.php on line 106
+[23-Oct-2014 10:11:45 Europe/Budapest] Moving down album 27. Albums: 2
+[23-Oct-2014 10:11:45 Europe/Budapest] checking album 27, weight: 1
+[23-Oct-2014 10:11:45 Europe/Budapest] Album found. Weight: 1
+[23-Oct-2014 10:11:45 Europe/Budapest] i + 1 weight: 1
+[23-Oct-2014 10:11:45 Europe/Budapest] i weight: 2
+[23-Oct-2014 10:11:45 Europe/Budapest] DB Manager saves album 28
+[23-Oct-2014 10:11:45 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:11:45 Europe/Budapest] DB Manager saves album 27
+[23-Oct-2014 10:11:45 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:11:45 Europe/Budapest] checking album 28, weight: 1
+[23-Oct-2014 10:12:09 Europe/Budapest] Moving down album 28. Albums: 2
+[23-Oct-2014 10:12:09 Europe/Budapest] checking album 28, weight: 1
+[23-Oct-2014 10:12:09 Europe/Budapest] Album found. Weight: 1
+[23-Oct-2014 10:12:09 Europe/Budapest] i + 1 weight: 1
+[23-Oct-2014 10:12:09 Europe/Budapest] i weight: 2
+[23-Oct-2014 10:12:09 Europe/Budapest] DB Manager saves album 27
+[23-Oct-2014 10:12:09 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:12:09 Europe/Budapest] DB Manager saves album 28
+[23-Oct-2014 10:12:09 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:12:09 Europe/Budapest] checking album 27, weight: 1
+[23-Oct-2014 10:12:18 Europe/Budapest] Moving up album 28. Albums: 2
+[23-Oct-2014 10:12:18 Europe/Budapest] checking album 27, weight: 1
+[23-Oct-2014 10:12:18 Europe/Budapest] checking album 28, weight: 2
+[23-Oct-2014 10:12:18 Europe/Budapest] Album found. Weight: 2
+[23-Oct-2014 10:12:18 Europe/Budapest] DB Manager saves album 27
+[23-Oct-2014 10:12:18 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:12:18 Europe/Budapest] DB Manager saves album 28
+[23-Oct-2014 10:12:18 Europe/Budapest] DB Manager updated 1 rows
+[23-Oct-2014 10:12:23 Europe/Budapest] Moving up album 28. Albums: 2
+[23-Oct-2014 10:12:23 Europe/Budapest] checking album 28, weight: 1
+[23-Oct-2014 10:12:23 Europe/Budapest] Album found. Weight: 1
+[23-Oct-2014 10:12:23 Europe/Budapest] DB Manager saves album 28
+[23-Oct-2014 10:12:23 Europe/Budapest] DB Manager updated 0 rows
+[23-Oct-2014 10:12:23 Europe/Budapest] checking album 27, weight: 2

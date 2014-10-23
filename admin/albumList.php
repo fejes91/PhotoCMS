@@ -26,21 +26,14 @@
                     $keys = explode("-", $key);
                     if ($keys[0] && $keys[1]) {
                         if(strcmp($keys[0], "moveUp") == 0){
-                            
+                            DbManager::Instance()->moveAlbum("up", $keys[1]);
                         }
                         else if(strcmp($keys[0], "moveDown") == 0){
-                            
+                            DbManager::Instance()->moveAlbum("down", $keys[1]);
                         }
                         else if(strcmp($keys[0], "delete") == 0){
                             DbManager::Instance()->deleteAlbum($keys[1]);
                         }
-                    }
-                }
-                error_log("request parsed: " . count($photos));
-
-                foreach ($photos as $id => $photo) {
-                    if ($photo['caption']) {
-                        $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption']);
                     }
                 }
             }
