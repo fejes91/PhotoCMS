@@ -40,17 +40,22 @@ include "frontEndService.php";
         <div id="contentPanel">
             <div id="thumbnails">
                 <div id="slideContainer">
-                    <div id="nextSlide" class="slideNavigation "><span class="icon"></span></div>
-                    <div id="prevSlide" class="slideNavigation"><span class="icon"></span></div>
-                    <div id="slideInfo">
+                    <div id="slideWrapper">
+                        <div id="slide"></div>
+                        <div id="slideInfo">
                         <div id="infoContainer"> <!--sima animáció-->
                             <div class="icon"></div>
                             <div id="albumInfo" class="info "></div>
                             <div id="photoInfo" class="info"></div>
                         </div>
                     </div>
+                    </div>
                     
-                    <div id="slide"></div>
+                    <div id="nextSlide" class="slideNavigation "><span class="icon"></span></div>
+                    <div id="prevSlide" class="slideNavigation"><span class="icon"></span></div>
+                    
+                    
+                    
                 </div>
             </div>    
             <div id="me">

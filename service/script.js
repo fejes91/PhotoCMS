@@ -58,7 +58,7 @@ checkKeycode = function(e) {
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
-        alignSlide();
+        //alignSlide();
     }
     else if (cms.VIEW === cms.ME_VIEW) {
         //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
@@ -388,7 +388,7 @@ populatePhotos2 = function() {
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
             cms.$thumbnails = $(".thumbnail");
-            $("#contentPanel .thumbnail img").click(function() {
+            $("#contentPanel .thumbnail").click(function() {
                 showSlide($(this));
             });
             for (var albumkey in cms.albums) {
@@ -521,6 +521,7 @@ showSlide = function($thumbnail) {
     $(".thumbnail").removeClass("shown");
     $thumbnail.addClass("shown");
     var $img = $thumbnail.find("img");
+    
     var url = $img.attr('src').replace("thumbnails/", "");
     $("#slide").fadeOut(100, function() {
         $(this).html('<img src="' + url + '">');
@@ -535,15 +536,14 @@ showSlide = function($thumbnail) {
 };
 
 alignSlide = function() {
-    $("#slide").css("maxHeight", window.innerHeight - parseInt($("#menuPanel").height()) - 50).css("maxWidth", parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 50);
+    $("#slideContainer")
+            .width(parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 50)
+            .height(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
+    $("#slide").css("maxHeight", window.innerHeight - parseInt($("#menuPanel").height()) - 50).css("maxWidth", parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 150);
     $("#slide").show();
     
-    //Hacking to hell the fuckin css transition...
-    $("#slideInfo").addClass("notransition");
-    $("#slideInfo").css({bottom: -1 * (parseInt($("#albumInfo").outerHeight()) + parseInt($("#photoInfo").outerHeight()))})
-    $("#slideInfo")[0].offsetHeight;
-    $("#slideInfo").removeClass("notransition");
     
+    $("#slideInfo .icon").css("marginTop", $("#slide img").height() * 0.3);
     $("#slideInfo #infoContainer")
             .bind('mousemove', function() {
         $("#slideInfo").addClass("active");
@@ -562,7 +562,22 @@ alignSlide = function() {
         $(".icon, #slideInfo").removeClass("visible");
         clearTimeout(timer);
     });
-    $("#slideContainer").css("top", (window.innerHeight - parseInt($("#slide img").height()) + parseInt($("#menuPanel").height())) / 2).
-            css("right", (parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - parseInt($("#slide img").width())) / 2);
+    
+    $("#slideContainer")
+            .css("top", (window.innerHeight - parseInt($("#slideContainer").height()) + parseInt($("#menuPanel").height())) / 2)
+            .css("right", (parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - parseInt($("#slideContainer").width())) / 2);
+    $("#slideWrapper")
+            .css("top", (parseInt($("#slideContainer").height()) - parseInt($("#slide img").height())) / 2)
+            ;//.css("left", (parseInt($("#slideContainer").width()) - parseInt($("#slide img").width())) / 2);
+            
+    //Hacking to hell the fuckin css transition...
+    $("#slideInfo").addClass("notransition");
+    $("#slideInfo")
+            .css({width: $("#slide img").css("width")})
+            .css({bottom: -1 * (parseInt($("#albumInfo").outerHeight()) + parseInt($("#photoInfo").outerHeight()))})
+            .offset({left: $("#slide img").offset().left});
+    $("#slideInfo")[0].offsetHeight;
+    $("#slideInfo").removeClass("notransition");
+            
 };
 
