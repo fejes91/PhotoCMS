@@ -12,6 +12,8 @@ cms.VIEW_LOCK;
 cms.resizeTimer;
 
 $(document).ready(function() {
+    document.onkeydown = checkKeycode;
+
     initPortfolio2();
     $("#menuPanel #portfolio").click(function() {
         showPortfolio();
@@ -26,6 +28,32 @@ $(document).ready(function() {
 $(window).resize(function() {
     adjustSizes();
 });
+
+checkKeycode = function(e) {
+    //Kódok:
+    //Balra:37
+    //Jobbra:39
+    //Fel:38
+    //Le:40
+    var keycode;
+    if (window.event)
+        keycode = window.event.keyCode;
+    else if (e)
+        keycode = e.which;
+
+    if (keycode === 37) {
+        showPrevSlide();
+    }
+    else if (keycode === 39) {
+        showNextSlide();
+    }
+    else if (keycode === 38) {
+        setPrevAlbum();
+    }
+    else if (keycode === 40) {
+        setNextAlbum();
+    }
+};
 
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
@@ -167,8 +195,8 @@ setActiveAlbum = function(albumId, needScroll) {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
             //$("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
-            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first img"));
-            //showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first img"));
+            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first"));
+            //showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first"));
 
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
@@ -258,7 +286,7 @@ populatePhotos = function() {
         numberOfLoadedPhotos++;
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
-            $("#contentPanel .thumbnail img").click(function() {
+            $("#contentPanel .thumbnail").click(function() {
                 showSlide($(this));
             });
             for (var albumkey in cms.albums) {
@@ -278,6 +306,7 @@ populatePhotos2 = function() {
 
     cms.oneTwoSwitcher = true;
     cms.thumbnailsWidth = 350;
+    cms.$thumbnails;
     $("#thumbnails").width(cms.thumbnailsWidth + 10); //margins
     //$(".thumbnail").hide();
 
@@ -290,7 +319,7 @@ populatePhotos2 = function() {
             var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
             $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
 
-            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
+            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '" caption="' + album.caption + '">';
             var landscapes = [];
             var portraits = [];
             var nextLandscape = 0;
@@ -300,37 +329,37 @@ populatePhotos2 = function() {
                 parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight) ? landscapes.push(photo) : portraits.push(photo);
             }
             while (portraits.length - nextPortrait > 0 || landscapes.length - nextLandscape > 0) {
-                if (portraits.length - nextPortrait > 0) { 
+                if (portraits.length - nextPortrait > 0) {
                     if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 1) {
                         thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
                         if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
                             thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                         }
                     }
-                    else if((landscapes.length - nextLandscape === 1 || portraits.length - nextPortrait === 1) &&
-                        landscapes.length - nextLandscape > 0 && portraits.length - nextPortrait > 0){
+                    else if ((landscapes.length - nextLandscape === 1 || portraits.length - nextPortrait === 1) &&
+                            landscapes.length - nextLandscape > 0 && portraits.length - nextPortrait > 0) {
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], portraits[nextPortrait++]]);
                     }
                     else {
-                        if(portraits.length - nextPortrait === 1){
+                        if (portraits.length - nextPortrait === 1) {
                             thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++]]);
                         }
-                        else if((portraits.length - nextPortrait) % 3 === 0){
+                        else if ((portraits.length - nextPortrait) % 3 === 0) {
                             thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++], portraits[nextPortrait++]]);
                         }
-                        else{
-                            thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++]]);  
+                        else {
+                            thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++]]);
                         }
                     }
                 }
-                else if(landscapes.length - nextLandscape > 0){
-                    if(landscapes.length - nextLandscape === 1){
+                else if (landscapes.length - nextLandscape > 0) {
+                    if (landscapes.length - nextLandscape === 1) {
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++]]);
                     }
-                    else if((landscapes.length - nextLandscape) % 2 === 0){
+                    else if ((landscapes.length - nextLandscape) % 2 === 0) {
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                     }
-                    else{
+                    else {
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                     }
                 }
@@ -339,7 +368,8 @@ populatePhotos2 = function() {
         }
     }
     $("#thumbnails").prepend(thumbnailsStr);
-    $("#contentPanel .thumbnail img").click(function() {
+
+    $("#contentPanel .thumbnail").click(function() {
         showSlide($(this));
     });
 
@@ -357,6 +387,7 @@ populatePhotos2 = function() {
         numberOfLoadedPhotos++;
         //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
         if (numberOfLoadedPhotos === numberOfPhotos) {
+            cms.$thumbnails = $(".thumbnail");
             $("#contentPanel .thumbnail img").click(function() {
                 showSlide($(this));
             });
@@ -365,28 +396,61 @@ populatePhotos2 = function() {
             }
         }
     });
+
+    $("#slideContainer #nextSlide").click(function() {
+        showNextSlide();
+    });
+    $("#slideContainer #prevSlide").click(function() {
+        showPrevSlide();
+    });
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 2);
+};
+
+showNextSlide = function() {
+    var currentId = $('.thumbnail.shown').attr("photo");
+    for (var i = 0; i < cms.$thumbnails.length; ++i) {
+        if (currentId === $(cms.$thumbnails[i]).attr('photo')) {
+            $(cms.$thumbnails[parseInt(i) + 1]).click();
+        }
+    }
+};
+
+showPrevSlide = function() {
+    var currentId = $('.thumbnail.shown').attr("photo");
+    for (var i = 0; i < cms.$thumbnails.length; ++i) {
+        if (currentId === $(cms.$thumbnails[i]).attr('photo')) {
+            $(cms.$thumbnails[parseInt(i) - 1]).click();
+        }
+    }
+};
+
+setNextAlbum = function() {
+    setActiveAlbum($(".horizontalSeparator.active").next().attr("albumid"), true);
+};
+
+setPrevAlbum = function() {
+    setActiveAlbum($(".horizontalSeparator.active").prev().attr("albumid"), true);
 };
 
 generateRow = function(albumId, photoArray) {
     console.log("generate row: " + photoArray.length);
-    if(photoArray.length === 1){
+    if (photoArray.length === 1) {
         var photo = photoArray[0];
         var style;
-        if(parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight)){
-           var width = cms.thumbnailsWidth * 0.6;
-           var height = photo.naturalHeight * width / photo.naturalWidth;
-           style  = "width: " + width + "px; height: " + height + "px;";
+        if (parseInt(photo.naturalWidth) > parseInt(photo.naturalHeight)) {
+            var width = cms.thumbnailsWidth * 0.6;
+            var height = photo.naturalHeight * width / photo.naturalWidth;
+            style = "width: " + width + "px; height: " + height + "px;";
         }
-        else{
-           var width = cms.thumbnailsWidth * 0.4;
-           var height = photo.naturalHeight * width / photo.naturalWidth;
-           style  = "width: " + width + "px; height: " + height + "px;";
+        else {
+            var width = cms.thumbnailsWidth * 0.4;
+            var height = photo.naturalHeight * width / photo.naturalWidth;
+            style = "width: " + width + "px; height: " + height + "px;";
         }
-        
+
         return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
     }
-    
+
     var HEIGHT = photoArray[0].naturalHeight;
 
     var widths = [];
@@ -406,7 +470,7 @@ generateRow = function(albumId, photoArray) {
         var photo = photoArray[key];
         if (typeof photo !== "undefined") {
             var style = "width: " + (widths[key] * ratio - (photoArray.length - 2) * 4 / photoArray.length) + "px; height: " + HEIGHT * ratio + "px;";
-            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
+            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '"/></div>';
         }
     }
     return str;
@@ -440,11 +504,11 @@ generateOneTwo = function(albumId, portrait, landscape1, landscape2) {
         str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '"/></div>';
     }
     str += '<div class="landscapeWrapper" style="' + landscapeWrapperStlye + ' float: left;">';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '"/></div>';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '" caption="' + landscape1.caption + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '" caption="' + landscape2.caption + '"/></div>';
     str += '</div>';
     if (!cms.oneTwoSwitcher) {
-        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '"/></div>';
+        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '"/></div>';
     }
 
     cms.oneTwoSwitcher = !cms.oneTwoSwitcher;
@@ -452,12 +516,19 @@ generateOneTwo = function(albumId, portrait, landscape1, landscape2) {
 };
 
 
-showSlide = function($img) {
+showSlide = function($thumbnail) {
+    $(".icon, #slideInfo").removeClass("visible");
+    $(".thumbnail").removeClass("shown");
+    $thumbnail.addClass("shown");
+    var $img = $thumbnail.find("img");
     var url = $img.attr('src').replace("thumbnails/", "");
     $("#slide").fadeOut(100, function() {
         $(this).html('<img src="' + url + '">');
         $("#slide img").load(function() {
+            $("#slideContainer #slideInfo #photoInfo").html($img.attr("caption"));
+            $("#slideContainer #slideInfo #albumInfo").html($img.parent().parent().attr("caption"));
             alignSlide();
+
             $("#slide img").fadeIn(300);
         });
     });
@@ -465,8 +536,33 @@ showSlide = function($img) {
 
 alignSlide = function() {
     $("#slide").css("maxHeight", window.innerHeight - parseInt($("#menuPanel").height()) - 50).css("maxWidth", parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 50);
-    $("#slide").show().
-            css("top", (window.innerHeight - parseInt($("#slide img").height()) + parseInt($("#menuPanel").height())) / 2).
+    $("#slide").show();
+    
+    //Hacking to hell the fuckin css transition...
+    $("#slideInfo").addClass("notransition");
+    $("#slideInfo").css({bottom: -1 * (parseInt($("#albumInfo").outerHeight()) + parseInt($("#photoInfo").outerHeight()))})
+    $("#slideInfo")[0].offsetHeight;
+    $("#slideInfo").removeClass("notransition");
+    
+    $("#slideInfo #infoContainer")
+            .bind('mousemove', function() {
+        $("#slideInfo").addClass("active");
+    })
+            .bind('mouseleave', function() {
+        $("#slideInfo").removeClass("active");
+    });
+    
+    var timer;
+    $("#slideInfo, .slideNavigation")
+            .bind('mouseenter', function() {
+        $(".icon, #slideInfo").addClass("visible");
+        timer = setTimeout(function(){$(".icon, #slideInfo").removeClass("visible");}, 1000);
+    })
+            .bind('mouseleave', function() {
+        $(".icon, #slideInfo").removeClass("visible");
+        clearTimeout(timer);
+    });
+    $("#slideContainer").css("top", (window.innerHeight - parseInt($("#slide img").height()) + parseInt($("#menuPanel").height())) / 2).
             css("right", (parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - parseInt($("#slide img").width())) / 2);
 };
 
