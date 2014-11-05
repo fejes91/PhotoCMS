@@ -52,9 +52,12 @@ if (isset($_GET['album'])) {
 
 <div id="upload-result">
     <?
-    echo handleUploadedFile() . "<br>";
+    
 
     if ($_POST) {
+        error_log("asd: " . $_FILES["file"]["name"]);
+        echo handleUploadedFile() . "<br>";
+        
         $rowCount = 0;
         if (isset($_POST['delete'])) {
             $rowCount = DbManager::Instance()->deleteAlbum($_GET['album']);
@@ -130,6 +133,7 @@ function handleUploadedFile() {
                 } else {
                     move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
 
+                    error_log("asdasd");
                     $thumb = new Imagick('../img/' . $hashed_file_name);
                     $naturalWidth = $thumb->getimagewidth();
                     $naturalHeight = $thumb->getimageheight();
@@ -155,6 +159,77 @@ function handleUploadedFile() {
         }
     }
 }
+
+
+
+
+
+
+/*
+ * 
+ * function handleUploadedFile() {
+    
+    $allowedExts = array("gif", "jpeg", "jpg", "png");
+    $temp = explode(".", $_FILES["file"]["name"]);
+    $extension = end($temp);
+    
+    error_log("file upload with extension: " . $extension);
+
+    if (isset($_FILES["file"])) {
+        if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "image/jpeg") || ($_FILES["file"]["type"] == "image/jpg") || ($_FILES["file"]["type"] == "image/pjpeg") || ($_FILES["file"]["type"] == "image/x-png") || ($_FILES["file"]["type"] == "image/png")) && in_array($extension, $allowedExts)) {
+            if ($_FILES["file"]["error"] > 0) {
+                return "Return Code: " . $_FILES["file"]["error"] . "<br>";
+            } else {
+                $hashed_file_name = hash("ripemd160", $_FILES["file"]["name"] . time()) . "." . $extension;
+                if (file_exists("../img/" . $hashed_file_name)) {
+                    return $hashed_file_name . " already exists. ";
+                } else {
+                    move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
+                    
+                    
+                    if(strcmp($extension, "gif") == 0){
+                        error_log("upload a gif!!!!");
+                        $im = @imagecreatefromgif("../img/" . $hashed_file_name);
+                        $thumb = new Imagick($im);
+                    }
+                    else{
+                        $thumb = new Imagick('../img/' . $hashed_file_name);
+                    }
+                    
+                    $naturalWidth = $thumb->getimagewidth();
+                    $naturalHeight = $thumb->getimageheight();
+                    $thumb->thumbnailimage(400, 400, true);
+                    $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
+                    
+                    
+
+                    if (isset($_GET['album'])) {
+                        $album = $_GET['album'];
+                    } else if (isset($_POST['album'])) {
+                        $album = $_POST['album'];
+                    }
+                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $naturalWidth, $naturalHeight);
+                    if ($rowCount) {
+                        return "Kép feltöltve";
+                    } else {
+                        unlink("../img/" . $hashed_file_name);
+                        return "Kép feltöltése nem sikerült :(";
+                    }
+                }
+            }
+        } else {
+            return "Invalid file";
+        }
+    }
+}
+ * 
+ */
+
+
+
+
+
+
 ?>
 
 </body>

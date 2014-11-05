@@ -189,15 +189,27 @@ class DbManager {
 
     public function updateAlbum($album) {
         error_log("DB Manager saves album " . $album->id);
-        $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption, weight = :weight WHERE id = :id";
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "name" => $album->name,
-            "public" => $album->isPublic,
-            "caption" => $album->caption,
-            "weight" => $album->weight,
-            "id" => $album->id)
-        );
+        if($album->weight == null){
+            $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption WHERE id = :id";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute(array(
+                "name" => $album->name,
+                "public" => $album->isPublic,
+                "caption" => $album->caption,
+                "id" => $album->id)
+            );
+        }
+        else{
+            $sql = "UPDATE albums SET name = :name, public = :public, caption = :caption, weight = :weight WHERE id = :id";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute(array(
+                "name" => $album->name,
+                "public" => $album->isPublic,
+                "caption" => $album->caption,
+                "weight" => $album->weight,
+                "id" => $album->id)
+            );
+        }
         error_log("DB Manager updated " . $stmt->rowCount() . " rows");
         return $stmt->rowCount();
     }
