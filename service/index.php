@@ -14,7 +14,7 @@ include "frontEndService.php";
     </head>
     <body>
         <script>
-            cms.albums = JSON.parse('<? echo getAlbum() ?>');
+            cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
         </script>
         <!--div id="background"></div-->
         <div id="stat"></div>
@@ -45,8 +45,9 @@ include "frontEndService.php";
                         <div id="slideInfo">
                         <div id="infoContainer"> <!--sima animáció-->
                             <div class="icon"></div>
-                            <div id="albumInfo" class="info "></div>
                             <div id="photoInfo" class="info"></div>
+                            <div id="albumInfo" class="info "></div>
+                            
                         </div>
                     </div>
                     </div>

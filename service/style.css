@@ -47,9 +47,10 @@ body{
     z-index: 999;
 }
 
+
 #menuPanel img{
-    height: 30px;
-    margin: 5px 30px;
+    height: 22px;
+    margin: 9px 35px;
     
     opacity: 0.4;
     transition-duration: 0.2s;
@@ -263,6 +264,7 @@ body{
     position: absolute;
     transition-duration: 0.5s;
     z-index: 2;
+    
 }
 
 #slideInfo.active{
@@ -298,6 +300,18 @@ body{
     padding: 10px 0px;
     transition-duration: 0.5s;
 }
+
+#slideInfo hr{
+    margin: 0px;
+    
+}
+
+#slideInfo #photoInfo{
+    font-size: 24px;
+    padding-bottom: 15px;
+}
+
+
 
 #slideInfo:hover .icon{
     opacity: 1;
