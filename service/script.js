@@ -58,7 +58,7 @@ checkKeycode = function(e) {
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
-        //alignSlide();
+        alignSlide();
     }
     else if (cms.VIEW === cms.ME_VIEW) {
         //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
@@ -118,6 +118,7 @@ initPortfolio2 = function() {
 initPortfolio = function() {
     populatePhotos();
     $("#contentPanel").scroll(function() {
+        
         manageThumbnailScroll();
     });
 };
@@ -138,7 +139,8 @@ showPortfolio = function() {
             setActiveAlbum($("#albumPanel li").first().attr("id"), true);
         });
     });
-    adjustSizes();
+    $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
+    //adjustSizes();
 };
 
 showMe = function() {
@@ -221,13 +223,13 @@ manageThumbnailSizes = function() {
             width = 100 * ratio + "%";
         }
         $(this).find("img").stop().animate({
-            width: width,
+            width: width
         }, 300);
     });
 
     $(".thumbnail.active").on('mouseout', function() {
         $(this).find("img").stop().animate({
-            width: "250%",
+            width: "250%"
         }, 300);
     });
 
@@ -448,7 +450,7 @@ generateRow = function(albumId, photoArray) {
             style = "width: " + width + "px; height: " + height + "px;";
         }
 
-        return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
+        return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
     }
 
     var HEIGHT = photoArray[0].naturalHeight;
@@ -470,7 +472,7 @@ generateRow = function(albumId, photoArray) {
         var photo = photoArray[key];
         if (typeof photo !== "undefined") {
             var style = "width: " + (widths[key] * ratio - (photoArray.length - 2) * 4 / photoArray.length) + "px; height: " + HEIGHT * ratio + "px;";
-            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '"/></div>';
+            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
         }
     }
     return str;
@@ -501,14 +503,14 @@ generateOneTwo = function(albumId, portrait, landscape1, landscape2) {
     var str = "";
 
     if (cms.oneTwoSwitcher) {
-        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '"/></div>';
+        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '"  naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
     }
     str += '<div class="landscapeWrapper" style="' + landscapeWrapperStlye + ' float: left;">';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '" caption="' + landscape1.caption + '"/></div>';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '" caption="' + landscape2.caption + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '" caption="' + landscape1.caption + '" naturalWidth="' + landscape1.naturalWidth + '" naturalHeight="' + landscape1.naturalHeight + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '" caption="' + landscape2.caption + '" naturalWidth="' + landscape2.naturalWidth + '" naturalHeight="' + landscape2.naturalHeight + '"/></div>';
     str += '</div>';
     if (!cms.oneTwoSwitcher) {
-        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '"/></div>';
+        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '" naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
     }
 
     cms.oneTwoSwitcher = !cms.oneTwoSwitcher;
@@ -523,7 +525,7 @@ showSlide = function($thumbnail) {
     var $img = $thumbnail.find("img");
     
     var url = $img.attr('src').replace("thumbnails/", "");
-    $("#slide").fadeOut(100, function() {
+    /*$("#slide").fadeOut(100, function() {
         $(this).html('<img src="' + url + '">');
         $("#slide img").load(function() {
             $("#slideContainer #slideInfo #photoInfo").html($img.attr("caption"));
@@ -532,18 +534,53 @@ showSlide = function($thumbnail) {
 
             $("#slide img").fadeIn(300);
         });
+    });*/
+    
+    $("#slide")
+            .css({backgroundImage: "url('" + $img.attr('src') + "')", opacity: '0.7'})
+            .css("-webkit-filter", 'blur(10px)')
+            .html('<img style="opacity: 0;" src="' + url + '">');
+    
+    $("#slideContainer #slideInfo #photoInfo").html($img.attr("caption"));
+    $("#slideContainer #slideInfo #albumInfo").html($img.parent().parent().attr("caption"));
+    alignSlide($img);
+    
+    $("#slide img").load(function() {
+        $("#slide img").css("opacity", "1");
+        $("#slide").css("-webkit-filter", 'blur(0px)').css("opacity", '1');
     });
+
 };
 
-alignSlide = function() {
+
+alignSlide = function($img) {
     $("#slideContainer")
             .width(parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 50)
             .height(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
-    $("#slide").css("maxHeight", window.innerHeight - parseInt($("#menuPanel").height()) - 50).css("maxWidth", parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 150);
+    
+    var slideMaxHeight = parseInt(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
+    var slideMaxWidth = parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 150;
+    var photoNaturalWidth = parseInt($img.attr("naturalWidth"));
+    var photoNaturalHeight = parseInt($img.attr("naturalHeight"));
+    
+    var photoActualWidth;
+    var photoActualHeight;
+    if(photoNaturalWidth > photoNaturalHeight){ //fekvő
+        photoActualWidth = Math.min(photoNaturalWidth, slideMaxWidth);
+        photoActualHeight = photoNaturalHeight * (photoActualWidth / photoNaturalWidth);
+    }
+    else{ //álló
+        photoActualHeight = Math.min(photoNaturalHeight, slideMaxHeight);
+        photoActualWidth = photoNaturalWidth * (photoActualHeight / photoNaturalHeight);
+    }
+    
+    $("#slide").height(photoActualHeight).width(photoActualWidth);
     $("#slide").show();
     
+        
     
-    $("#slideInfo .icon").css("marginTop", $("#slide img").height() * 0.3);
+    //$("#slideInfo .icon").css("marginTop", $("#slide img").height() * 0.3);
+    $("#slideInfo .icon").css("marginTop", photoActualHeight * 0.3);
     $("#slideInfo #infoContainer")
             .bind('mousemove', function() {
         $("#slideInfo").addClass("active");
@@ -567,15 +604,17 @@ alignSlide = function() {
             .css("top", (window.innerHeight - parseInt($("#slideContainer").height()) + parseInt($("#menuPanel").height())) / 2)
             .css("right", (parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - parseInt($("#slideContainer").width())) / 2);
     $("#slideWrapper")
-            .css("top", (parseInt($("#slideContainer").height()) - parseInt($("#slide img").height())) / 2)
+            //.css("top", (parseInt($("#slideContainer").height()) - parseInt($("#slide img").height())) / 2)
+            .css("top", (parseInt($("#slideContainer").height()) - parseInt(photoActualHeight)) / 2)
             ;//.css("left", (parseInt($("#slideContainer").width()) - parseInt($("#slide img").width())) / 2);
             
     //Hacking to hell the fuckin css transition...
     $("#slideInfo").addClass("notransition");
     $("#slideInfo")
-            .css({width: $("#slide img").css("width")})
+            //.css({width: $("#slide img").css("width")})
+            .css({width: photoActualWidth})
             .css({bottom: -1 * (parseInt($("#albumInfo").outerHeight()) + parseInt($("#photoInfo").outerHeight()))})
-            .offset({left: $("#slide img").offset().left});
+            .offset({left: $("#slide").offset().left});
     $("#slideInfo")[0].offsetHeight;
     $("#slideInfo").removeClass("notransition");
             

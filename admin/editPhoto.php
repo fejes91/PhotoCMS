@@ -77,7 +77,7 @@ if (isset($_SESSION["rowCount"])) {
     if ($photo->id == null || !isset($photo->id)) {
         header("Location: ?album=" . $_POST['album']);
     } else {
-        echo $photo->show() . "<br>";
+        echo $photo->showThumbnail() . "<br>";
     }
     ?>
 

@@ -23,6 +23,10 @@ class Photo {
     public function show() {
         return '<img src="../img/' . $this->url . '">';
     }
+    
+    public function showThumbnail() {
+        return '<img src="../img/thumbnails/' . $this->url . '">';
+    }
 
     public function showEditor() {
         $str = '<div class="photo" photoId="' . $this->id . '">';

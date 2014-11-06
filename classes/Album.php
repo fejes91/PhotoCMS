@@ -53,8 +53,8 @@ class Album {
             $str .= '<form method="POST" class="photoEditor">';
             $str .= '<div class="album" albumId="' . $this->id . '">';
             $str .= "<h2>Photos of " . $this->show() . "</h2>";
-            $str .= '<button class="selectAll">Mind</button>';
-            $str .= '<button class="selectNone">Egyik sem</button><br>';
+            $str .= '<button class="selectAll">All</button>';
+            $str .= '<button class="selectNone">None</button><br>';
 
 
             foreach ($photos as $photo) {
@@ -63,10 +63,10 @@ class Album {
 
             $str .= '</div>';
 
-            $str .= '<br>A kijelöltek legyenek: <select name="albumAction">';
-                $str .= '<option value="public">publikusak</option>';
-                $str .= '<option value="private">privátak</option>';
-                $str .= '<option value="delete">törölve</option>';
+            $str .= '<br>Set selected to: <select name="albumAction">';
+                $str .= '<option value="public">public</option>';
+                $str .= '<option value="private">private</option>';
+                $str .= '<option value="delete">deleted</option>';
             $str .= '</select>';
             $str .= '<br><input type="submit" ></form>';   
         }

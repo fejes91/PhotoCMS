@@ -27,8 +27,6 @@
                 include "../classes/Album.php";
                 include "../classes/Photo.php";
                 include "../classes/Story.php";
-                
-                error_log("aaaaaaaaaasd");
 
                 function parseRequestHeaders() {
                     $headers = array();
@@ -52,7 +50,7 @@
                     include "editPhoto.php";
                 }
                 
-                phpinfo(-1);
+                //phpinfo(-1);
                 ?>
             </div>
         </div>

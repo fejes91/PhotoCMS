@@ -261,11 +261,22 @@ class DbManager {
         return $stmt->rowCount();
     }
     
-    public function updatePhoto2($id, $caption) {
+    public function updatePhotoCaption($id, $caption) {
         $sql = "UPDATE photos SET caption = :caption WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute(array(
             "caption" => $caption,
+            "id" => $id
+            )
+        );
+        return $stmt->rowCount();
+    }
+    
+    public function updatePhotoVisiblity($id, $public) {
+        $sql = "UPDATE photos SET public = :public WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "public" => $public,
             "id" => $id
             )
         );

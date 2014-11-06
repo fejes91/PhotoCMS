@@ -9,6 +9,7 @@ if (isset($_SESSION["rowCount"])) {
 
 <form method="post"
       enctype="multipart/form-data">
+    <h2>Upload photo:</h2>
     <input type="file" name="file" id="file">
     <?
     if (!isset($_GET['album'])) {
@@ -35,6 +36,7 @@ if (isset($_GET['album'])) {
     <hr>
     <form method="post"
           enctype="multipart/form-data">
+        <h2>Edit album:</h2>
         <label for="name">Album name:</label>
         <input type="text" name="name" id="name" value="<? echo $album->name ?>">
         <label for="caption">Caption:</label>
@@ -55,7 +57,6 @@ if (isset($_GET['album'])) {
     
 
     if ($_POST) {
-        error_log("asd: " . $_FILES["file"]["name"]);
         echo handleUploadedFile() . "<br>";
         
         $rowCount = 0;
@@ -88,12 +89,26 @@ if (isset($_GET['album'])) {
                     }
                 }
             }
-            error_log("request parsed: " . count($photos));
+            error_log("request parsed: " . print_r($photos, true));
 
             foreach ($photos as $id => $photo) {
                 if ($photo['caption']) {
-                    $rowCount += DbManager::Instance()->updatePhoto2($id, $photo['caption']);
+                    $rowCount += DbManager::Instance()->updatePhotoCaption($id, $photo['caption']);
                 }
+                
+                if($photo['checked_value=']){
+                    if(strcmp($_POST['albumAction'], "delete") == 0){
+                        DbManager::Instance()->deletePhoto($id);
+                    }
+                    else if(strcmp($_POST['albumAction'], "public") == 0){
+                        DbManager::Instance()->updatePhotoVisiblity($id, 1);
+                    }
+                    else if(strcmp($_POST['albumAction'], "private") == 0){
+                        DbManager::Instance()->updatePhotoVisiblity($id, 0);
+                    }
+                }
+                
+                
             }
         }
         $_SESSION["rowCount"] = $rowCount;
@@ -118,57 +133,6 @@ if (isset($_GET['album'])) {
 <?
 
 function handleUploadedFile() {
-    $allowedExts = array("gif", "jpeg", "jpg", "png");
-    $temp = explode(".", $_FILES["file"]["name"]);
-    $extension = end($temp);
-
-    if (isset($_FILES["file"])) {
-        if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "image/jpeg") || ($_FILES["file"]["type"] == "image/jpg") || ($_FILES["file"]["type"] == "image/pjpeg") || ($_FILES["file"]["type"] == "image/x-png") || ($_FILES["file"]["type"] == "image/png")) && in_array($extension, $allowedExts)) {
-            if ($_FILES["file"]["error"] > 0) {
-                return "Return Code: " . $_FILES["file"]["error"] . "<br>";
-            } else {
-                $hashed_file_name = hash("ripemd160", $_FILES["file"]["name"] . time()) . "." . $extension;
-                if (file_exists("../img/" . $hashed_file_name)) {
-                    return $hashed_file_name . " already exists. ";
-                } else {
-                    move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
-
-                    error_log("asdasd");
-                    /*$thumb = new Imagick('../img/' . $hashed_file_name);
-                    $naturalWidth = $thumb->getimagewidth();
-                    $naturalHeight = $thumb->getimageheight();
-                    $thumb->thumbnailimage(400, 400, true);
-                    $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
-                    */
-                    if (isset($_GET['album'])) {
-                        $album = $_GET['album'];
-                    } else if (isset($_POST['album'])) {
-                        $album = $_POST['album'];
-                    }
-                    //$rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $naturalWidth, $naturalHeight);
-                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], "", "");
-                    if ($rowCount) {
-                        return "Kép feltöltve";
-                    } else {
-                        unlink("../img/" . $hashed_file_name);
-                        return "Kép feltöltése nem sikerült :(";
-                    }
-                }
-            }
-        } else {
-            return "Invalid file";
-        }
-    }
-}
-
-
-
-
-
-
-/*
- * 
- * function handleUploadedFile() {
     
     $allowedExts = array("gif", "jpeg", "jpg", "png");
     $temp = explode(".", $_FILES["file"]["name"]);
@@ -190,8 +154,8 @@ function handleUploadedFile() {
                     
                     if(strcmp($extension, "gif") == 0){
                         error_log("upload a gif!!!!");
-                        $im = @imagecreatefromgif("../img/" . $hashed_file_name);
-                        $thumb = new Imagick($im);
+                        $thumb = new Imagick("../img/" . $hashed_file_name);
+                        error_log("imagick gif: " . $thumb);
                     }
                     else{
                         $thumb = new Imagick('../img/' . $hashed_file_name);
@@ -223,6 +187,15 @@ function handleUploadedFile() {
         }
     }
 }
+
+
+
+
+
+
+/*
+ * 
+ * 
  * 
  */
 
