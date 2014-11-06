@@ -3,9 +3,10 @@
 class DbManager {
 
     public $con;
+    
 
     public static function Instance() {
-        //static $inst = null;
+        $inst = null;
         if ($inst === null) {
             $inst = new DbManager();
         }

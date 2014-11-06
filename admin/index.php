@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+    header('Content-type: text/html; charset=utf-8');
+    
+    
+?>
 <html>
     <head>
         <title>Fejes Ádám fotó</title>
@@ -46,6 +51,8 @@
                 } else if (isset($_GET['photo'])) {
                     include "editPhoto.php";
                 }
+                
+                phpinfo(-1);
                 ?>
             </div>
         </div>
