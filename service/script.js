@@ -58,7 +58,7 @@ checkKeycode = function(e) {
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
-        alignSlide();
+        alignSlide($(".thumbnail.shown img"));
     }
     else if (cms.VIEW === cms.ME_VIEW) {
         //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
@@ -196,9 +196,6 @@ setActiveAlbum = function(albumId, needScroll) {
         }, 50, function() {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
-            //$("#thumbnails .horizontalSeparator.active .thumbnail:first img").click();
-            showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first"));
-            //showSlide($("#thumbnails .horizontalSeparator.active .thumbnail:first"));
 
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
