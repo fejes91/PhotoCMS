@@ -22,7 +22,15 @@ $(document).ready(function() {
         showMe();
     });
 
-    showPortfolio();
+    if(window.location.hash === "#m"){
+        showMe();
+    }
+    else if(window.location.hash === "#g"){
+        //showGuestbook();
+    }
+    else{
+        showPortfolio();
+    }
 });
 
 $(window).resize(function() {
@@ -59,12 +67,14 @@ adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
         alignSlide($(".thumbnail.shown img"));
+        $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
     }
     else if (cms.VIEW === cms.ME_VIEW) {
         //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
+        $("#contentPanel").height(window.innerHeight - $("#menuPanel").height() - 10);
     }
 
-    $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
+    
 };
 
 animateAlbumThumbnails = function(id, switcher) {
@@ -127,6 +137,7 @@ showPortfolio = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW || cms.VIEW_LOCK) {
         return;
     }
+    window.location.hash = "p";
     cms.VIEW = cms.THUMBNAIL_VIEW;
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#portfolio").addClass("active");
@@ -136,7 +147,7 @@ showPortfolio = function() {
     $("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
         $("#contentPanel #thumbnails").fadeIn(300, function() {
             //$("#albumPanel li").first().click();
-            setActiveAlbum($("#albumPanel li").first().attr("id"), true);
+            setActiveAlbum($("#albumPanel li").first().attr("id"), true, true);
         });
     });
     $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
@@ -147,6 +158,7 @@ showMe = function() {
     if (cms.VIEW === cms.ME_VIEW || cms.VIEW_LOCK) {
         return;
     }
+    window.location.hash = "m";
     cms.VIEW = cms.ME_VIEW;
     $("#contentPanel>div").hide();
     $("#albumPanel").hide().css("marginLeft", "-250px");
@@ -173,7 +185,7 @@ manageThumbnailScroll = function() {
                 $lowestOffset = $this;
             }
         });
-        setActiveAlbum($lowestOffset.attr("albumId"), false);
+        setActiveAlbum($lowestOffset.attr("albumId"), false, true);
     }
 
 };
@@ -187,7 +199,7 @@ scrollToAlbum = function() {
 
 };
 
-setActiveAlbum = function(albumId, needScroll) {
+setActiveAlbum = function(albumId, needScroll, showFirst) {
     cms.activeAlbum = albumId;
     if (!$("#albumPanel li#" + albumId).hasClass("active")) {
         $('#albumPanel ul #' + albumId + ' img').stop().animate({
@@ -196,7 +208,9 @@ setActiveAlbum = function(albumId, needScroll) {
         }, 50, function() {
             $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
             $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
-
+            if(showFirst){
+                showSlide($('.thumbnail.active'));
+            }
             $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
             $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
 
@@ -273,12 +287,12 @@ populatePhotos = function() {
 
     $("#albumPanel li.album").click(function() {
         var albumId = $(this).attr("id");
-        setActiveAlbum(albumId, true);
+        setActiveAlbum(albumId, true, true);
     });
 
     $(".thumbnail").click(function() {
         var albumId = $(this).attr("album");
-        setActiveAlbum(albumId, true);
+        setActiveAlbum(albumId, true, false);
     });
 
     $("#contentPanel img").load(function() {
@@ -374,12 +388,12 @@ populatePhotos2 = function() {
 
     $("#albumPanel li.album").click(function() {
         var albumId = $(this).attr("id");
-        setActiveAlbum(albumId, true);
+        setActiveAlbum(albumId, true, true);
     });
 
     $(".thumbnail").click(function() {
         var albumId = $(this).attr("album");
-        setActiveAlbum(albumId, true);
+        setActiveAlbum(albumId, true, false);
     });
 
     $("#thumbnails img").load(function() {
@@ -424,11 +438,11 @@ showPrevSlide = function() {
 };
 
 setNextAlbum = function() {
-    setActiveAlbum($(".horizontalSeparator.active").next().attr("albumid"), true);
+    setActiveAlbum($(".horizontalSeparator.active").next().attr("albumid"), true, true);
 };
 
 setPrevAlbum = function() {
-    setActiveAlbum($(".horizontalSeparator.active").prev().attr("albumid"), true);
+    setActiveAlbum($(".horizontalSeparator.active").prev().attr("albumid"), true, true);
 };
 
 generateRow = function(albumId, photoArray) {

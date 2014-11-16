@@ -61,16 +61,21 @@ header('Content-type: text/html; charset=utf-8');
                 </div>
             </div>    
             <div id="me">
+                <img class="header" src="../img/build/me.jpg">
                 <p>
-                    <b style="font-size: 32px;">Fejes Ádám</b> vagyok. 91-ben születtem, jelenleg fejlesztőként dolgozok és a hobbim a fotózás. Nem vagyok és nem is akarok profi fotós lenni, nekem ez mindig kikapcsolódást jelent, sosem munkát. Kérdezhetnéd, hogy akkor minek a portfólió és a saját domain? Csak! Mert nem csak fotózni szeretek, hanem weboldalakkal is szívesen molyolok, ez az oldal nem csak fotós, hanem webfejlesztői portfólió is.
+                    
+                    <b style="font-size: 32px;">Fejes Ádám</b> vagyok. 91-ben születtem, jelenleg fejlesztőként dolgozok és a hobbim a fotózás. 
+                    Nem vagyok és nem is akarok profi fotós lenni, nekem ez mindig kikapcsolódást jelent, sosem munkát. 
+                    Nem csak fotózni szeretek, hanem weboldalakkal is szívesen molyolok (egy ideje már pénzért), így 
+                    ez az oldal nem csak fotós, hanem webfejlesztői portfólió is.
+                    
                 </p>
-                <p>
-                    <img src="http://fejesadamfoto.hu/en.jpg" width="30%" style="float: right; margin-left: 10px; max-width:350px;">
-                    Minden eddigi fotós tudásom könyvekből, cikkekből és fórumokról jött, nem jártam soha fotós képzésre, de egyszer ha sok időm lesz (létezik ilyen?) akkor elképzelhető, hogy beiratkozok valahova. Mint szinte mindenki én is természet fotózással kezdtem. Megtanultam az alapfogalmakat, alapvető technikákat. Amikor már a kert minden fűszáláról készült kép és már a kutyám is inkább elmenekült, nehogy még egy átkozott fotó készüljön róla, akkor elkezdtem a városban fényképezni. Ekkor éreztem úgy, hogy nem lenne teljesen pénzkidobás egy komolyabb gépbe befektetni és megvettem az első tükrös gépem, amit most is nagy örömmel használok. Időközben beszereztem pár vakut, elkezdtem ismerkedni a strobist stílussal. Jelenleg ezzel foglalkozom a legszívesebben. Szeretek kísérletezni a fényekkel, árnyékokkal, hátterekkel. Tetszik, hogy ilyen sok lehetőségem van kreatívkodni.
-                </p>
-                <p>
-                    A fotóimat be szoktam küldeni a Dreamstime fotóügynökséghez, ahol meglepően sok be is kerül a katalógusba. Egyelőre még nem sikerült a képeimmel megkeresni a kisebb vagyont se, de ahogy írtam fentebb, ez nem is célom. Viszont jól esik a tudat, hogy néhány képem megugorja azt a bizonyos lécet. A portfóliómban zöld csíkkal jelöltem azokat a képeket amelyek Dreamstimeon is elérhetőek, sőt megvásárolhatóak.
-                </p>	
+                <div class="logoContainer">
+                    <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="../img/build/facebook.png"></a>
+                    <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="../img/build/flickr.png"></a>
+                </div>
+                <div class="footer" style="font-size: 12px; text-align: center;">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
+                
             </div>
         </div>
 
