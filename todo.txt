@@ -1,0 +1,8 @@
+hashelt oldalak nem csinálnak semmit history back-re
+albumválasztó görgetés
+vendégkönyv
+logó a sarokba(?)
+splash screen (?)
+thumbnail sáv szélessége igazodjon
+
+portfolió összerakás, lemérés, tárhely takarítás
