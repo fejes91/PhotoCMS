@@ -65,7 +65,7 @@ body{
     top: 40px;
     left: 0px;
     color: white;
-    margin-left: -250px;
+    margin-left: -250px; /*animáláshoz*/
     z-index: 10;
 }
 
@@ -390,7 +390,7 @@ body{
 #me{
     max-width: 800px;
     min-width: 500px;
-    margin: 50px auto;
+    margin: -10px auto;
     padding: 0px 40px;
     display: block;
     letter-spacing: 2px;
@@ -399,8 +399,30 @@ body{
 }
 
 
-#me img{
-    border: 5px solid rgba(0,0,0,0);
+#me img.header{
+    width:200px;
+    border-radius: 50%;
+    margin: 0px 50%;
+    left: -100px;
+    position: relative;
+}
+
+#me .logoContainer{
+    position: relative;
+    margin: 0px auto;
+    width: 30%;
+}
+
+#me img.logo{
+    width: 40%;
+    margin: 3%;
+}
+
+#me .footer{
+    font-size: 12px;
+    text-align: center;
+    top: 50px;
+    position: relative;
 }
 
 .notransition {
