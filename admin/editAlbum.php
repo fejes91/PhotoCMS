@@ -153,9 +153,9 @@ function handleUploadedFile() {
                     
                     
                     if(strcmp($extension, "gif") == 0){
-                        error_log("upload a gif!!!!");
                         $thumb = new Imagick("../img/" . $hashed_file_name);
-                        error_log("imagick gif: " . $thumb);
+                        //$thumb->setimageformat('gif');
+                        //$thumb->setImageCompressionQuality(90);
                     }
                     else{
                         $thumb = new Imagick('../img/' . $hashed_file_name);
