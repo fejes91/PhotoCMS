@@ -11,31 +11,61 @@ cms.GUESTBOOK_VIEW = 4;
 cms.VIEW_LOCK;
 cms.resizeTimer;
 
+setHash = function(hash){
+    if(window.location.hash !== hash && window.location.hash !== "#" + hash){
+        window.location.hash = hash;
+        cms.lastHash = hash;
+    }
+};
+
+if(window.location.hash === ""){
+    setHash("p");
+}
+
+
 $(document).ready(function() {
     document.onkeydown = checkKeycode;
+    
+    window.onhashchange = function(){
+        handleHashChange();
+    };
 
     initPortfolio2();
+    initGuestbook();
+    
     $("#menuPanel #portfolio").click(function() {
-        showPortfolio();
+        //showPortfolio();
+        setHash("p");
     });
     $("#menuPanel #meMenu").click(function() {
-        showMe();
+        //showMe();
+        setHash("m");
+    });
+    $("#menuPanel #guestbookMenu").click(function() {
+        //showMe();
+        setHash("g");
     });
 
-    if(window.location.hash === "#m"){
-        showMe();
-    }
-    else if(window.location.hash === "#g"){
-        //showGuestbook();
-    }
-    else{
-        showPortfolio();
-    }
+    handleHashChange();
 });
 
 $(window).resize(function() {
     adjustSizes();
 });
+
+
+
+handleHashChange = function(){
+    if(window.location.hash === "#m"){
+        showMe();
+    }
+    else if(window.location.hash === "#g"){
+        showGuestbook();
+    }
+    else if(window.location.hash === "#p"){
+        showPortfolio();
+    }
+}
 
 checkKeycode = function(e) {
     //Kódok:
@@ -133,11 +163,20 @@ initPortfolio = function() {
     });
 };
 
+initGuestbook = function(){
+    console.log("initguestbook ");
+    $("#guestbook #submitGBook").on('click', function(e){
+        e.preventDefault();
+        
+        console.log("submitted!");
+    });
+};
+
 showPortfolio = function() {
+    console.log("show portfolio...");
     if (cms.VIEW === cms.THUMBNAIL_VIEW || cms.VIEW_LOCK) {
         return;
     }
-    window.location.hash = "p";
     cms.VIEW = cms.THUMBNAIL_VIEW;
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#portfolio").addClass("active");
@@ -155,10 +194,10 @@ showPortfolio = function() {
 };
 
 showMe = function() {
+    console.log("show me...");
     if (cms.VIEW === cms.ME_VIEW || cms.VIEW_LOCK) {
         return;
     }
-    window.location.hash = "m";
     cms.VIEW = cms.ME_VIEW;
     $("#contentPanel>div").hide();
     $("#albumPanel").hide().css("marginLeft", "-250px");
@@ -171,6 +210,25 @@ showMe = function() {
     adjustSizes();
     $("#me").fadeIn(300);
 };
+
+showGuestbook = function(){
+    console.log("show guestbook...");
+    if (cms.VIEW === cms.GUESTBOOK_VIEW || cms.VIEW_LOCK) {
+        return;
+    }
+    cms.VIEW = cms.GUESTBOOK_VIEW;
+    $("#contentPanel>div").hide();
+    $("#albumPanel").hide().css("marginLeft", "-250px");
+    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
+    $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
+
+    $("#menuPanel img").removeClass("active");
+    $("#menuPanel img#guestbookMenu").addClass("active");
+
+    $("#guestbook").fadeIn(300);
+    
+}
+
 
 manageThumbnailScroll = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW &&
@@ -247,7 +305,7 @@ manageThumbnailSizes = function() {
 
 };
 
-populatePhotos = function() {
+/*populatePhotos = function() {
     var numberOfPhotos = 0;
     var numberOfLoadedPhotos = 0;
     var photoPerRow = 3;
@@ -310,7 +368,7 @@ populatePhotos = function() {
 
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height() * 0.8));
 
-};
+};*/
 
 
 populatePhotos2 = function() {
@@ -318,15 +376,14 @@ populatePhotos2 = function() {
     var numberOfLoadedPhotos = 0;
 
     cms.oneTwoSwitcher = true;
-    cms.thumbnailsWidth = 350;
+    cms.thumbnailsWidth = Math.min(window.innerWidth / 5, 350);
     cms.$thumbnails;
     $("#thumbnails").width(cms.thumbnailsWidth + 10); //margins
-    //$(".thumbnail").hide();
 
     var thumbnailsStr = "";
     for (var albumKey in cms.albums) {
         var album = cms.albums[albumKey];
-        console.log("album: " + album.name);
+        //console.log("album: " + album.name);
         if (album.photos.length > 0) {
             numberOfPhotos += album.photos.length;
             var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
@@ -446,7 +503,7 @@ setPrevAlbum = function() {
 };
 
 generateRow = function(albumId, photoArray) {
-    console.log("generate row: " + photoArray.length);
+    //console.log("generate row: " + photoArray.length);
     if (photoArray.length === 1) {
         var photo = photoArray[0];
         var style;
@@ -490,7 +547,7 @@ generateRow = function(albumId, photoArray) {
 };
 
 generateOneTwo = function(albumId, portrait, landscape1, landscape2) {
-    console.log("generate onetwo");
+    //console.log("generate onetwo");
     var landscapesWidth = Math.max(landscape1.naturalWidth, landscape2.naturalWidth);
     var landScape1Height = landscape1.naturalHeight * landscapesWidth / landscape1.naturalWidth;
     var landScape2Height = landscape2.naturalHeight * landscapesWidth / landscape2.naturalWidth;

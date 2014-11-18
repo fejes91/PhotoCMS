@@ -24,7 +24,7 @@ header('Content-type: text/html; charset=utf-8');
         <div id="menuPanel">
             <img src="../img/build/camera.png" id="portfolio" title="Portfólió" alt="Portfólió">
             <img src="../img/build/me.png" id="meMenu" title="Rólam" alt="Rólam">
-            <img src="../img/build/book.png" id="guestbook" title="Vendégkönyv" alt="Vendégkönyv">
+            <img src="../img/build/book.png" id="guestbookMenu" title="Vendégkönyv" alt="Vendégkönyv">
             <a href="http://fejesadamfoto.hu/blog"><img src="../img/build/blog.png" id="blog" title="Blog" alt="Blog"></a>
         </div>
         <div id="albumPanel">
@@ -74,8 +74,65 @@ header('Content-type: text/html; charset=utf-8');
                     <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="../img/build/facebook.png"></a>
                     <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="../img/build/flickr.png"></a>
                 </div>
-                <div class="footer" style="font-size: 12px; text-align: center;">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
+                <div class="footer">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
                 
+            </div>
+            
+            <div id="guestbook">
+                <header>Vendégkönyv</header>
+                <form id="gBookForm" accept-charset="UTF-8" method="POST">
+			<table class="guestBook" id="GBTable" border="0" cellspacing="12" style="width: 946px; min-width: 586px;">
+				<tbody><tr>
+                                        
+					<td valign="center" style="width: 120px;">
+						Név:
+					</td>
+					<td style="width: 250px;">
+						<input name="name" id="name" type="text" style="width: 250px;" autofocus="">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 120px;">
+						Email cím:
+					</td>
+					<td style="width: 250px;">
+						<input name="mail" id="mail" type="text" style="width: 250px;">
+					</td>
+					<td style="text-align: left;">
+						<div style="font-size: 0.8em;">(Nem fog megjelenni az oldalon)</div>
+					</td>
+				</tr>
+				<tr>
+					<td valign="center" style="width: 120px;">
+						Mennyi három meg három?
+					</td>
+					<td style="width: 250px;">
+						<input name="captcha" id="captcha" type="text" style="width: 250px;" autofocus="">
+					</td>
+					<td style="text-align: left;">
+						<div style="font-size: 0.8em;">(Ez az automata reklámok kivédésere van, kérlek írd ide hogy hat)</div>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						Üzenet:
+					</td>
+					<td colspan="2">
+						<textarea name="message" id="message" type="text" style="width:100%; height: 200px;"></textarea>
+					</td>
+				</tr>
+				<tr valign="center">
+					<td></td>
+					<td colspan="2">
+						<a href="" style="color: black; text-decoration: none;">
+						<div id="submitGBook" style="line-height: 50px; text-align: center; font-size: 25px; height: 50px; width: 100%; border: none; background-color: transparent;">
+							Küldés
+						</div>
+						</a>
+					</td>
+				</tr>
+			</tbody></table>
+		</form>
             </div>
         </div>
 
