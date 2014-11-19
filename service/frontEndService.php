@@ -47,8 +47,8 @@ function getAlbum($id) {
 }
 
 function getGuestbook(){
-    //$entries = DbManager::Instance()->getAllowedGuestbookEntries();
-    $entries = DbManager::Instance()->getGuestbookEntries();
+    $entries = DbManager::Instance()->getAllowedGuestbookEntries();
+    //$entries = DbManager::Instance()->getGuestbookEntries();
     
     $responseArray = array();
     foreach ($entries as $entry) {

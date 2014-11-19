@@ -168,14 +168,50 @@ initGuestbook = function(){
  
     for(var entryKey in cms.guestbook){
         var entry = cms.guestbook[entryKey];
-        $("#guestbookEntries").append('<div class="entry">' + entry.text + " - <i>" + entry.author + "</i><span class='date'>(" + entry.date + ")</span></div>");
+        $("#guestbookEntries").append('<div class="entry">\"' + entry.text + "\"<div class='author'><i>" + entry.author + "</i></div></div>");
     }
 
     $("#guestbook #submitGBook").on('click', function(e){
         e.preventDefault();
         
-        console.log("submitted!");
+        var data = {
+            name: $("#guestbook #name").val(),
+            mail: $("#guestbook #mail").val(),
+            captcha: $("#guestbook #captcha").val(),
+            message: $("#guestbook #message").val()            
+        };
+        console.log(JSON.stringify(data));
+        $.ajax({
+            type: "POST",
+            url: "GuestbookHandler.php",
+            data: data,
+            success: handleGuestbookResponse,
+            dataType: "text"
+        });
     });
+    
+    $("#guestbook input, #guestbook textarea").focus(function(){$(this).removeClass("error");});
+};
+
+handleGuestbookResponse = function(data){
+    console.log(data);
+    if(data === "INVALID MAIL"){
+        $("#guestbook #mail").addClass("error");
+    }
+    else if(data === "MISSING DATA"){
+        $("#guestbook input, #guestbook textarea").filter(function() { return $(this).val() === ""; }).addClass("error");
+    }
+    else if(data === "CAPTHCA"){
+        $("#guestbook #captcha").addClass("error");
+    }
+    else if(data === "TROLL"){
+        $("#guestbook #responseContainer").html("Kérlek várj 15 percet mielőtt új üzenetet küldesz!").css("opacity", 1);
+    }
+    else if(data === "SUCCESS"){
+        $("#guestbook #formContainer").slideUp(function(){
+            $(this).remove(); $("#guestbook #responseContainer").html("Köszönöm, hogy írtál. Üzenetedet megkaptam és igyekszem mihamarabb feldolgozni.").css("opacity", 1);
+        });
+    }
 };
 
 showPortfolio = function() {
@@ -233,7 +269,7 @@ showGuestbook = function(){
 
     $("#guestbook").fadeIn(300);
     
-}
+};
 
 
 manageThumbnailScroll = function() {

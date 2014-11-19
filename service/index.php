@@ -81,18 +81,21 @@ header('Content-type: text/html; charset=utf-8');
             
             <div id="guestbook">
                 <header>Vendégkönyv</header>
-                <form id="gBookForm" accept-charset="UTF-8" method="POST">
-                    <input name="name" id="name" type="text" placeholder="Név" autofocus=""><br>
-                    <input name="mail" id="mail" placeholder="Email" type="text"><br>
-                    <input name="captcha" id="captcha" placeholder="Mennyi három meg három?" type="text" autofocus=""><br>
-                    <textarea name="message" id="message" type="text" ></textarea><br>
-                    <a href="" style="color: black; text-decoration: none;">
-                    <div id="submitGBook" style="line-height: 50px; text-align: center; font-size: 25px; height: 50px; width: 100%; border: none; background-color: transparent;">
-                            Küldés
-                    </div>
-                    </a>
-                    
-		</form>
+                <div id="formContainer">
+                    <form id="gBookForm" accept-charset="UTF-8" method="POST">
+                        <input name="name" id="name" type="text" placeholder="Név" autofocus=""><br>
+                        <input name="mail" id="mail" placeholder="Email" type="text"><br>
+                        <input name="captcha" id="captcha" placeholder="Mennyi három meg három?" type="text" autofocus=""><br>
+                        <textarea name="message" id="message" type="text" ></textarea><br>
+
+                        <div id="submitGBook">
+                                Küldés
+                        </div>
+
+
+                    </form>
+                </div>
+                <div id="responseContainer"></div>
                 <div id="guestbookEntries"></div>
             </div>
         </div>

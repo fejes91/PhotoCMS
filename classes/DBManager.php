@@ -353,7 +353,30 @@ class DbManager {
         }
         return $array;
     }
+    
+    public function getGuestbookEntryForIp($ip){
+        $sql = "SELECT * FROM guestbook WHERE ip = :ip order by date DESC";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "ip" => $ip)
+        );
 
+        return new GuestBookEntry($stmt->fetch());
+    }
+    
+    public function insertGuestbookEntry($author, $ip, $mail, $text){
+        $sql = "INSERT INTO guestbook (author, ip, mail, text) VALUES (:author, :ip, :mail, :text)";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "author" => $author,
+            "ip" => $ip,
+            "mail" => $mail,
+            "text" => $text
+            )
+        );
+
+        return $stmt->rowCount();
+    }
 }
 
 ?>

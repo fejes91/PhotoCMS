@@ -7,6 +7,10 @@ body{
     background-color: rgb(240, 240, 240);
 }
 
+input.error, textarea.error{
+    border: 2px solid red;
+}
+
 #wrapper{
     position: absolute;
     left: 0;
@@ -39,7 +43,7 @@ body{
 #menuPanel{
     height: 40px;
     width: 100%;
-    background-color: rgb(40, 88, 89);;
+    background-color: rgb(40, 88, 89);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -429,8 +433,19 @@ body{
 #guestbook header{
     text-align: center;
     font-weight: lighter;
-    font-size: 32px;
+    font-size: 48px;
     margin: 15px 0px;
+}
+
+#guestbook #formContainer{
+    text-align: center;
+}
+
+#guestbook #responseContainer{
+    text-align: center;
+    opacity: 0;
+    height: 50px;
+    transition-duration: 0.5s;
 }
 
 #guestbook form{
@@ -439,23 +454,24 @@ body{
 
 #guestbook form input, #guestbook form textarea{
     margin: 10px;
-    width: 30%;
-    min-width: 300px;
+    width: 300px;
     height: 40px;
     font-size: 18px;
     padding-left: 10px;
 }
 
 #guestbook form textarea{
-    width: 50%;
-    min-width: 400px;
+    width: 400px;
     height: 150px;
-    padding: 0;
+    padding: 5px;
 }
 
 #guestbook .entry{
     text-align: center;
-    margin: 50px;
+    margin: 0px auto 50px auto;
+    font-size: 20px;
+    width: 80%;
+    max-width: 800px;
 }
 
 #guestbook .date{
@@ -463,6 +479,20 @@ body{
     margin: 0px 15px;
     height: 100%;
     line-height: 100%;
+}
+
+#submitGBook{
+    width: 200px;
+    margin: 0px auto;
+    padding: 10px 0px;
+    background-color: rgb(40, 88, 89);
+    color: white;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+
+#guestbook .author{
+    font-size: 14px;
 }
 
 .notransition {
