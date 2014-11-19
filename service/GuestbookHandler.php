@@ -14,7 +14,8 @@ elseif(($_POST["captcha"] != "hat" && $_POST["captcha"] != "Hat" && $_POST["capt
 else{
     $ip = $_SERVER['REMOTE_ADDR'];
     $lastEntry = DbManager::Instance()->getGuestbookEntryForIp($ip);
-    $troll = (strtotime($lastEntry->date . "+15 minutes") > strtotime("now"));
+    $troll = $lastEntry != null && (strtotime($lastEntry->date . "+5 minutes") > strtotime("now"));
+    $troll = false;
     
     if($troll){
         echo 'TROLL';
@@ -28,6 +29,5 @@ else{
             echo "DB ERROR";
         }
     }
-    
 }
 ?>

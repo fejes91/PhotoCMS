@@ -354,6 +354,30 @@ class DbManager {
         return $array;
     }
     
+    public function getUnreadGuestbookEntries(){
+        $sql = "SELECT * FROM guestbook where status = 'unread'  order by date DESC";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $array = array();
+        while ($row = $stmt->fetch()) {
+            $entry = new GuestBookEntry($row);
+            array_push($array, $entry);
+        }
+        return $array;
+    }
+    
+    public function updateGuestbookEntry($id, $status){
+        $sql = "UPDATE guestbook SET status = :status WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute(array(
+            "status" => $status,
+            "id" => $id
+            )
+        );
+        return $stmt->rowCount();
+    }
+    
     public function getGuestbookEntryForIp($ip){
         $sql = "SELECT * FROM guestbook WHERE ip = :ip order by date DESC";
         $stmt = $this->con->prepare($sql);
@@ -361,7 +385,12 @@ class DbManager {
             "ip" => $ip)
         );
 
-        return new GuestBookEntry($stmt->fetch());
+        $entry = new GuestBookEntry($stmt->fetch());
+        if($entry->id){
+            return $entry;
+        }
+        
+        return null;
     }
     
     public function insertGuestbookEntry($author, $ip, $mail, $text){

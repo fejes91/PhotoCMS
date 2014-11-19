@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="?page=albumList">Albums</a></li>
                     <li><a href="?page=editAlbum">Upload</a></li>
+                    <li><a href="?page=guestbook">Guestbook</a></li>
                     <li><a href="?page=stories">Stories</a></li>
                 </ul>
             </div>
@@ -27,6 +28,7 @@
                 include "../classes/Album.php";
                 include "../classes/Photo.php";
                 include "../classes/Story.php";
+                include "../classes/GuestBookEntry.php";
 
                 function parseRequestHeaders() {
                     $headers = array();

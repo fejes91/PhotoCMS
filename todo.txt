@@ -1,8 +1,9 @@
 //hashelt oldalak nem csinálnak semmit history back-re
-albumválasztó görgetés
+albumválasztó görgetés vagy ha nem lesz albuim választó, akkor kitakarítani
 vendégkönyv
 logó a sarokba(?)
 splash screen (?)
 //thumbnail sáv szélessége igazodjon
+kitakarítani a storykhoz tartozó dolgokat
 
 portfolió összerakás, lemérés, tárhely takarítás

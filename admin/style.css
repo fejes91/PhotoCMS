@@ -22,7 +22,7 @@ form.photoEditor{
     width: 90%;
 }
 
-form input, form textarea{
+form input[type="text"], form textarea{
     width: 100%;
     margin: 5px auto;
 }
@@ -130,4 +130,31 @@ li.story{
     bottom: 5px;
     left: 5px;
     overflow: hidden;
+}
+
+#guestbook{
+    
+}
+
+#guestbook li{
+    width: 90%;
+    border: 1px solid grey;
+    margin: 10px auto;
+    padding: 5px;
+}
+
+#guestbook span{
+    margin: 10px;
+}
+
+#guestbook .controls{
+    margin: 10px 0px;
+}
+
+#guestbook .controls input[type="radio"]{
+    margin-right: 10px;
+}
+
+#guestbook .controls input[type="radio"], #guestbook .controls label{
+    float: right;
 }

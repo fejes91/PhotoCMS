@@ -461,8 +461,12 @@ input.error, textarea.error{
 #guestbook #responseContainer{
     text-align: center;
     opacity: 0;
-    height: 50px;
+    min-height: 100px;
     transition-duration: 0.5s;
+    font-size: 32px;
+    margin: 0px auto 20px auto;
+    text-align: center;
+    width: 90%;
 }
 
 #guestbook form{

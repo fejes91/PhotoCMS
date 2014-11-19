@@ -205,7 +205,7 @@ handleGuestbookResponse = function(data){
         $("#guestbook #captcha").addClass("error");
     }
     else if(data === "TROLL"){
-        $("#guestbook #responseContainer").html("Kérlek várj 15 percet mielőtt új üzenetet küldesz!").css("opacity", 1);
+        $("#guestbook #responseContainer").html("Két üzenet elküldése között várj legalább 5 percet").css("opacity", 1);
     }
     else if(data === "SUCCESS"){
         $("#guestbook #formContainer").slideUp(function(){
