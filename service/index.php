@@ -27,6 +27,7 @@ header('Content-type: text/html; charset=utf-8');
             <img src="../img/build/me.png" id="meMenu" title="Rólam" alt="Rólam">
             <img src="../img/build/book.png" id="guestbookMenu" title="Vendégkönyv" alt="Vendégkönyv">
             <a href="http://fejesadamfoto.hu/blog"><img src="../img/build/blog.png" id="blog" title="Blog" alt="Blog"></a>
+            <img id="logo" src="../img/build/f.png">
         </div>
         <div id="albumPanel">
             <ul></ul>

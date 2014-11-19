@@ -54,10 +54,20 @@ input.error, textarea.error{
 
 #menuPanel img{
     height: 22px;
+    max-width: 20%;
     padding: 9px 35px;
     
     opacity: 0.4;
     transition-duration: 0.2s;
+}
+
+#menuPanel #logo{
+    position: fixed;
+    top: 2px;
+    right: 2px;
+    padding: 0px;
+    height: 36px;
+    opacity: 1;
 }
 
 #menuPanel img:hover, #menuPanel img.active{
@@ -164,7 +174,7 @@ input.error, textarea.error{
     padding-right: 10px;
 
     float: left;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 /*.thumbnail{
