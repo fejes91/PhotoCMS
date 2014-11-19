@@ -225,12 +225,14 @@ showPortfolio = function() {
     $("#slide").html('');
 
     $("#contentPanel>div").hide();
-    $("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
+    //$("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
         $("#contentPanel #thumbnails").fadeIn(300, function() {
             //$("#albumPanel li").first().click();
             setActiveAlbum($("#albumPanel li").first().attr("id"), true, true);
         });
-    });
+    //});
+    
+    
     $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
     //adjustSizes();
 };
@@ -294,7 +296,7 @@ scrollToAlbum = function() {
     var scroll = 0;
     scroll = $("#contentPanel .horizontalSeparator.active").offset().top;
     $("#contentPanel").animate({
-        scrollTop: $("#contentPanel").scrollTop() + scroll - $("#menuPanel").height() - 2
+        scrollTop: $("#contentPanel").scrollTop() + scroll - $("#menuPanel").height() - 10 //default margin-top for first horizontal separator
     }, 300);
 
 };
@@ -347,78 +349,12 @@ manageThumbnailSizes = function() {
 
 };
 
-/*populatePhotos = function() {
-    var numberOfPhotos = 0;
-    var numberOfLoadedPhotos = 0;
-    var photoPerRow = 3;
-    if (window.innerWidth < 1025) {
-        photoPerRow = 2;
-    }
-    //$(".thumbnail").hide();
-
-    var thumbnailsStr = "";
-    for (var albumKey in cms.albums) {
-        var album = cms.albums[albumKey];
-
-        if (album.photos.length > 0) {
-            var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
-            $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
-
-            //$("#albumPanel ul li#" + album.id).css("background-image", "url(../img/" + bgUrl + ")");
-
-            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '">';
-            numberOfPhotos += album.photos.length;
-            var nr = 1;
-            for (var i = 0; i < 10; ++i) { //extra sok kép legyen TODO kivenni innen
-                for (var photoKey in album.photos) {
-                    var photo = album.photos[photoKey];
-                    thumbnailsStr += '<div class="thumbnail" album="' + album.id + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '"/></div>';
-                    if (nr % photoPerRow === 0) {
-                        thumbnailsStr += "<br>";
-                    }
-                    nr++;
-                }
-            }
-            thumbnailsStr += "</div>";
-        }
-
-    }
-    $("#thumbnails").prepend(thumbnailsStr);
-
-    $("#albumPanel li.album").click(function() {
-        var albumId = $(this).attr("id");
-        setActiveAlbum(albumId, true, true);
-    });
-
-    $(".thumbnail").click(function() {
-        var albumId = $(this).attr("album");
-        setActiveAlbum(albumId, true, false);
-    });
-
-    $("#contentPanel img").load(function() {
-        numberOfLoadedPhotos++;
-        //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
-        if (numberOfLoadedPhotos === numberOfPhotos) {
-            $("#contentPanel .thumbnail").click(function() {
-                showSlide($(this));
-            });
-            for (var albumkey in cms.albums) {
-                animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
-            }
-        }
-    });
-
-    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height() * 0.8));
-
-};*/
-
-
 populatePhotos2 = function() {
     var numberOfPhotos = 0;
     var numberOfLoadedPhotos = 0;
 
     cms.oneTwoSwitcher = true;
-    cms.thumbnailsWidth = Math.min(window.innerWidth / 5, 350);
+    cms.thumbnailsWidth = Math.min(window.innerWidth / 3.5, 450);
     cms.$thumbnails;
     $("#thumbnails").width(cms.thumbnailsWidth + 10); //margins
 
@@ -431,7 +367,7 @@ populatePhotos2 = function() {
             var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
             $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
 
-            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '" caption="' + album.caption + '">';
+            thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '" caption="' + album.caption + '"><div class="albumTitle">' + album.name + "</div>";
             var landscapes = [];
             var portraits = [];
             var nextLandscape = 0;

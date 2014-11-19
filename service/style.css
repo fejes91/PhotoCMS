@@ -164,7 +164,7 @@ input.error, textarea.error{
     padding-right: 10px;
 
     float: left;
-    margin-left: 200px;
+    margin-left: 20px;
 }
 
 /*.thumbnail{
@@ -208,7 +208,7 @@ input.error, textarea.error{
 
 #thumbnails .horizontalSeparator{
     position: relative;
-    margin: 3px 0;
+    margin: 3px 0px;
     margin-top: 50px;
     text-align: right;
     right: 0px;
@@ -216,8 +216,15 @@ input.error, textarea.error{
     display: inline-block;
 }
 
+#thumbnails .horizontalSeparator .albumTitle{
+    text-align: left;
+    border-bottom: 1px solid rgb(40, 88, 89);
+    margin-bottom: 3px;
+    font-size: 18px;
+}
+
 #thumbnails .horizontalSeparator:first-of-type{
-    margin-top: 2px;
+    margin-top: 10px;
 }
 
 .thumbnail{
