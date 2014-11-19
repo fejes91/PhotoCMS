@@ -428,13 +428,41 @@ body{
 
 #guestbook header{
     text-align: center;
-    font-weight: normal;
-    font-size: 28px;
+    font-weight: lighter;
+    font-size: 32px;
     margin: 15px 0px;
 }
 
-#guestbook form table{
-    margin: 0px auto;
+#guestbook form{
+    text-align: center;
+}
+
+#guestbook form input, #guestbook form textarea{
+    margin: 10px;
+    width: 30%;
+    min-width: 300px;
+    height: 40px;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+#guestbook form textarea{
+    width: 50%;
+    min-width: 400px;
+    height: 150px;
+    padding: 0;
+}
+
+#guestbook .entry{
+    text-align: center;
+    margin: 50px;
+}
+
+#guestbook .date{
+    font-size: 10px;
+    margin: 0px 15px;
+    height: 100%;
+    line-height: 100%;
 }
 
 .notransition {

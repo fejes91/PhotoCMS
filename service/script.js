@@ -165,6 +165,12 @@ initPortfolio = function() {
 
 initGuestbook = function(){
     console.log("initguestbook ");
+ 
+    for(var entryKey in cms.guestbook){
+        var entry = cms.guestbook[entryKey];
+        $("#guestbookEntries").append('<div class="entry">' + entry.text + " - <i>" + entry.author + "</i><span class='date'>(" + entry.date + ")</span></div>");
+    }
+
     $("#guestbook #submitGBook").on('click', function(e){
         e.preventDefault();
         

@@ -3,6 +3,6 @@ albumválasztó görgetés
 vendégkönyv
 logó a sarokba(?)
 splash screen (?)
-thumbnail sáv szélessége igazodjon
+//thumbnail sáv szélessége igazodjon
 
 portfolió összerakás, lemérés, tárhely takarítás

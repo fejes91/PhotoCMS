@@ -16,6 +16,7 @@ header('Content-type: text/html; charset=utf-8');
     <body>
         <script>
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
+            cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
         </script>
         <!--div id="background"></div-->
         <div id="stat"></div>
@@ -81,58 +82,18 @@ header('Content-type: text/html; charset=utf-8');
             <div id="guestbook">
                 <header>Vendégkönyv</header>
                 <form id="gBookForm" accept-charset="UTF-8" method="POST">
-			<table class="guestBook" id="GBTable" border="0" cellspacing="12" style="width: 946px; min-width: 586px;">
-				<tbody><tr>
-                                        
-					<td valign="center" style="width: 120px;">
-						Név:
-					</td>
-					<td style="width: 250px;">
-						<input name="name" id="name" type="text" style="width: 250px;" autofocus="">
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 120px;">
-						Email cím:
-					</td>
-					<td style="width: 250px;">
-						<input name="mail" id="mail" type="text" style="width: 250px;">
-					</td>
-					<td style="text-align: left;">
-						<div style="font-size: 0.8em;">(Nem fog megjelenni az oldalon)</div>
-					</td>
-				</tr>
-				<tr>
-					<td valign="center" style="width: 120px;">
-						Mennyi három meg három?
-					</td>
-					<td style="width: 250px;">
-						<input name="captcha" id="captcha" type="text" style="width: 250px;" autofocus="">
-					</td>
-					<td style="text-align: left;">
-						<div style="font-size: 0.8em;">(Ez az automata reklámok kivédésere van, kérlek írd ide hogy hat)</div>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-						Üzenet:
-					</td>
-					<td colspan="2">
-						<textarea name="message" id="message" type="text" style="width:100%; height: 200px;"></textarea>
-					</td>
-				</tr>
-				<tr valign="center">
-					<td></td>
-					<td colspan="2">
-						<a href="" style="color: black; text-decoration: none;">
-						<div id="submitGBook" style="line-height: 50px; text-align: center; font-size: 25px; height: 50px; width: 100%; border: none; background-color: transparent;">
-							Küldés
-						</div>
-						</a>
-					</td>
-				</tr>
-			</tbody></table>
+                    <input name="name" id="name" type="text" placeholder="Név" autofocus=""><br>
+                    <input name="mail" id="mail" placeholder="Email" type="text"><br>
+                    <input name="captcha" id="captcha" placeholder="Mennyi három meg három?" type="text" autofocus=""><br>
+                    <textarea name="message" id="message" type="text" ></textarea><br>
+                    <a href="" style="color: black; text-decoration: none;">
+                    <div id="submitGBook" style="line-height: 50px; text-align: center; font-size: 25px; height: 50px; width: 100%; border: none; background-color: transparent;">
+                            Küldés
+                    </div>
+                    </a>
+                    
 		</form>
+                <div id="guestbookEntries"></div>
             </div>
         </div>
 

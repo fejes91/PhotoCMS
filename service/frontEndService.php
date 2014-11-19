@@ -4,6 +4,7 @@ include "../classes/DBManager.php";
 include "../classes/Album.php";
 include "../classes/Photo.php";
 include "../classes/Story.php";
+include "../classes/GuestBookEntry.php";
 
 if (isset($_GET['type']) && !empty($_GET['type'])) {
     $type = $_GET['type'];
@@ -41,6 +42,23 @@ function getAlbum($id) {
             "error" => "Private album"
         );
         return json_encode($obj);
+    }
+    return json_encode($responseArray);
+}
+
+function getGuestbook(){
+    //$entries = DbManager::Instance()->getAllowedGuestbookEntries();
+    $entries = DbManager::Instance()->getGuestbookEntries();
+    
+    $responseArray = array();
+    foreach ($entries as $entry) {
+        $obj = array(
+            "id" => $entry->id,
+            "date" => $entry->date,
+            "author" => $entry->author,
+            "text" => $entry->text
+        );
+        array_push($responseArray, $obj);
     }
     return json_encode($responseArray);
 }

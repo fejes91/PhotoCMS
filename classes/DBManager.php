@@ -327,6 +327,32 @@ class DbManager {
 
         return new Photo($stmt->fetch());
     }
+    
+    public function getGuestbookEntries(){
+        $sql = "SELECT * FROM guestbook order by date DESC";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $array = array();
+        while (($row = $stmt->fetch())) {
+            $entry = new GuestBookEntry($row);
+            array_push($array, $entry);
+        }
+        return $array;
+    }
+    
+    public function getAllowedGuestbookEntries(){
+        $sql = "SELECT * FROM guestbook where status = 'allow'  order by date DESC";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $array = array();
+        while (($row = $stmt->fetch())) {
+            $entry = new GuestBookEntry($row);
+            array_push($array, $entry);
+        }
+        return $array;
+    }
 
 }
 
