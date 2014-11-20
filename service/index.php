@@ -18,10 +18,9 @@ header('Content-type: text/html; charset=utf-8');
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
             cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
         </script>
-        <!--div id="background"></div-->
+        <img id="splash" src="../img/build/f.png">
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
-        <!--div id="horizontalSeparator"><span id="text"></span></div-->
         <div id="menuPanel">
             <img src="../img/build/camera.png" id="portfolio" title="Portfólió" alt="Portfólió">
             <img src="../img/build/me.png" id="meMenu" title="Rólam" alt="Rólam">
@@ -29,17 +28,6 @@ header('Content-type: text/html; charset=utf-8');
             <a href="http://fejesadamfoto.hu/blog"><img src="../img/build/blog.png" id="blog" title="Blog" alt="Blog"></a>
             <img id="logo" src="../img/build/f.png">
         </div>
-        <div id="albumPanel">
-            <ul></ul>
-        </div>
-        <!--div id="wrapper">
-            <div id="albumPanel">
-                <ul></ul>
-            </div>
-            <div id="contentPanel">
-                <div id="thumbnails"></div>
-            </div>
-        </div-->
         <div id="contentPanel">
             <div id="thumbnails">
                 <div id="slideContainer">

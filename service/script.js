@@ -4,9 +4,12 @@ cms.activeAlbum;
 
 cms.VIEW;
 cms.THUMBNAIL_VIEW = 1;
-cms.SLIDE_VIEW = 2;
+//cms.SLIDE_VIEW = 2;
 cms.ME_VIEW = 3;
 cms.GUESTBOOK_VIEW = 4;
+
+cms.numberOfPhotos = 0;
+cms.numberOfLoadedPhotos = -1;
 
 cms.VIEW_LOCK;
 cms.resizeTimer;
@@ -100,52 +103,10 @@ adjustSizes = function() {
         $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
     }
     else if (cms.VIEW === cms.ME_VIEW) {
-        //$("#contentPanel #me").css("maxWidth", (window.innerWidth - parseInt($("#albumPanel").width())) * 0.6);
         $("#contentPanel").height(window.innerHeight - $("#menuPanel").height() - 10);
     }
 
     
-};
-
-animateAlbumThumbnails = function(id, switcher) {
-    //console.log("switcher for: " + id + " - " + switcher);
-    var time = (Math.random() * 3000) + 4000;
-    var liWidth = $('#albumPanel ul li:not(.active)').width();
-    var liHeight = $('#albumPanel ul li').height();
-    var liActiveLeftPadding = 30;
-    var height = $('#albumPanel ul #' + id + ' img').height();
-
-    var left;
-    var top;
-    if (switcher % 2 === 0) {
-        top = parseInt(Math.random() * (height - liHeight)) * (-1);
-
-        //if (currentLeft === -1 * liActiveLeftPadding) {
-        if (switcher === 2) {
-            left = liWidth * -1;
-        }
-        else {
-            left = liActiveLeftPadding * -1;
-        }
-    }
-    else {
-        left = (parseInt(Math.random() * liWidth - liActiveLeftPadding) + liActiveLeftPadding) * -1;
-
-        //if (currentTop === 0) {
-        if (switcher === 3) {
-            top = (height - liHeight) * -1;
-        }
-        else {
-            top = 0;
-        }
-    }
-
-    $('#albumPanel ul #' + id + ' img').animate({
-        top: top,
-        left: left
-    }, time, function() {
-        animateAlbumThumbnails(id, switcher === 3 ? 0 : switcher + 1);
-    });
 };
 
 initPortfolio2 = function() {
@@ -214,6 +175,15 @@ handleGuestbookResponse = function(data){
     }
 };
 
+fadeInPortfolio = function(){
+    $("#splash").fadeOut(500, function(){
+        $("#contentPanel #thumbnails").fadeIn(300, function() {
+            setActiveAlbum(cms.albums[0].id, true, true);
+        });
+    });
+    
+};
+
 showPortfolio = function() {
     console.log("show portfolio...");
     if (cms.VIEW === cms.THUMBNAIL_VIEW || cms.VIEW_LOCK) {
@@ -225,16 +195,12 @@ showPortfolio = function() {
     $("#slide").html('');
 
     $("#contentPanel>div").hide();
-    //$("#albumPanel").show().animate({marginLeft: 0}, 300, function() {
-        $("#contentPanel #thumbnails").fadeIn(300, function() {
-            //$("#albumPanel li").first().click();
-            setActiveAlbum($("#albumPanel li").first().attr("id"), true, true);
-        });
-    //});
     
+    if(cms.numberOfLoadedPhotos > 0 && cms.numberOfLoadedPhotos === cms.numberOfPhotos){
+        fadeInPortfolio();
+    }
     
     $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
-    //adjustSizes();
 };
 
 showMe = function() {
@@ -243,10 +209,10 @@ showMe = function() {
         return;
     }
     cms.VIEW = cms.ME_VIEW;
-    $("#contentPanel>div").hide();
-    $("#albumPanel").hide().css("marginLeft", "-250px");
-    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
-    $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
+    $("#contentPanel>div, #splash").hide();
+
+    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator").removeClass("active");
+    cms.activeAlbum = null;
 
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#meMenu").addClass("active");
@@ -261,10 +227,9 @@ showGuestbook = function(){
         return;
     }
     cms.VIEW = cms.GUESTBOOK_VIEW;
-    $("#contentPanel>div").hide();
-    $("#albumPanel").hide().css("marginLeft", "-250px");
-    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
-    $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
+    $("#contentPanel>div, #splash").hide();
+    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator").removeClass("active");
+    cms.activeAlbum = null;
 
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#guestbookMenu").addClass("active");
@@ -302,28 +267,21 @@ scrollToAlbum = function() {
 };
 
 setActiveAlbum = function(albumId, needScroll, showFirst) {
-    cms.activeAlbum = albumId;
-    if (!$("#albumPanel li#" + albumId).hasClass("active")) {
-        $('#albumPanel ul #' + albumId + ' img').stop().animate({
-            top: "-50%",
-            left: "-50%"
-        }, 50, function() {
-            $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator, #albumPanel li.album").removeClass("active");
-            $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"], #albumPanel li#' + albumId).addClass("active");
-            if(showFirst){
-                showSlide($('.thumbnail.active'));
-            }
-            $('#albumPanel ul li:not(.active) span').css("left", "10px").css("right", "auto");
-            $('#albumPanel ul li.active span').css("left", "auto").css("right", 15);
-
-            if (needScroll) {
-                scrollToAlbum();
-            }
-            animateAlbumThumbnails($("#albumPanel ul li:not(.active) img:not(:animated)").parents("li").attr("id"), Math.round(Math.random() * 3));
-
-            //manageThumbnailSizes();
-        });
+    if(cms.activeAlbum === albumId){
+        return;
     }
+    
+    cms.activeAlbum = albumId;
+    $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator").removeClass("active");
+    $('#contentPanel .thumbnail[album="' + albumId + '"], #contentPanel .horizontalSeparator[albumid="' + albumId + '"]').addClass("active");
+    if(showFirst){
+        showSlide($('.thumbnail.active'));
+    }
+
+    if (needScroll) {
+        scrollToAlbum();
+    }
+
 };
 
 manageThumbnailSizes = function() {
@@ -350,8 +308,7 @@ manageThumbnailSizes = function() {
 };
 
 populatePhotos2 = function() {
-    var numberOfPhotos = 0;
-    var numberOfLoadedPhotos = 0;
+    cms.numberOfLoadedPhotos = 0;
 
     cms.oneTwoSwitcher = true;
     cms.thumbnailsWidth = Math.min(window.innerWidth / 3.5, 450);
@@ -363,9 +320,8 @@ populatePhotos2 = function() {
         var album = cms.albums[albumKey];
         //console.log("album: " + album.name);
         if (album.photos.length > 0) {
-            numberOfPhotos += album.photos.length;
+            cms.numberOfPhotos += album.photos.length;
             var bgUrl = album.photos[parseInt(Math.random() * album.photos.length)].url;
-            $("#albumPanel ul").append('<li id="' + album.id + '" class="album"><img src="../img/thumbnails/' + bgUrl + '"><span>' + album.name + '</span></li>');
 
             thumbnailsStr += '<div id="album-' + album.id + '" class="horizontalSeparator" albumName="' + album.name + '" albumId="' + album.id + '" caption="' + album.caption + '"><div class="albumTitle">' + album.name + "</div>";
             var landscapes = [];
@@ -421,10 +377,6 @@ populatePhotos2 = function() {
         showSlide($(this));
     });
 
-    $("#albumPanel li.album").click(function() {
-        var albumId = $(this).attr("id");
-        setActiveAlbum(albumId, true, true);
-    });
 
     $(".thumbnail").click(function() {
         var albumId = $(this).attr("album");
@@ -432,15 +384,17 @@ populatePhotos2 = function() {
     });
 
     $("#thumbnails img").load(function() {
-        numberOfLoadedPhotos++;
-        //console.log(numberOfLoadedPhotos / numberOfPhotos * 100 + "%");
-        if (numberOfLoadedPhotos === numberOfPhotos) {
+        $("#splash").height($("#splash").height() * 0.9);
+        cms.numberOfLoadedPhotos++;
+        //console.log(cms.numberOfLoadedPhotos / cms.numberOfPhotos * 100 + "%");
+        if (cms.numberOfLoadedPhotos === cms.numberOfPhotos) {
             cms.$thumbnails = $(".thumbnail");
             $("#contentPanel .thumbnail").click(function() {
                 showSlide($(this));
             });
-            for (var albumkey in cms.albums) {
-                animateAlbumThumbnails(cms.albums[albumkey].id, Math.round(Math.random() * 3));
+            
+            if(cms.VIEW === cms.THUMBNAIL_VIEW){
+                fadeInPortfolio();
             }
         }
     });

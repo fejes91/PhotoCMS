@@ -175,6 +175,7 @@ input.error, textarea.error{
 
     float: left;
     margin-left: 10px;
+    display: none;
 }
 
 /*.thumbnail{
@@ -276,6 +277,7 @@ input.error, textarea.error{
     z-index: 1;
     background-repeat: no-repeat;
     background-size: 100%;
+    opacity: 0;
 }
 
 #slide img{
@@ -527,4 +529,14 @@ input.error, textarea.error{
   -o-transition: none !important;
   -ms-transition: none !important;
   transition: none !important;
+}
+
+
+#splash{
+    margin-left: 50%;
+    height: 400px;
+    left: -200px;
+    position: fixed;
+    z-index: 999;
+    margin-top: 10%;
 }
