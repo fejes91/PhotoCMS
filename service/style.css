@@ -432,12 +432,17 @@ input.error, textarea.error{
 #me .logoContainer{
     position: relative;
     margin: 0px auto;
-    width: 30%;
+    width: 60%;
+    max-width: 400px;
+    text-align: center;
 }
 
 #me img.logo{
+    width: 30%;
+}
+
+#me img.logo.big{
     width: 40%;
-    margin: 3%;
 }
 
 #me .footer{

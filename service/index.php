@@ -75,6 +75,9 @@ header('Content-type: text/html; charset=utf-8');
                 <div class="logoContainer">
                     <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="../img/build/facebook.png"></a>
                     <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="../img/build/flickr.png"></a>
+                    <a target="_blank" href="https://500px.com/fejes91#"><img class="logo" src="../img/build/500px.png"></a>
+                    <br>
+                    <img class="logo big" src="../img/build/mail_address.png">
                 </div>
                 <div class="footer">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
                 
