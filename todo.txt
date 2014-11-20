@@ -1,7 +1,7 @@
 //hashelt oldalak nem csinálnak semmit history back-re
-albumválasztó görgetés vagy ha nem lesz albuim választó, akkor kitakarítani
-vendégkönyv
-logó a sarokba(?)
+//albumválasztó görgetés vagy ha nem lesz albuim választó, akkor kitakarítani
+//vendégkönyv
+//logó a sarokba(?)
 splash screen (?)
 //thumbnail sáv szélessége igazodjon
 kitakarítani a storykhoz tartozó dolgokat
