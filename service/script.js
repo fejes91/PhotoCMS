@@ -68,7 +68,7 @@ handleHashChange = function(){
     else if(window.location.hash === "#p"){
         showPortfolio();
     }
-}
+};
 
 checkKeycode = function(e) {
     //Kódok:
@@ -176,10 +176,13 @@ handleGuestbookResponse = function(data){
 };
 
 fadeInPortfolio = function(){
-    $("#splash").fadeOut(1000);
-    $("#contentPanel #thumbnails").fadeIn(300, function() {
-        setActiveAlbum(cms.albums[0].id, true, true);
-    });
+    console.log("fade in portfolio...");
+
+    if(cms.VIEW === cms.THUMBNAIL_VIEW){
+        $("#contentPanel #thumbnails, #slide").fadeIn(300, function() {
+            setActiveAlbum(cms.albums[0].id, true, true);
+        });
+    }
 };
 
 showPortfolio = function() {
@@ -188,17 +191,21 @@ showPortfolio = function() {
         return;
     }
     cms.VIEW = cms.THUMBNAIL_VIEW;
+    $("#contentPanel>div").hide();
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#portfolio").addClass("active");
+    
     $("#slide").html('');
 
-    $("#contentPanel>div").hide();
-    
     if(cms.numberOfLoadedPhotos > 0 && cms.numberOfLoadedPhotos === cms.numberOfPhotos){
+        console.log("showportfolio calls fade portfolio");
         fadeInPortfolio();
     }
     
     $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
+    setTimeout(function(){
+        $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 10);
+    }, 1000);
 };
 
 showMe = function() {
@@ -207,7 +214,7 @@ showMe = function() {
         return;
     }
     cms.VIEW = cms.ME_VIEW;
-    $("#contentPanel>div, #splash").hide();
+    $("#contentPanel>div").hide();
 
     $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator").removeClass("active");
     cms.activeAlbum = null;
@@ -225,7 +232,7 @@ showGuestbook = function(){
         return;
     }
     cms.VIEW = cms.GUESTBOOK_VIEW;
-    $("#contentPanel>div, #splash").hide();
+    $("#contentPanel>div").hide();
     $("#contentPanel .thumbnail, #contentPanel .horizontalSeparator").removeClass("active");
     cms.activeAlbum = null;
 
@@ -282,29 +289,6 @@ setActiveAlbum = function(albumId, needScroll, showFirst) {
 
 };
 
-manageThumbnailSizes = function() {
-    $(".thumbnail").unbind('mouseover');
-    $(".thumbnail").unbind('mouseout');
-    $(".thumbnail.active").on('mouseover', function() {
-        var ratio = $(this).find("img").width() / $(this).find("img").height();
-        var width = "100%";
-        if (ratio > 1) {
-            width = 100 * ratio + "%";
-        }
-        $(this).find("img").stop().animate({
-            width: width
-        }, 300);
-    });
-
-    $(".thumbnail.active").on('mouseout', function() {
-        $(this).find("img").stop().animate({
-            width: "250%"
-        }, 300);
-    });
-
-
-};
-
 populatePhotos2 = function() {
     cms.numberOfLoadedPhotos = 0;
 
@@ -334,7 +318,10 @@ populatePhotos2 = function() {
                 if (portraits.length - nextPortrait > 0) {
                     if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 1) {
                         thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
-                        if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
+                        if(landscapes.length - nextLandscape === 2 && portraits.length - nextPortrait === 1){
+                            thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
+                        }
+                        else if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
                             thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                         }
                     }
@@ -380,20 +367,9 @@ populatePhotos2 = function() {
         var albumId = $(this).attr("album");
         setActiveAlbum(albumId, true, false);
     });
-
-    canvas = Raphael('canvas', 600, 600);
-    pathString = "M545.29,181.26  C377.484,252.026,338.623,228.285,286.17,212.847  c-178.999-52.68-218.326,273.706-87.593,329.297  c121.132,51.51,77.946-125.158,170.041-272.417    M218.052,355.908 c21.311,41.948,109.652,96.901,230.93,74.77    ";
-    
-    firstLoad = true;
-    
     $("#thumbnails img").load(function() {
         cms.numberOfLoadedPhotos++;
         
-        if(firstLoad){
-            console.log("first call");
-           animateLine(canvas, "#fff", pathString);
-           firstLoad = false;
-        }
         //console.log(cms.numberOfLoadedPhotos / cms.numberOfPhotos * 100 + "%");
         if (cms.numberOfLoadedPhotos === cms.numberOfPhotos) {
             cms.$thumbnails = $(".thumbnail");
@@ -402,8 +378,10 @@ populatePhotos2 = function() {
             });
             
             if(cms.VIEW === cms.THUMBNAIL_VIEW){
-                //fadeInPortfolio();
+                fadeInPortfolio();
             }
+            
+            
         }
     });
 
@@ -413,45 +391,9 @@ populatePhotos2 = function() {
     $("#slideContainer #prevSlide").click(function() {
         showPrevSlide();
     });
-    $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 2);
+    
 };
 
-
-animateLine = function(canvas, colorNumber, pathString) {
-        var loadRatio = cms.numberOfLoadedPhotos / cms.numberOfPhotos;
-        console.log("ratio: " + cms.numberOfLoadedPhotos + " / " + cms.numberOfPhotos + " = " + cms.numberOfLoadedPhotos / cms.numberOfPhotos); 
-        line = canvas.path(pathString).attr({
-            stroke: colorNumber
-        });
-        var length = line.getTotalLength();
-        
-        var progress;
-        $('path[fill*="none"]').stop().animate(
-            {'to': 1}, 
-            {duration: 50, 
-             step: function(pos, fx) {
-                var offset = length * loadRatio * fx.pos;
-                progress = fx.pos;
-
-                var subpath = line.getSubpath(pos * length, offset);
-                //canvas.clear();
-                canvas.path(subpath).attr({
-                    'stroke-width': 12,
-                    stroke: colorNumber
-                });
-            },
-            complete: function(){
-                if(loadRatio * progress < 1){
-                    animateLine(canvas, colorNumber, pathString);
-                }
-                else{
-                    setTimeout(fadeInPortfolio, 200);
-                    
-                }
-            }
-        });
-
-};
 
 showNextSlide = function() {
     var currentId = $('.thumbnail.shown').attr("photo");

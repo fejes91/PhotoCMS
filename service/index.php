@@ -19,14 +19,6 @@ header('Content-type: text/html; charset=utf-8');
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
             cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
         </script>
-        <div id="splash">
-            <div id="circle">
-                <svg height="1000" width="1000" >
-                    <circle cx="350" cy="380" r="300"  fill="#285859" />
-                </svg>
-            </div> 
-            <div id="canvas"></div>
-        </div>
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
         <div id="menuPanel">

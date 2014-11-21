@@ -149,13 +149,15 @@ function handleUploadedFile() {
                 if (file_exists("../img/" . $hashed_file_name)) {
                     return $hashed_file_name . " already exists. ";
                 } else {
-                    move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
-                    
+                    //move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
+                    $image = new Imagick($_FILES["file"]["tmp_name"]);
+                    $image->setimagecompression(Imagick::COMPRESSION_JPEG);
+                    $image->setimagecompressionquality(80);
+                    $image->thumbnailimage(1600, 1000, true);
+                    $image->writeimage('../img/' . $hashed_file_name);
                     
                     if(strcmp($extension, "gif") == 0){
                         $thumb = new Imagick("../img/" . $hashed_file_name);
-                        //$thumb->setimageformat('gif');
-                        //$thumb->setImageCompressionQuality(90);
                     }
                     else{
                         $thumb = new Imagick('../img/' . $hashed_file_name);
@@ -163,6 +165,8 @@ function handleUploadedFile() {
                     
                     $naturalWidth = $thumb->getimagewidth();
                     $naturalHeight = $thumb->getimageheight();
+                    $image->setimagecompression(Imagick::COMPRESSION_JPEG);
+                    $image->setimagecompressionquality(80);
                     $thumb->thumbnailimage(400, 400, true);
                     $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
                     
