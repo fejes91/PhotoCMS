@@ -176,12 +176,10 @@ handleGuestbookResponse = function(data){
 };
 
 fadeInPortfolio = function(){
-    $("#splash").fadeOut(500, function(){
-        $("#contentPanel #thumbnails").fadeIn(300, function() {
-            setActiveAlbum(cms.albums[0].id, true, true);
-        });
+    $("#splash").fadeOut(1000);
+    $("#contentPanel #thumbnails").fadeIn(300, function() {
+        setActiveAlbum(cms.albums[0].id, true, true);
     });
-    
 };
 
 showPortfolio = function() {
@@ -383,9 +381,19 @@ populatePhotos2 = function() {
         setActiveAlbum(albumId, true, false);
     });
 
+    canvas = Raphael('canvas', 600, 600);
+    pathString = "M545.29,181.26  C377.484,252.026,338.623,228.285,286.17,212.847  c-178.999-52.68-218.326,273.706-87.593,329.297  c121.132,51.51,77.946-125.158,170.041-272.417    M218.052,355.908 c21.311,41.948,109.652,96.901,230.93,74.77    ";
+    
+    firstLoad = true;
+    
     $("#thumbnails img").load(function() {
-        $("#splash").height($("#splash").height() * 0.9);
         cms.numberOfLoadedPhotos++;
+        
+        if(firstLoad){
+            console.log("first call");
+           animateLine(canvas, "#fff", pathString);
+           firstLoad = false;
+        }
         //console.log(cms.numberOfLoadedPhotos / cms.numberOfPhotos * 100 + "%");
         if (cms.numberOfLoadedPhotos === cms.numberOfPhotos) {
             cms.$thumbnails = $(".thumbnail");
@@ -394,7 +402,7 @@ populatePhotos2 = function() {
             });
             
             if(cms.VIEW === cms.THUMBNAIL_VIEW){
-                fadeInPortfolio();
+                //fadeInPortfolio();
             }
         }
     });
@@ -406,6 +414,43 @@ populatePhotos2 = function() {
         showPrevSlide();
     });
     $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 2);
+};
+
+
+animateLine = function(canvas, colorNumber, pathString) {
+        var loadRatio = cms.numberOfLoadedPhotos / cms.numberOfPhotos;
+        console.log("ratio: " + cms.numberOfLoadedPhotos + " / " + cms.numberOfPhotos + " = " + cms.numberOfLoadedPhotos / cms.numberOfPhotos); 
+        line = canvas.path(pathString).attr({
+            stroke: colorNumber
+        });
+        var length = line.getTotalLength();
+        
+        var progress;
+        $('path[fill*="none"]').stop().animate(
+            {'to': 1}, 
+            {duration: 50, 
+             step: function(pos, fx) {
+                var offset = length * loadRatio * fx.pos;
+                progress = fx.pos;
+
+                var subpath = line.getSubpath(pos * length, offset);
+                //canvas.clear();
+                canvas.path(subpath).attr({
+                    'stroke-width': 12,
+                    stroke: colorNumber
+                });
+            },
+            complete: function(){
+                if(loadRatio * progress < 1){
+                    animateLine(canvas, colorNumber, pathString);
+                }
+                else{
+                    setTimeout(fadeInPortfolio, 200);
+                    
+                }
+            }
+        });
+
 };
 
 showNextSlide = function() {

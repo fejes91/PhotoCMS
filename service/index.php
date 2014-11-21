@@ -11,6 +11,7 @@ header('Content-type: text/html; charset=utf-8');
         <!--link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'-->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,300,400' rel='stylesheet' type='text/css'>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="raphael-min.js"></script>
         <script src="script.js"></script>
     </head>
     <body>
@@ -18,7 +19,14 @@ header('Content-type: text/html; charset=utf-8');
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
             cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
         </script>
-        <img id="splash" src="../img/build/f.png">
+        <div id="splash">
+            <div id="circle">
+                <svg height="1000" width="1000" >
+                    <circle cx="350" cy="380" r="300"  fill="#285859" />
+                </svg>
+            </div> 
+            <div id="canvas"></div>
+        </div>
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
         <div id="menuPanel">

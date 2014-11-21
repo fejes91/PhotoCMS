@@ -35,7 +35,7 @@ input.error, textarea.error{
     -ms-filter: blur(10px);
     filter: blur(10px);
     opacity: 0.08;
-    
+
     background-size: 200%;
     background-position: center;
 }
@@ -56,7 +56,7 @@ input.error, textarea.error{
     height: 22px;
     max-width: 20%;
     padding: 9px 35px;
-    
+
     opacity: 0.4;
     transition-duration: 0.2s;
 }
@@ -98,7 +98,7 @@ input.error, textarea.error{
     margin: 2px 0;
     font-size: 20px;
     transition-duration: 0.2s;
-   
+
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
 }
@@ -131,7 +131,7 @@ input.error, textarea.error{
     -o-filter: blur(3px);
     -ms-filter: blur(3px);
     filter: blur(3px);
-    
+
     position: relative;
     top: 0px;
     left: 0px;
@@ -144,7 +144,7 @@ input.error, textarea.error{
     -o-filter: blur(10px);
     -ms-filter: blur(10px);
     filter: blur(10px);
-    
+
 
 }
 
@@ -165,7 +165,7 @@ input.error, textarea.error{
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 10px;
-    
+
     margin-top: 40px;
 }
 
@@ -195,7 +195,7 @@ input.error, textarea.error{
 
 .thumbnail.active{
     opacity: 1;
-    
+
 }
 
 /*.thumbnail.active img{
@@ -244,8 +244,8 @@ input.error, textarea.error{
     overflow: hidden;
     opacity: 0.3;
     transition-duration: 0.2s;
-    
-    
+
+
 }
 .thumbnail img{
     height: 100%;
@@ -293,7 +293,7 @@ input.error, textarea.error{
     position: absolute;
     transition-duration: 0.5s;
     z-index: 2;
-    
+
 }
 
 #slideInfo.active{
@@ -332,7 +332,7 @@ input.error, textarea.error{
 
 #slideInfo hr{
     margin: 0px;
-    
+
 }
 
 #slideInfo #photoInfo{
@@ -387,7 +387,7 @@ input.error, textarea.error{
     background-size: 100%;
     height: 100px;
     width: 30px;
-    
+
     background-repeat: no-repeat;
     background-position-x: 50%;
     background-position-y: 50%;
@@ -403,7 +403,7 @@ input.error, textarea.error{
 #nextSlide span{
     right: 0px;
     background-image: url('../img/build/arrow-right.png');
-    
+
 }
 
 #prevSlide span{
@@ -524,19 +524,31 @@ input.error, textarea.error{
 }
 
 .notransition {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  -ms-transition: none !important;
-  transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+    transition: none !important;
 }
 
 
 #splash{
     margin-left: 50%;
     height: 400px;
-    left: -200px;
+    left: -300px;
     position: fixed;
     z-index: 999;
-    margin-top: 10%;
+    zoom: 0.8;
+}
+
+#circle{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#canvas{
+    position: absolute;
+    z-index: 2;
 }

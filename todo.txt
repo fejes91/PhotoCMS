@@ -2,8 +2,8 @@
 //albumválasztó görgetés vagy ha nem lesz albuim választó, akkor kitakarítani
 //vendégkönyv
 //logó a sarokba(?)
-splash screen (?)
+//splash screen (?)
 //thumbnail sáv szélessége igazodjon
-kitakarítani a storykhoz tartozó dolgokat
+//kitakarítani a storykhoz tartozó dolgokat
 
 portfolió összerakás, lemérés, tárhely takarítás
