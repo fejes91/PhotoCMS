@@ -5,6 +5,11 @@ body{
     font-weight: 300;
     letter-spacing: -1px;   
     background-color: rgb(240, 240, 240);
+    color: rgb(40, 88, 89);
+}
+
+input, textarea{
+    color: rgb(40, 88, 89);
 }
 
 input.error, textarea.error{
@@ -72,93 +77,6 @@ input.error, textarea.error{
 
 #menuPanel img:hover, #menuPanel img.active{
     opacity: 1;
-}
-
-#albumPanel{
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    color: white;
-    margin-left: -250px; /*animáláshoz*/
-    z-index: 10;
-}
-
-#albumPanel ul{
-    padding: 0;
-    list-style-type: none;
-    margin: 0px;
-}
-
-#albumPanel ul li{
-    width: 150px;
-    height: 40px;
-    overflow: hidden;
-    position: relative;
-    line-height: 40px;
-    margin: 2px 0;
-    font-size: 20px;
-    transition-duration: 0.2s;
-
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-}
-
-
-
-#albumPanel ul li:hover{
-    background-color: rgba(40, 88, 89, 0.9);
-}
-
-#albumPanel li.active{
-    margin: 4px 0px;
-    padding-left: 30px;
-    background-size: 200%;
-    background-color: rgba(40, 88, 89, 0.9);
-}
-
-#albumPanel li:first-of-type.active{
-    margin-bottom: 5px;
-    padding-left: 30px;
-    background-size: 200%;
-    background-color: rgba(40, 88, 89, 0.9);
-}
-
-#albumPanel ul li img{
-    width: 200%;
-    opacity: 0.3;
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
-
-    position: relative;
-    top: 0px;
-    left: 0px;
-}
-
-#albumPanel ul li.active img{
-    opacity: 0.5;
-    -webkit-filter: blur(10px);
-    -moz-filter: blur(10px);
-    -o-filter: blur(10px);
-    -ms-filter: blur(10px);
-    filter: blur(10px);
-
-
-}
-
-#albumPanel ul li span{
-    position: absolute;
-    top: 0px;
-    left: 10px;
-    transition-duration: 0.4s;
-    display: inline-block;
-    margin-left: 0px;
-}
-
-#albumPanel ul li.active span{
-    margin-left: 5px;
 }
 
 #contentPanel{
