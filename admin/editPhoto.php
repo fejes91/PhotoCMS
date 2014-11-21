@@ -43,7 +43,7 @@ if (isset($_SESSION["rowCount"])) {
           enctype="multipart/form-data">
         <label for="caption">Leírás:</label>
         <textarea name="caption" ><? echo $photo->getCaption(); ?></textarea><br>
-        <label for="story_text">Szöveg:</label>
+        <label for="file">Kép cserélése:</label>
         <input type="file" name="file" id="file">
         <br>
         <label for="public">Publikus:</label>

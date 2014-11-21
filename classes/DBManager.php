@@ -228,26 +228,6 @@ class DbManager {
         return $stmt->rowCount();
     }
 
-    public function deleteStory($id) {
-        $sql = "DELETE FROM stories WHERE id = :id";
-
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "id" => $id)
-        );
-
-        return $stmt->rowCount();
-    }
-
-    public function insertStory($title, $text) {
-        $sql = "INSERT INTO stories (title) VALUES (:title)";
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "title" => $title)
-        );
-
-        return $stmt->rowCount();
-    }
 
     public function updatePhoto($photo) {
         $sql = "UPDATE photos SET caption = :caption, album_id = :album, public = :public WHERE id = :id";
@@ -281,41 +261,6 @@ class DbManager {
             )
         );
         return $stmt->rowCount();
-    }
-
-    public function updateStory($id, $title, $text) {
-        $sql = "UPDATE stories SET title = :title, text = :text WHERE id = :id";
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "title" => $title,
-            "text" => $text,
-            "id" => $id)
-        );
-
-        return $stmt->rowCount();
-    }
-
-    public function getStories() {
-        $sql = "SELECT * FROM stories";
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute();
-
-        $array = array();
-        while (($row = $stmt->fetch())) {
-            $story = new Story($row);
-            array_push($array, $story);
-        }
-        return $array;
-    }
-
-    public function getStory($id) {
-        $sql = "SELECT * FROM stories WHERE id = :id";
-        $stmt = $this->con->prepare($sql);
-        $stmt->execute(array(
-            "id" => $id)
-        );
-
-        return new Story($stmt->fetch());
     }
 
     public function getPhoto($id) {

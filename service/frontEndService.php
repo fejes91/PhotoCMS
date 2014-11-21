@@ -3,7 +3,6 @@
 include "../classes/DBManager.php";
 include "../classes/Album.php";
 include "../classes/Photo.php";
-include "../classes/Story.php";
 include "../classes/GuestBookEntry.php";
 
 if (isset($_GET['type']) && !empty($_GET['type'])) {

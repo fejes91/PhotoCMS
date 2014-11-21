@@ -103,15 +103,6 @@ ul{
 
 }
 
-li.story{
-    list-style-type: none;
-    width: 800px;
-    max-height: 300px;
-    overflow: hidden;
-    border: 2px solid black;
-    margin: 10px auto;
-    padding: 20px;
-}
 
 #photo-container .photo{
     border: 1px solid grey;
