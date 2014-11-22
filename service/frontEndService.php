@@ -3,6 +3,7 @@
 include "../classes/DBManager.php";
 include "../classes/Album.php";
 include "../classes/Photo.php";
+include "../classes/Captcha.php";
 include "../classes/GuestBookEntry.php";
 
 if (isset($_GET['type']) && !empty($_GET['type'])) {
@@ -60,6 +61,21 @@ function getGuestbook(){
         array_push($responseArray, $obj);
     }
     return json_encode($responseArray);
+}
+
+function getCaptcha(){
+    $q = array(
+      new Captcha("Mennyi egy meg egy?", "2"),
+      new Captcha("Mennyi egy meg három?", "4"),
+      new Captcha("Mennyi három meg három?", "6")
+    );
+    
+    $captcha = $q[rand(0, count($q) - 1)];
+    $obj = array(
+            "question" => $captcha->getQuestion(),
+            "hash" => $captcha->getHashedSolution()
+        );
+    return json_encode($obj);
 }
 
 ?>

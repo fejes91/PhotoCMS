@@ -126,6 +126,8 @@ initPortfolio = function() {
 
 initGuestbook = function(){
     console.log("initguestbook ");
+    
+    $("#captcha").attr("placeholder", cms.captcha.question);
  
     for(var entryKey in cms.guestbook){
         var entry = cms.guestbook[entryKey];
@@ -139,7 +141,8 @@ initGuestbook = function(){
             name: $("#guestbook #name").val(),
             mail: $("#guestbook #mail").val(),
             captcha: $("#guestbook #captcha").val(),
-            message: $("#guestbook #message").val()            
+            message: $("#guestbook #message").val(),
+            hash: cms.captcha.hash
         };
         console.log(JSON.stringify(data));
         $.ajax({

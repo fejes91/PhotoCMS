@@ -18,6 +18,7 @@ header('Content-type: text/html; charset=utf-8');
         <script>
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
             cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
+            cms.captcha = JSON.parse('<? echo getCaptcha() ?>');
         </script>
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
@@ -53,13 +54,12 @@ header('Content-type: text/html; charset=utf-8');
             <div id="me">
                 <img class="header" src="../img/build/me.jpg">
                 <p>
-                    
-                    <b style="font-size: 32px;">Fejes Ádám</b> vagyok. 91-ben születtem, jelenleg fejlesztőként dolgozok és a hobbim a fotózás. 
-                    Nem vagyok és nem is akarok profi fotós lenni, nekem ez mindig kikapcsolódást jelent, sosem munkát. 
-                    Nem csak fotózni szeretek, hanem weboldalakkal is szívesen molyolok (egy ideje már pénzért), így 
-                    ez az oldal nem csak fotós, hanem webfejlesztői portfólió is.
-                    
+                    <b style="font-size: 32px;">Fejes Ádám</b> vagyok, 91-ben születtem, jelenleg fejlesztőként dolgozok, hobbim a fotózás.
+                    Lencsevégre kapni a pillanatot, számomra mindig kikapcsolódást jelent, sosem munkát.
+                    Amatőrként céltudatosan keresgélem az utat a fotózás világában, igyekszem minél több módszert, technikát kipróbálni. 
+                    Élményeimet és tapasztalataimat a <a href="http://fejesadamfoto.hu/blog">blogomon</a> írom le, természetesen gazdagon illusztrálva a képeimmel.
                 </p>
+
                 <div class="logoContainer">
                     <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="../img/build/facebook.png"></a>
                     <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="../img/build/flickr.png"></a>
@@ -77,7 +77,7 @@ header('Content-type: text/html; charset=utf-8');
                     <form id="gBookForm" accept-charset="UTF-8" method="POST">
                         <input name="name" id="name" type="text" placeholder="Név" autofocus=""><br>
                         <input name="mail" id="mail" placeholder="Email" type="text"><br>
-                        <input name="captcha" id="captcha" placeholder="Mennyi három meg három?" type="text" autofocus=""><br>
+                        <input name="captcha" id="captcha" type="text" autofocus=""><br>
                         <textarea name="message" id="message" type="text" ></textarea><br>
 
                         <div id="submitGBook">

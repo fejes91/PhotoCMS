@@ -8,7 +8,7 @@ body{
     color: rgb(40, 88, 89);
 }
 
-input, textarea{
+input, textarea, a{
     color: rgb(40, 88, 89);
 }
 
@@ -342,7 +342,7 @@ input.error, textarea.error{
 
 
 #me img.header{
-    width:200px;
+    width:150px;
     border-radius: 50%;
     margin: 0px 50%;
     left: -100px;
@@ -358,11 +358,11 @@ input.error, textarea.error{
 }
 
 #me img.logo{
-    width: 30%;
+    width: 20%;
 }
 
 #me img.logo.big{
-    width: 40%;
+    width: 35%;
 }
 
 #me .footer{

@@ -8,14 +8,14 @@ if($_POST['name'] == null|| $_POST['mail'] == null || $_POST['message'] == null)
 else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
   echo "INVALID MAIL"; 
 }
-elseif(($_POST["captcha"] != "hat" && $_POST["captcha"] != "Hat" && $_POST["captcha"] != "6")){
+elseif((hash('ripemd160', $_POST["captcha"]) != $_POST['hash'])){
     echo 'CAPTHCA';
 }
 else{
     $ip = $_SERVER['REMOTE_ADDR'];
     $lastEntry = DbManager::Instance()->getGuestbookEntryForIp($ip);
     $troll = $lastEntry != null && (strtotime($lastEntry->date . "+5 minutes") > strtotime("now"));
-    $troll = false;
+    //$troll = false;
     
     if($troll){
         echo 'TROLL';
