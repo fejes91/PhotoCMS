@@ -7,6 +7,8 @@ header('Content-type: text/html; charset=utf-8');
     <head>
         <title>Fejes Ádám Fotó</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        
         <link rel="stylesheet" type="text/css" href="style.css">
         <!--link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'-->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,300,400' rel='stylesheet' type='text/css'>
@@ -46,13 +48,11 @@ header('Content-type: text/html; charset=utf-8');
                     
                     <div id="nextSlide" class="slideNavigation "><span class="icon"></span></div>
                     <div id="prevSlide" class="slideNavigation"><span class="icon"></span></div>
-                    
-                    
-                    
+
                 </div>
             </div>    
             <div id="me">
-                <img class="header" src="../img/build/me.jpg">
+                <div class="headerContaier"><img class="header" src="../img/build/me.jpg"></div>
                 <p>
                     <b style="font-size: 32px;">Fejes Ádám</b> vagyok, 91-ben születtem, jelenleg fejlesztőként dolgozok, hobbim a fotózás.
                     Lencsevégre kapni a pillanatot, számomra mindig kikapcsolódást jelent, sosem munkát.

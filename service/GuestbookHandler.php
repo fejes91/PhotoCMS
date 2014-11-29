@@ -5,11 +5,11 @@ include "../classes/GuestBookEntry.php";
 if($_POST['name'] == null|| $_POST['mail'] == null || $_POST['message'] == null){
     echo "MISSING DATA";
 }
-else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-  echo "INVALID MAIL"; 
-}
 elseif((hash('ripemd160', $_POST["captcha"]) != $_POST['hash'])){
     echo 'CAPTHCA';
+}
+else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+  echo "INVALID MAIL"; 
 }
 else{
     $ip = $_SERVER['REMOTE_ADDR'];

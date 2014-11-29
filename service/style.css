@@ -78,6 +78,13 @@ input.error, textarea.error{
 #menuPanel img:hover, #menuPanel img.active{
     opacity: 1;
 }
+@media screen and (max-width: 480px){
+    #menuPanel img{
+        padding: 9px 7%;
+    }
+    
+}
+
 
 #contentPanel{
     overflow-x: hidden;
@@ -89,51 +96,14 @@ input.error, textarea.error{
 
 
 #thumbnails{
-    padding-right: 10px;
-
     float: left;
     margin-left: 10px;
     display: none;
 }
 
-/*.thumbnail{
-    display: inline-block;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    opacity: 0.3;
-    margin: 3px;
-    transition-duration: 0.2s;
-
-}*/
-
-.thumbnail:hover{
-    /*opacity: 0.5;*/
-}
-
 .thumbnail.active{
     opacity: 1;
-
 }
-
-/*.thumbnail.active img{
-    -webkit-filter: blur(0px);
-    -moz-filter: blur(0px);
-    -o-filter: blur(0px);
-    -ms-filter: blur(0px);
-    filter: blur(0px);
-}*/
-
-/*.thumbnail img{
-    position: relative;
-    width: 250%;
-}*/
-
-/*.thumbnail img.hover{
-    width: 150%;
-    top: -10px;
-    left: -10px;
-}*/
 
 #thumbnails .horizontalSeparator{
     position: relative;
@@ -333,25 +303,32 @@ input.error, textarea.error{
     max-width: 800px;
     min-width: 500px;
     margin: -5px auto;
-    padding: 0px 40px;
     display: block;
     letter-spacing: 2px;
     text-align: justify;
     font-size: 20px;
 }
 
+#me p{
+    margin: 0px 10px;
+}
+
+
+
+
+#me div.headerContaier{
+    width: 100%;
+    text-align: center;
+}
 
 #me img.header{
     width:150px;
     border-radius: 50%;
-    margin: 0px 50%;
-    left: -100px;
-    position: relative;
 }
 
 #me .logoContainer{
     position: relative;
-    margin: 0px auto;
+    margin: 20px auto;
     width: 60%;
     max-width: 400px;
     text-align: center;
@@ -401,6 +378,7 @@ input.error, textarea.error{
 #guestbook form input, #guestbook form textarea{
     margin: 10px;
     width: 300px;
+    max-width: 75%;
     height: 40px;
     font-size: 18px;
     padding-left: 10px;
@@ -408,6 +386,7 @@ input.error, textarea.error{
 
 #guestbook form textarea{
     width: 400px;
+    max-width: 90%;
     height: 150px;
     padding: 5px;
 }
@@ -450,23 +429,48 @@ input.error, textarea.error{
 }
 
 
-#splash{
-    margin-left: 50%;
-    height: 400px;
-    left: -300px;
-    position: fixed;
-    z-index: 999;
-    zoom: 0.8;
+@media screen and (max-width: 480px){
+    #thumbnails{
+        float: none;
+        margin: 0px auto;
+    }
+    
+    #me{
+        min-width: 450px;
+        font-size: 16px;
+        letter-spacing: 0px;
+    }
+    
+    #me img.header{
+        width: 120px;
+    }
+    
+    #guestbook #responseContainer{
+        font-size: 18px;
+    }
 }
 
-#circle{
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-#canvas{
-    position: absolute;
-    z-index: 2;
+@media screen and (max-width: 320px){
+    #me{
+        min-width: 290px;
+        font-size: 16px;
+        letter-spacing: 0px;
+    }
+    
+    #me img.header{
+        width:120px;
+    }
+    
+    #me .logoContainer{
+        width: 90%;
+        text-align: center;
+    }
+    
+    #me img.logo{
+        width: 30%;
+    }
+    
+    #me img.logo.big{
+        width: 55%;
+    }
 }

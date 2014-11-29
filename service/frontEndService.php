@@ -64,16 +64,12 @@ function getGuestbook(){
 }
 
 function getCaptcha(){
-    $q = array(
-      new Captcha("Mennyi egy meg egy?", "2"),
-      new Captcha("Mennyi egy meg három?", "4"),
-      new Captcha("Mennyi három meg három?", "6")
-    );
+    $first = rand(10, 20);
+    $second = rand(1, 10);
     
-    $captcha = $q[rand(0, count($q) - 1)];
     $obj = array(
-            "question" => $captcha->getQuestion(),
-            "hash" => $captcha->getHashedSolution()
+            "question" => "Mennyi " . $first . " + " . $second . "?",
+            "hash" => hash('ripemd160', $first + $second)
         );
     return json_encode($obj);
 }
