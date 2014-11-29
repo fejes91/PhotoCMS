@@ -8,9 +8,10 @@ if (isset($_SESSION["rowCount"])) {
 ?>
 
 <form method="post"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data" id="generalUploader">
     <h2>Upload photo:</h2>
     <input type="file" name="file" id="file">
+    <span id="albumSelector">
     <?
     if (!isset($_GET['album'])) {
         $albums = DbManager::Instance()->getAlbums();
@@ -22,11 +23,22 @@ if (isset($_SESSION["rowCount"])) {
         echo '</select>';
     }
     ?>
-
+    </span  >
     <label for="caption">Caption:</label>
     <textarea name="caption"></textarea>
     <br>
     <input type="submit" name="submit" value="Upload">
+    
+    <script>
+        $(function(){
+            $("#generalUploader").submit(function(){
+               if($("#albumSelector option:selected").val() === '-1'){
+                   alert("Válassz albumot!");
+                   return false;
+               } 
+            });
+        });
+    </script>
 </form>
 
 <?
@@ -176,13 +188,20 @@ function handleUploadedFile() {
                     } else if (isset($_POST['album'])) {
                         $album = $_POST['album'];
                     }
-                    $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $naturalWidth, $naturalHeight);
-                    if ($rowCount) {
-                        return "Kép feltöltve";
-                    } else {
+                    if($album){
+                        $rowCount = DbManager::Instance()->insertPhoto($hashed_file_name, $album, $_POST['caption'], $naturalWidth, $naturalHeight);
+                        if ($rowCount) {
+                            return "Kép feltöltve";
+                        } else {
+                            unlink(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
+                            return "Kép feltöltése nem sikerült :(";
+                        }
+                    }
+                    else {
                         unlink(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
                         return "Kép feltöltése nem sikerült :(";
                     }
+                    
                 }
             }
         } else {

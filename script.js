@@ -353,10 +353,10 @@ populatePhotos2 = function() {
                 if (portraits.length - nextPortrait > 0) {
                     if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 1) {
                         thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
-                        if(landscapes.length - nextLandscape === 2 && portraits.length - nextPortrait === 1){
+                        /*if(landscapes.length - nextLandscape === 2 && portraits.length - nextPortrait === 1){
                             thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
                         }
-                        else if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
+                        else */if (landscapes.length - nextLandscape >= 2 && landscapes.length - nextLandscape > portraits.length - nextPortrait) {
                             thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                         }
                     }
