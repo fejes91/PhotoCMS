@@ -9,11 +9,27 @@ header('Content-type: text/html; charset=utf-8');
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         
+        <meta name="description" content="Fejes Ádám fotóportfólió">
+	<meta name="keywords" content="
+		fejes, ádám, fotó, természet, tájkép,  város, urban, utca, portré, vaku, fénykép, fényképezőgép, portfólió, hobbi, magyarország,
+			   adam, photo, nature, landscape, city, street, portrait, flash, photography, camera, portfolio, hobby, picture, budapest, hungary,
+			   nikon
+		">
+	<meta name="robots" content="index, follow">
+	<meta name="revisit-after" content="1 Week">
+	<meta name="author" content="Fejes Ádám">
+	<meta name="copyright" content="Minden jog fenntartva">
+	<meta name="distribution" content="local">
+	<meta name="language" content="HU">
+	<meta name="rating" content="general">
+	
+	<base target="_parent">
+
+	<link rel="icon" type="image/png" href="<?echo getFrontendImagesHome()?>build/favicon.png">
+        
         <link rel="stylesheet" type="text/css" href="style.css">
-        <!--link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'-->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,300,400' rel='stylesheet' type='text/css'>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="raphael-min.js"></script>
         <script src="script.js"></script>
     </head>
     <body>
@@ -21,15 +37,16 @@ header('Content-type: text/html; charset=utf-8');
             cms.albums = JSON.parse('<? echo getAlbum(null) ?>');
             cms.guestbook = JSON.parse('<? echo getGuestbook() ?>');
             cms.captcha = JSON.parse('<? echo getCaptcha() ?>');
+            cms.imagesHome = '<? echo getFrontendImagesHome() ?>'; 
         </script>
         <div id="stat"></div>
         <div id="verticalSeparator"></div>
         <div id="menuPanel">
-            <img src="../img/build/camera.png" id="portfolio" title="Portfólió" alt="Portfólió">
-            <img src="../img/build/me.png" id="meMenu" title="Rólam" alt="Rólam">
-            <img src="../img/build/book.png" id="guestbookMenu" title="Vendégkönyv" alt="Vendégkönyv">
-            <a href="http://fejesadamfoto.hu/blog"><img src="../img/build/blog.png" id="blog" title="Blog" alt="Blog"></a>
-            <img id="logo" src="../img/build/f.png">
+            <img src="<?echo getFrontendImagesHome()?>build/camera.png" id="portfolio" title="Portfólió" alt="Portfólió">
+            <img src="<?echo getFrontendImagesHome()?>build/me.png" id="meMenu" title="Rólam" alt="Rólam">
+            <img src="<?echo getFrontendImagesHome()?>build/book.png" id="guestbookMenu" title="Vendégkönyv" alt="Vendégkönyv">
+            <a href="http://fejesadamfoto.hu/blog"><img src="<?echo getFrontendImagesHome()?>build/blog.png" id="blog" title="Blog" alt="Blog"></a>
+            <img id="logo" src="<?echo getFrontendImagesHome()?>build/f.png">
         </div>
         <div id="contentPanel">
             <div id="thumbnails">
@@ -52,7 +69,7 @@ header('Content-type: text/html; charset=utf-8');
                 </div>
             </div>    
             <div id="me">
-                <div class="headerContaier"><img class="header" src="../img/build/me.jpg"></div>
+                <div class="headerContaier"><img class="header" src="<?echo getFrontendImagesHome()?>build/me.jpg"></div>
                 <p>
                     <b style="font-size: 32px;">Fejes Ádám</b> vagyok, 91-ben születtem, jelenleg fejlesztőként dolgozok, hobbim a fotózás.
                     Lencsevégre kapni a pillanatot, számomra mindig kikapcsolódást jelent, sosem munkát.
@@ -61,11 +78,11 @@ header('Content-type: text/html; charset=utf-8');
                 </p>
 
                 <div class="logoContainer">
-                    <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="../img/build/facebook.png"></a>
-                    <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="../img/build/flickr.png"></a>
-                    <a target="_blank" href="https://500px.com/fejes91#"><img class="logo" src="../img/build/500px.png"></a>
+                    <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="<?echo getFrontendImagesHome()?>build/facebook.png"></a>
+                    <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="<?echo getFrontendImagesHome()?>build/flickr.png"></a>
+                    <a target="_blank" href="https://500px.com/fejes91#"><img class="logo" src="<?echo getFrontendImagesHome()?>build/500px.png"></a>
                     <br>
-                    <img class="logo big" src="../img/build/mail_address.png">
+                    <img class="logo big" src="<?echo getFrontendImagesHome()?>build/mail_address.png">
                 </div>
                 <div class="footer">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
                 

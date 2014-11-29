@@ -22,10 +22,14 @@
             </div>
             <div id="content">
                 <?
+                
+                
                 include "../classes/DBManager.php";
                 include "../classes/Album.php";
                 include "../classes/Photo.php";
                 include "../classes/GuestBookEntry.php";
+                
+                
 
                 function parseRequestHeaders() {
                     $headers = array();

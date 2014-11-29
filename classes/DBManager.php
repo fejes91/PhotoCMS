@@ -1,9 +1,18 @@
 <?
 
 class DbManager {
-
+    public $ADMIN_IMAGES_HOME = "../img/";
+    public $FRONTEND_IMAGES_HOME = "../img/";
+    
     public $con;
     
+    public function getAdminImageHome(){
+        return $this->ADMIN_IMAGES_HOME;
+    }
+    
+    public function getFrontendImageHome(){
+        return $this->FRONTEND_IMAGES_HOME;
+    }
 
     public static function Instance() {
         $inst = null;
@@ -14,7 +23,7 @@ class DbManager {
     }
 
     private function __construct() {
-        include "../db_conn.php";
+        include "db_conn.php";
         $this->con = $con;
         $this->con->query('SET NAMES utf8');
     }
@@ -216,8 +225,8 @@ class DbManager {
     }
 
     public function deletePhoto($id) {
-        unlink("../img/" . $this->getPhoto($id)->url);
-        unlink("../img/thumbnails/" . $this->getPhoto($id)->url);
+        unlink($this->ADMIN_IMAGES_HOME . $this->getPhoto($id)->url);
+        unlink($this->ADMIN_IMAGES_HOME . "/thumbnails/" . $this->getPhoto($id)->url);
         $sql = "DELETE FROM photos WHERE id = :id";
 
         $stmt = $this->con->prepare($sql);

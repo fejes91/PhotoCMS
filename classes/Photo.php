@@ -21,16 +21,16 @@ class Photo {
     }
 
     public function show() {
-        return '<img src="../img/' . $this->url . '">';
+        return '<img src="' . DbManager::Instance()->getAdminImageHome() . $this->url . '">';
     }
     
     public function showThumbnail() {
-        return '<img src="../img/thumbnails/' . $this->url . '">';
+        return '<img src="' . DbManager::Instance()->getAdminImageHome() . 'thumbnails/' . $this->url . '">';
     }
 
     public function showEditor() {
         $str = '<div class="photo" photoId="' . $this->id . '">';
-            $str .= '<img src="../img/thumbnails/' . $this->url . '?rnd=' . rand() . '">';
+            $str .= '<img src="' . DbManager::Instance()->getAdminImageHome() . 'thumbnails/' . $this->url . '?rnd=' . rand() . '">';
             $str .= '<div class="controls">';
                 $caption = $this->caption;
                 if (strlen($caption) > 20) {

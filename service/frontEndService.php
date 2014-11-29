@@ -14,6 +14,10 @@ if (isset($_GET['type']) && !empty($_GET['type'])) {
     }
 }
 
+function getFrontendImagesHome(){
+    return DbManager::Instance()->FRONTEND_IMAGES_HOME;
+}
+
 function getAlbum($id) {
     $albums = array();
     if (!empty($id)) {

@@ -126,6 +126,10 @@ initPortfolio2 = function() {
     $("#contentPanel").scroll(function() {
         manageThumbnailScroll();
     });
+    
+    $("#slideInfo .icon").css("background-image", "url('" + cms.imagesHome + "build/info.png')");
+    $("#nextSlide span").css("background-image", "url('" + cms.imagesHome + "build/arrow-right.png')");
+    $("#prevSlide span").css("background-image", "url('" + cms.imagesHome + "build/arrow-left.png')");
 };
 
 /*initPortfolio = function() {
@@ -462,7 +466,7 @@ generateRow = function(albumId, photoArray) {
             style = "width: " + width + "px; height: " + height + "px;";
         }
 
-        return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
+        return '<div class="thumbnail onetwo" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="' + cms.imagesHome + '/thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
     }
 
     var HEIGHT = photoArray[0].naturalHeight;
@@ -484,7 +488,7 @@ generateRow = function(albumId, photoArray) {
         var photo = photoArray[key];
         if (typeof photo !== "undefined") {
             var style = "width: " + (widths[key] * ratio - (photoArray.length - 2) * 4 / photoArray.length) + "px; height: " + HEIGHT * ratio + "px;";
-            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="../img/thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
+            str += '<div class="thumbnail onetwo landscape" style="' + style + '" album="' + albumId + '" photo="' + photo.id + '"><img src="' + cms.imagesHome + 'thumbnails/' + photo.url + '" caption="' + photo.caption + '" naturalWidth="' + photo.naturalWidth + '" naturalHeight="' + photo.naturalHeight + '"/></div>';
         }
     }
     return str;
@@ -515,14 +519,14 @@ generateOneTwo = function(albumId, portrait, landscape1, landscape2) {
     var str = "";
 
     if (cms.oneTwoSwitcher) {
-        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '"  naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
+        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="' + cms.imagesHome + 'thumbnails/' + portrait.url + '" caption="' + portrait.caption + '"  naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
     }
     str += '<div class="landscapeWrapper" style="' + landscapeWrapperStlye + ' float: left;">';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="../img/thumbnails/' + landscape1.url + '" caption="' + landscape1.caption + '" naturalWidth="' + landscape1.naturalWidth + '" naturalHeight="' + landscape1.naturalHeight + '"/></div>';
-    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="../img/thumbnails/' + landscape2.url + '" caption="' + landscape2.caption + '" naturalWidth="' + landscape2.naturalWidth + '" naturalHeight="' + landscape2.naturalHeight + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape1Style + '" album="' + albumId + '" photo="' + landscape1.id + '"><img src="' + cms.imagesHome + 'thumbnails/' + landscape1.url + '" caption="' + landscape1.caption + '" naturalWidth="' + landscape1.naturalWidth + '" naturalHeight="' + landscape1.naturalHeight + '"/></div>';
+    str += '<div class="thumbnail onetwo landscape" style="' + landscape2Style + '" album="' + albumId + '" photo="' + landscape2.id + '"><img src="' + cms.imagesHome + 'thumbnails/' + landscape2.url + '" caption="' + landscape2.caption + '" naturalWidth="' + landscape2.naturalWidth + '" naturalHeight="' + landscape2.naturalHeight + '"/></div>';
     str += '</div>';
     if (!cms.oneTwoSwitcher) {
-        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="../img/thumbnails/' + portrait.url + '" caption="' + portrait.caption + '" naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
+        str += '<div class="thumbnail onetwo portrait" style="' + portraitStyle + '" album="' + albumId + '" photo="' + portrait.id + '"><img src="' + cms.imagesHome + 'thumbnails/' + portrait.url + '" caption="' + portrait.caption + '" naturalWidth="' + portrait.naturalWidth + '" naturalHeight="' + portrait.naturalHeight + '"/></div>';
     }
 
     cms.oneTwoSwitcher = !cms.oneTwoSwitcher;

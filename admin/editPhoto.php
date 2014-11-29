@@ -95,7 +95,7 @@ function handleUpdateFile($old) {
             if ($_FILES["file"]["error"] > 0) {
                 return 0;
             } else {
-                move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $old);
+                move_uploaded_file($_FILES["file"]["tmp_name"], DbManager::Instance()->getAdminImageHome() . $old);
                 return 1;
             }
         } else {

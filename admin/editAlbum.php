@@ -146,21 +146,20 @@ function handleUploadedFile() {
                 return "Return Code: " . $_FILES["file"]["error"] . "<br>";
             } else {
                 $hashed_file_name = hash("ripemd160", $_FILES["file"]["name"] . time()) . "." . $extension;
-                if (file_exists("../img/" . $hashed_file_name)) {
+                if (file_exists(DbManager::Instance()->getAdminImageHome() . $hashed_file_name)) {
                     return $hashed_file_name . " already exists. ";
                 } else {
-                    //move_uploaded_file($_FILES["file"]["tmp_name"], "../img/" . $hashed_file_name);
                     $image = new Imagick($_FILES["file"]["tmp_name"]);
                     $image->setimagecompression(Imagick::COMPRESSION_JPEG);
                     $image->setimagecompressionquality(80);
                     $image->thumbnailimage(1600, 1000, true);
-                    $image->writeimage('../img/' . $hashed_file_name);
+                    $image->writeimage(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
                     
                     if(strcmp($extension, "gif") == 0){
-                        $thumb = new Imagick("../img/" . $hashed_file_name);
+                        $thumb = new Imagick(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
                     }
                     else{
-                        $thumb = new Imagick('../img/' . $hashed_file_name);
+                        $thumb = new Imagick(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
                     }
                     
                     $naturalWidth = $thumb->getimagewidth();
@@ -168,7 +167,7 @@ function handleUploadedFile() {
                     $image->setimagecompression(Imagick::COMPRESSION_JPEG);
                     $image->setimagecompressionquality(80);
                     $thumb->thumbnailimage(400, 400, true);
-                    $thumb->writeimage('../img/thumbnails/' . $hashed_file_name);
+                    $thumb->writeimage(DbManager::Instance()->getAdminImageHome() . 'thumbnails/' . $hashed_file_name);
                     
                     
 
@@ -181,7 +180,7 @@ function handleUploadedFile() {
                     if ($rowCount) {
                         return "Kép feltöltve";
                     } else {
-                        unlink("../img/" . $hashed_file_name);
+                        unlink(DbManager::Instance()->getAdminImageHome() . $hashed_file_name);
                         return "Kép feltöltése nem sikerült :(";
                     }
                 }
