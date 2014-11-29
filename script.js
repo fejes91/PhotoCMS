@@ -591,7 +591,7 @@ alignSlide = function($img) {
             .height(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
     
     var slideMaxHeight = parseInt(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
-    var slideMaxWidth = parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 110;
+    var slideMaxWidth = parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 115;
     var photoNaturalWidth = parseInt($img.attr("naturalWidth"));
     var photoNaturalHeight = parseInt($img.attr("naturalHeight"));
     
@@ -600,6 +600,12 @@ alignSlide = function($img) {
     if(photoNaturalWidth > photoNaturalHeight){ //fekvő
         photoActualWidth = Math.min(photoNaturalWidth, slideMaxWidth);
         photoActualHeight = photoNaturalHeight * (photoActualWidth / photoNaturalWidth);
+        
+        if(photoActualHeight > slideMaxHeight){
+            var temp = photoActualHeight;
+            photoActualHeight = slideMaxHeight;
+            photoActualWidth = photoActualWidth * (photoActualHeight / temp);
+        }
     }
     else{ //álló
         photoActualHeight = Math.min(photoNaturalHeight, slideMaxHeight);
@@ -618,7 +624,7 @@ alignSlide = function($img) {
         
     
     //$("#slideInfo .icon").css("marginTop", $("#slide img").height() * 0.3);
-    $("#slideInfo .icon").css("marginTop", photoActualHeight * 0.3);
+    $("#slideInfo .icon").css("marginTop", photoActualHeight * 0.1);
     $("#slideInfo #infoContainer")
             .bind('mousemove', function() {
         $("#slideInfo").addClass("active");

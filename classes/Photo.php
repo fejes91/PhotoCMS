@@ -33,9 +33,9 @@ class Photo {
             $str .= '<img src="' . DbManager::Instance()->getAdminImageHome() . 'thumbnails/' . $this->url . '?rnd=' . rand() . '">';
             $str .= '<div class="controls">';
                 $caption = $this->caption;
-                if (strlen($caption) > 20) {
+                /*if (strlen($caption) > 20) {
                     $caption = substr($caption, 0, 20) . "...";
-                }
+                }*/
                 $str .= "ID: " . $this->id;
                 $str .= '<br><input type="text" value="' . $caption . '" name="' . $this->id . '-caption">';
                 

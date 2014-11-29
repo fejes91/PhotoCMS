@@ -180,7 +180,7 @@ input.error, textarea.error{
 #slideInfo{
     position: absolute;
     transition-duration: 0.5s;
-    z-index: 2;
+    z-index: 3;
 
 }
 
@@ -249,7 +249,7 @@ input.error, textarea.error{
 
 .slideNavigation{
     color: white;
-    width: 40%;
+    width: 25%;
     height: 100%;
     z-index: 2;
     position: absolute;
