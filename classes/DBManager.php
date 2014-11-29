@@ -2,7 +2,7 @@
 
 class DbManager {
     public $ADMIN_IMAGES_HOME = "../img/";
-    public $FRONTEND_IMAGES_HOME = "../img/";
+    public $FRONTEND_IMAGES_HOME = "img/";
     
     public $con;
     

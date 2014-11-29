@@ -200,6 +200,9 @@ fadeInPortfolio = function(){
     if(cms.VIEW === cms.THUMBNAIL_VIEW){
         $("#contentPanel #thumbnails, #slide").fadeIn(300, function() {
             setActiveAlbum(cms.albums[0].id, true, true);
+            if(isTouchDevice()){
+                $('#contentPanel .thumbnail, #contentPanel .horizontalSeparator').addClass("active");
+            }
         });
     }
 };
@@ -294,6 +297,9 @@ scrollToAlbum = function() {
 };
 
 setActiveAlbum = function(albumId, needScroll, showFirst) {
+    if(isTouchDevice()){
+        return;
+    }
     if(cms.activeAlbum === albumId){
         return;
     }
