@@ -28,7 +28,10 @@ if(window.location.hash === ""){
 function isTouchDevice() {  
   try {  
     document.createEvent("TouchEvent");  
-    return true;  
+    if(window.innerWidth <= 640){
+        return true; 
+    }
+    return false; 
   } catch (e) {  
     return false;  
   }  
@@ -40,10 +43,6 @@ $(document).ready(function() {
     window.onhashchange = function(){
         handleHashChange();
     };
-    
-    if(isTouchDevice()){
-        //alert(window.innerWidth);
-    }
 
     initPortfolio2();
     initGuestbook();
@@ -111,10 +110,15 @@ checkKeycode = function(e) {
 adjustSizes = function() {
     if (cms.VIEW === cms.THUMBNAIL_VIEW) {
         //$("#contentPanel #thumbnails").css("maxWidth", (window.innerWidth ) * 0.3);
+        
         alignSlide($(".thumbnail.shown img"));
         $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
+
     }
     else if (cms.VIEW === cms.ME_VIEW) {
+        $("#contentPanel").height(window.innerHeight - $("#menuPanel").height() - 10);
+    }
+    else if(cms.VIEW === cms.GUESTBOOK_VIEW){
         $("#contentPanel").height(window.innerHeight - $("#menuPanel").height() - 10);
     }
 
@@ -227,7 +231,7 @@ showPortfolio = function() {
     $("#contentPanel").height(window.innerHeight - $("#menuPanel").height());
     if(!isTouchDevice()){
         setTimeout(function(){
-            $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 10);
+            $("#contentPanel #thumbnails .horizontalSeparator").last().css("marginBottom", Math.max(20, (window.innerHeight - $("#contentPanel #thumbnails .horizontalSeparator").last().height()) - $("#menuPanel").height() - 10));
         }, 1000);
     }
     
@@ -264,6 +268,7 @@ showGuestbook = function(){
     $("#menuPanel img").removeClass("active");
     $("#menuPanel img#guestbookMenu").addClass("active");
 
+    adjustSizes();
     $("#guestbook").fadeIn(300, function(){$("#guestbook input").blur();});
     
 };
@@ -324,7 +329,7 @@ populatePhotos2 = function() {
     
     if(isTouchDevice()){
         $("#thumbnails").html(''); //drop slide div
-        cms.thumbnailsWidth = 290;
+        cms.thumbnailsWidth =306;
     }
     else{
         cms.thumbnailsWidth = Math.min(window.innerWidth / 3.5, 450);
@@ -351,7 +356,7 @@ populatePhotos2 = function() {
             }
             while (portraits.length - nextPortrait > 0 || landscapes.length - nextLandscape > 0) {
                 if (portraits.length - nextPortrait > 0) {
-                    if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 1) {
+                    if (landscapes.length - nextLandscape >= 2 && portraits.length - nextPortrait > 0) {
                         thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
                         /*if(landscapes.length - nextLandscape === 2 && portraits.length - nextPortrait === 1){
                             thumbnailsStr += generateOneTwo(album.id, portraits[nextPortrait++], landscapes[nextLandscape++], landscapes[nextLandscape++]);
@@ -368,7 +373,7 @@ populatePhotos2 = function() {
                         if (portraits.length - nextPortrait === 1) {
                             thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++]]);
                         }
-                        else if ((portraits.length - nextPortrait) % 3 === 0) {
+                        else if (portraits.length - nextPortrait > 4 || (portraits.length - nextPortrait) % 3 === 0) {
                             thumbnailsStr += generateRow(album.id, [portraits[nextPortrait++], portraits[nextPortrait++], portraits[nextPortrait++]]);
                         }
                         else {
@@ -380,12 +385,13 @@ populatePhotos2 = function() {
                     if (landscapes.length - nextLandscape === 1) {
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++]]);
                     }
-                    else if ((landscapes.length - nextLandscape) % 2 === 0) {
-                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
-                    }
-                    else {
+                    else if(landscapes.length - nextLandscape > 4){
                         thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++], landscapes[nextLandscape++]]);
                     }
+                    else{
+                        thumbnailsStr += generateRow(album.id, [landscapes[nextLandscape++], landscapes[nextLandscape++]]);
+                    }
+                    
                 }
             }
             thumbnailsStr += "</div>";
@@ -585,7 +591,7 @@ alignSlide = function($img) {
             .height(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
     
     var slideMaxHeight = parseInt(window.innerHeight - parseInt($("#menuPanel").height()) - 50);
-    var slideMaxWidth = parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 150;
+    var slideMaxWidth = parseInt($("#contentPanel").width()) - (parseInt($("#thumbnails").offset().left) + parseInt($("#thumbnails").width())) - 110;
     var photoNaturalWidth = parseInt($img.attr("naturalWidth"));
     var photoNaturalHeight = parseInt($img.attr("naturalHeight"));
     
@@ -598,6 +604,12 @@ alignSlide = function($img) {
     else{ //álló
         photoActualHeight = Math.min(photoNaturalHeight, slideMaxHeight);
         photoActualWidth = photoNaturalWidth * (photoActualHeight / photoNaturalHeight);
+        
+        if(photoActualWidth > slideMaxWidth){ //álló monitorhoz, pl tablet
+            var temp = photoActualWidth;
+            photoActualWidth = slideMaxWidth;
+            photoActualHeight = photoActualHeight * (photoActualWidth / temp);
+        }
     }
     
     $("#slide").height(photoActualHeight).width(photoActualWidth);

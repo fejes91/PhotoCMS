@@ -30,6 +30,7 @@ header('Content-type: text/html; charset=utf-8');
         <link rel="stylesheet" type="text/css" href="style.css">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,300,400' rel='stylesheet' type='text/css'>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <!--script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script-->
         <script src="script.js"></script>
     </head>
     <body>
