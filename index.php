@@ -32,6 +32,7 @@ header('Content-type: text/html; charset=utf-8');
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <!--script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script-->
         <script src="script.js"></script>
+
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -41,7 +42,7 @@ header('Content-type: text/html; charset=utf-8');
             ga('create', 'UA-35928646-1', 'auto');
             ga('send', 'pageview');
 
-        </script>
+              </script>
     </head>
     <body>
         <script>
@@ -92,10 +93,11 @@ header('Content-type: text/html; charset=utf-8');
                     <a target="_blank" href="https://www.facebook.com/fejesadamfotoblogja"><img class="logo" src="<?echo getFrontendImagesHome()?>build/facebook.png"></a>
                     <a target="_blank" href="https://www.flickr.com/photos/fejes91/"><img class="logo" src="<?echo getFrontendImagesHome()?>build/flickr.png"></a>
                     <a target="_blank" href="https://500px.com/fejes91#"><img class="logo" src="<?echo getFrontendImagesHome()?>build/500px.png"></a>
+                    <a target="_blank" href="http://instagram.com/fejesadamfoto/"><img class="logo" src="<?echo getFrontendImagesHome()?>build/instagram.png"></a>
                     <br>
                     <img class="logo big" src="<?echo getFrontendImagesHome()?>build/mail_address.png">
                 </div>
-                <div class="footer">Fejes Ádám fotó - 2014<br>Az oldalon található képek használata engedélyhez kötött</div>
+                <div class="footer">Fejes Ádám fotó - 2015<br>Az oldalon található képek használata engedélyhez kötött</div>
                 
             </div>
             

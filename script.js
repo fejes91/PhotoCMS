@@ -329,7 +329,7 @@ populatePhotos2 = function() {
     
     if(isTouchDevice()){
         $("#thumbnails").html(''); //drop slide div
-        cms.thumbnailsWidth =306;
+        cms.thumbnailsWidth = Math.min(window.innerWidth, window.innerHeight) * 0.95;
     }
     else{
         cms.thumbnailsWidth = Math.min(window.innerWidth / 3.5, 450);
